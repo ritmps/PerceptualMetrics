@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    197102,       3488]
-NotebookOptionsPosition[    194349,       3429]
-NotebookOutlinePosition[    194743,       3445]
-CellTagsIndexPosition[    194700,       3442]
+NotebookDataLength[    197717,       3499]
+NotebookOptionsPosition[    194872,       3439]
+NotebookOutlinePosition[    195267,       3455]
+CellTagsIndexPosition[    195224,       3452]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -31,30 +31,36 @@ Cell[CellGroupData[{
 
 Cell["1. Package Initialization & Session Startup", "Section",ExpressionUUID->"5cabc5dd-d968-46e7-ab21-bf5402df8231"],
 
+Cell[BoxData[
+ RowBox[{"Quit", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.995979406343305*^9, 3.9959794081161623`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"7479db47-fd8c-43d7-b810-bb405d868cce"],
+
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"SetDirectory", "[", 
   RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input",
  CellChangeTimes->{{3.995976707922305*^9, 3.995976713462901*^9}},
- CellLabel->"In[19]:=",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
+ CellLabel->"In[1]:=",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
 
 Cell[BoxData["\<\"/Users/fxpppr/GitHub/PerceptualMetrics\"\>"], "Output",
- CellChangeTimes->{3.995976713885602*^9, 3.995977097938093*^9, 
-  3.995977581279398*^9},
- CellLabel->"Out[19]=",ExpressionUUID->"cb77a7bf-d782-4d81-aa5f-7aee4d11f162"]
+ CellChangeTimes->{
+  3.995976713885602*^9, 3.995977097938093*^9, 3.995977581279398*^9, 
+   3.995979033350383*^9, {3.995979413172276*^9, 3.9959794248037*^9}},
+ CellLabel->"Out[1]=",ExpressionUUID->"efbe26a2-4eaa-42c1-ad45-afef01deefe8"]
 }, Open  ]],
 
 Cell[BoxData[
  RowBox[{"Get", "[", "\"\<PerceptualMetrics.wl\>\"", "]"}]], "Input",
- CellLabel->"In[20]:=",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
+ CellLabel->"In[2]:=",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"session", "=", 
   RowBox[{"StartPerceptualSession", "[", "]"}]}]], "Input",
- CellLabel->"In[21]:=",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
+ CellLabel->"In[3]:=",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -199,7 +205,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                RowBox[{
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
-                 TagBox["\"f0ceec38-\[Ellipsis]\"", "SummaryItem"]}]}, {
+                 TagBox["\"2e0b1e47-\[Ellipsis]\"", "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
@@ -354,7 +360,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                RowBox[{
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
-                 TagBox["\"f0ceec38-\[Ellipsis]\"", "SummaryItem"]}]}, {
+                 TagBox["\"2e0b1e47-\[Ellipsis]\"", "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
@@ -371,9 +377,9 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf", "Exists"]], 
                     ExternalSessionObject[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["Active"], False],
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"]["Active"], False],
                      StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
                   "SummaryItem"]}]}, {
@@ -381,7 +387,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
                  TagBox[
-                 "\"f0ceec38-4ccd-4bee-8e2d-cd924ee04851\"", 
+                 "\"2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf\"", 
                   "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
@@ -424,7 +430,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     RowBox[{
                     TagBox["\"PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["9157", "SummaryItem"]}]}}, 
+                    TagBox["56345", "SummaryItem"]}]}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
                     AutoDelete -> False, 
@@ -459,11 +465,11 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     RowBox[{
                     TagBox["\"PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["9157", "SummaryItem"]}]}, {
+                    TagBox["56345", "SummaryItem"]}]}, {
                     RowBox[{
                     TagBox["\"Parent PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["95465", "SummaryItem"]}]}, {
+                    TagBox["56227", "SummaryItem"]}]}, {
                     RowBox[{
                     TagBox["\"User: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -479,7 +485,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"309.395456`", "\"MB\"", "megabytes", 
+                    TemplateBox[{"308.4288`", "\"MB\"", "megabytes", 
                     "\"Megabytes\""}, "Quantity", SyntaxForm -> Mod], 
                     "SummaryItem"]}]}, {
                     RowBox[{
@@ -491,7 +497,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     TemplateBox[{
-                    RowBox[{"\"Mon 17 Aug 2026 13:46:25\"", 
+                    RowBox[{"\"Mon 17 Aug 2026 14:16:56\"", 
                     StyleBox[
                     RowBox[{"\"GMT\"", "\[InvisibleSpace]", 
                     StyleBox[
@@ -501,8 +507,8 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     RowBox[{
                     RowBox[{"{", 
                     
-                    RowBox[{"2026", ",", "8", ",", "17", ",", "13", ",", "46",
-                     ",", "25"}], "}"}], ",", "\"Instant\"", ",", 
+                    RowBox[{"2026", ",", "8", ",", "17", ",", "14", ",", "16",
+                     ",", "56"}], "}"}], ",", "\"Instant\"", ",", 
                     "\"Gregorian\"", ",", 
                     RowBox[{"-", "4.`"}]}], "]"}]}, "DateObject", Editable -> 
                     False], "SummaryItem"]}]}, {
@@ -511,7 +517,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"0.0047699999999999999`5.", "\"s\"", 
+                    TemplateBox[{"0.0049100000000000003`5.", "\"s\"", 
                     "seconds", "\"Seconds\""}, "Quantity", SyntaxForm -> Mod],
                      "SummaryItem"]}]}, {
                     RowBox[{
@@ -519,7 +525,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"0.0198020000000000002`5.", "\"s\"", 
+                    TemplateBox[{"0.0203319999999999994`5.", "\"s\"", 
                     "seconds", "\"Seconds\""}, "Quantity", SyntaxForm -> Mod],
                      "SummaryItem"]}]}, {
                     RowBox[{
@@ -548,11 +554,11 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "SummaryPanel"], DynamicModuleValues :> {}], "]"}], 
                    
                    ProcessObject[<|
-                    "ManagedProcess" -> True, "UID" -> 1, "PID" -> 9157, 
-                    "PPID" -> 95465, "Program" -> "python3.11", "Path" -> 
+                    "ManagedProcess" -> True, "UID" -> 0, "PID" -> 56345, 
+                    "PPID" -> 56227, "Program" -> "python3.11", "Path" -> 
                     "/Users/fxpppr/.local/share/uv/python/cpython-3.11.15-\
 macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" -> 
-                    DateObject[{2026, 8, 17, 13, 46, 25}, "Instant", 
+                    DateObject[{2026, 8, 17, 14, 16, 56}, "Instant", 
                     "Gregorian", -4.]|>], Selectable -> False, Editable -> 
                    False, SelectWithContents -> True], "SummaryItem"]}]}, {
                RowBox[{
@@ -659,7 +665,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     RowBox[{
                     TagBox["\"Port: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["59119", "SummaryItem"]}], 
+                    TagBox["59712", "SummaryItem"]}], 
                     RowBox[{
                     TagBox["\"Type: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -668,7 +674,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     TagBox["\"UUID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
                     TagBox[
-                    "\"2c903d9b-6e01-499e-b6c1-013fce5a651e\"", 
+                    "\"2081b52d-eb4d-4780-b2d9-9e2ff1403269\"", 
                     "SummaryItem"]}], "\[SpanFromLeft]", "\[SpanFromLeft]"}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
@@ -762,7 +768,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     RowBox[{
                     TagBox["\"Port: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["59119", "SummaryItem"]}], 
+                    TagBox["59712", "SummaryItem"]}], 
                     RowBox[{
                     TagBox["\"Type: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -771,13 +777,13 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     TagBox["\"UUID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
                     TagBox[
-                    "\"2c903d9b-6e01-499e-b6c1-013fce5a651e\"", 
+                    "\"2081b52d-eb4d-4780-b2d9-9e2ff1403269\"", 
                     "SummaryItem"]}], "\[SpanFromLeft]", "\[SpanFromLeft]"}, {
                     
                     RowBox[{
                     TagBox["\"Endpoint: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["\"tcp://127.0.0.1:59119\"", "SummaryItem"]}], 
+                    TagBox["\"tcp://127.0.0.1:59712\"", "SummaryItem"]}], 
                     "\[SpanFromLeft]", "\[SpanFromLeft]"}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
@@ -796,7 +802,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     BaselinePosition -> {1, 1}]}, 
                     Dynamic[Typeset`open$$], ImageSize -> Automatic]}, 
                     "SummaryPanel"], DynamicModuleValues :> {}], "]"}], 
-                   SocketObject["2c903d9b-6e01-499e-b6c1-013fce5a651e"], 
+                   SocketObject["2081b52d-eb4d-4780-b2d9-9e2ff1403269"], 
                    Selectable -> False, Editable -> False, SelectWithContents -> 
                    True], "SummaryItem"]}]}, {
                RowBox[{
@@ -824,9 +830,9 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf", "Exists"]], 
                     ExternalSessionObject[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"][
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"][
                     "EvaluationCount"], None], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
                   "SummaryItem"]}]}, {
@@ -839,10 +845,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["ProcessMemory"], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"]["ProcessMemory"], 
                     UpdateInterval -> 5], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -856,10 +862,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["ProcessThreads"],
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"]["ProcessThreads"],
                      UpdateInterval -> 5], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -873,10 +879,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["SessionTime"], 
+                    "2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"]["SessionTime"], 
                     UpdateInterval -> 1], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -897,20 +903,21 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
        Dynamic[Typeset`open$$], ImageSize -> Automatic]},
      "SummaryPanel"],
     DynamicModuleValues:>{}], "]"}],
-  ExternalSessionObject["f0ceec38-4ccd-4bee-8e2d-cd924ee04851"],
+  ExternalSessionObject["2e0b1e47-4060-4fc4-93f6-26ce4a04f9bf"],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
  CellChangeTimes->{3.995976718123212*^9, 3.995977109973455*^9, 
-  3.995977586453966*^9},
- CellLabel->"Out[21]=",ExpressionUUID->"6dc92cf4-f7b0-4b5f-944d-8e71d9267e80"]
+  3.995977586453966*^9, 3.9959794178488207`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"19785128-4fa8-4c47-a58f-b8fa4498fecf"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
- RowBox[{"PerceptualInfo", "[", "session", "]"}]], "Input",
- CellLabel->"In[22]:=",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
+ RowBox[{"PerceptualInfo", "[", "]"}]], "Input",
+ CellChangeTimes->{3.995979040355709*^9},
+ CellLabel->"In[3]:=",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
@@ -936,8 +943,8 @@ Cell[BoxData[
      RowBox[{"\<\"Lab\"\>", ",", "\<\"RGB\"\>"}], "}"}]}]}], 
   "\[RightAssociation]"}]], "Output",
  CellChangeTimes->{3.9959767193088923`*^9, 3.995977110085094*^9, 
-  3.995977587886272*^9},
- CellLabel->"Out[22]=",ExpressionUUID->"d0bdeb2f-adbf-4147-833b-8f7a24701035"]
+  3.995977587886272*^9, 3.9959790445480633`*^9, 3.9959794316997843`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"f26fd3d1-2e33-4472-97c8-86a7ef86cba9"]
 }, Open  ]]
 }, Open  ]],
 
@@ -968,7 +975,7 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{"img1", ",", "img2"}], "}"}], ",", 
     RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}]], "Input",
- CellLabel->"In[23]:=",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
+ CellLabel->"In[4]:=",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
 
 Cell[BoxData[
  GraphicsBox[{{}, {InsetBox[
@@ -1389,8 +1396,8 @@ ftIkeaLwPF6cmRi5+DfYroTX5mzNbhSGXUwXxs6wDOQssH/Y+u5FSnVt2rRp
   PlotRange->{{0, 273.06666666666666`}, {-136.53333333333333`, 0}},
   PlotRangePadding->Automatic]], "Output",
  CellChangeTimes->{3.995976729191965*^9, 3.995977116923005*^9, 
-  3.9959775910706263`*^9},
- CellLabel->"Out[23]=",ExpressionUUID->"c9689efd-a32a-4e3e-a79a-c95147c925a9"]
+  3.9959775910706263`*^9, 3.99597904952378*^9, 3.995979435220271*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"6fcdd4e6-98dd-4046-8afc-a9258d63cc85"]
 }, Open  ]]
 }, Open  ]],
 
@@ -1405,32 +1412,33 @@ Cell[BoxData[
   RowBox[{
    RowBox[{"\"\<LPIPS (Alex)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Net\>\"", "->", "\"\<alex\>\""}]}], "]"}]}], ",", 
    RowBox[{"\"\<LPIPS (VGG)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Net\>\"", "->", "\"\<vgg\>\""}]}], "]"}]}], ",", 
    RowBox[{"\"\<LPIPS (Squeeze)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Net\>\"", "->", "\"\<squeeze\>\""}]}], "]"}]}], ",", 
    RowBox[{"\"\<L2 (Lab)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Metric\>\"", "->", "\"\<l2\>\""}], ",", 
       RowBox[{"\"\<ColorSpace\>\"", "->", "\"\<Lab\>\""}]}], "]"}]}], ",", 
    RowBox[{"\"\<DSSIM (Lab)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Metric\>\"", "->", "\"\<dssim\>\""}], ",", 
       RowBox[{"\"\<ColorSpace\>\"", "->", "\"\<Lab\>\""}]}], "]"}]}], ",", 
    RowBox[{"\"\<PSNR (dB)\>\"", "->", 
     RowBox[{"PerceptualDistance", "[", 
-     RowBox[{"session", ",", "img1", ",", "img2", ",", 
+     RowBox[{"img1", ",", "img2", ",", 
       RowBox[{"\"\<Metric\>\"", "->", "\"\<psnr\>\""}]}], "]"}]}]}], 
   "]"}]], "Input",
- CellLabel->"In[24]:=",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
+ CellChangeTimes->{3.995979071645462*^9},
+ CellLabel->"In[5]:=",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
@@ -1443,8 +1451,8 @@ Cell[BoxData[
    RowBox[{"\<\"PSNR (dB)\"\>", "\[Rule]", "29.795419692993164`"}]}], 
   "\[RightAssociation]"}]], "Output",
  CellChangeTimes->{3.995976734492158*^9, 3.995977120807349*^9, 
-  3.995977593616507*^9},
- CellLabel->"Out[24]=",ExpressionUUID->"bb3004b0-cacb-4fe9-ad13-4986812f5161"]
+  3.995977593616507*^9, 3.995979079705516*^9, 3.995979438435486*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"c1f152d1-cc9d-45cd-9494-54dfcc6d39f7"]
 }, Open  ]]
 }, Open  ]],
 
@@ -1452,22 +1460,23 @@ Cell[CellGroupData[{
 
 Cell["4. Spatial Perceptual Distance Maps", "Section",ExpressionUUID->"5a42b275-19fa-486f-8320-f5769a09847c"],
 
-Cell[BoxData[
+Cell[BoxData[{
  RowBox[{
   RowBox[{"mapAlex", "=", 
    RowBox[{"PerceptualSpatialMap", "[", 
-    RowBox[{"session", ",", "img1", ",", "img2", ",", 
+    RowBox[{"img1", ",", "img2", ",", 
      RowBox[{"\"\<Metric\>\"", "->", "\"\<lpips\>\""}], ",", 
-     RowBox[{"\"\<Net\>\"", "->", "\"\<alex\>\""}]}], "]"}]}], ";", 
+     RowBox[{"\"\<Net\>\"", "->", "\"\<alex\>\""}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
   RowBox[{"mapVGG", "=", 
    RowBox[{"PerceptualSpatialMap", "[", 
-    RowBox[{"session", ",", "img1", ",", "img2", ",", 
+    RowBox[{"img1", ",", "img2", ",", 
      RowBox[{"\"\<Metric\>\"", "->", "\"\<lpips\>\""}], ",", 
-     RowBox[{"\"\<Net\>\"", "->", "\"\<vgg\>\""}]}], "]"}]}], ";"}]], "Input",\
+     RowBox[{"\"\<Net\>\"", "->", "\"\<vgg\>\""}]}], "]"}]}], ";"}]}], "Input",\
 
  CellChangeTimes->{{3.995977200753652*^9, 3.9959772070789013`*^9}, 
-   3.995977262731533*^9},
- CellLabel->"In[25]:=",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
+   3.995977262731533*^9, 3.995979071646038*^9, 3.9959794457945747`*^9},
+ CellLabel->"In[6]:=",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
 
 Cell[CellGroupData[{
 
@@ -1489,7 +1498,7 @@ Cell[BoxData[
    RowBox[{"ImageSize", "->", "Large"}]}], "\[IndentingNewLine]", 
   "]"}]], "Input",
  CellChangeTimes->{{3.995977320299193*^9, 3.995977321271706*^9}},
- CellLabel->"In[26]:=",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
+ CellLabel->"In[9]:=",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
 
 Cell[BoxData[
  GraphicsBox[{{}, {InsetBox[
@@ -3412,8 +3421,8 @@ BWRxE58dLUyrwJuWUQ6qzKH8B/5x/jdtcQU3
   PlotRange->{{0, 546.1333333333333}, {-273.06666666666666`, 0}},
   PlotRangePadding->Automatic]], "Output",
  CellChangeTimes->{3.995977266626548*^9, 3.995977322774652*^9, 
-  3.995977598083084*^9},
- CellLabel->"Out[26]=",ExpressionUUID->"2bff79f4-74db-4091-badf-f03f83fcf399"]
+  3.995977598083084*^9, 3.995979086293881*^9, 3.9959794577693863`*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"3ce6af0e-dc37-456b-9a7a-c45cc7ca2f2a"]
 }, Open  ]]
 }, Open  ]],
 
@@ -3422,12 +3431,13 @@ Cell[CellGroupData[{
 Cell["5. Clean Up Session", "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
 
 Cell[BoxData[
- RowBox[{"StopPerceptualSession", "[", "session", "]"}]], "Input",
- CellLabel->"In[27]:=",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
+ RowBox[{"StopPerceptualSession", "[", "]"}]], "Input",
+ CellChangeTimes->{3.9959790954291677`*^9},
+ CellLabel->"In[8]:=",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
 }, Open  ]]
 }, Open  ]]
 },
-WindowSize->{808, 911},
+WindowSize->{1339, 911},
 WindowMargins->{{452, Automatic}, {189, Automatic}},
 FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
 StyleDefinitions->"Default.nb",
@@ -3445,54 +3455,53 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 107, 0, 104, "Title",ExpressionUUID->"b5bbcf28-aca9-4e66-8afe-3d697d7c5ee4"],
+Cell[576, 22, 107, 0, 171, "Title",ExpressionUUID->"b5bbcf28-aca9-4e66-8afe-3d697d7c5ee4"],
 Cell[686, 24, 183, 3, 36, "Text",ExpressionUUID->"46f6d64b-9106-473d-aa70-27dd8b8f8e98"],
 Cell[CellGroupData[{
 Cell[894, 31, 117, 0, 70, "Section",ExpressionUUID->"5cabc5dd-d968-46e7-ab21-bf5402df8231"],
+Cell[1014, 33, 198, 3, 29, "Input",ExpressionUUID->"7479db47-fd8c-43d7-b810-bb405d868cce"],
 Cell[CellGroupData[{
-Cell[1036, 35, 249, 4, 29, "Input",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
-Cell[1288, 41, 241, 3, 33, "Output",ExpressionUUID->"cb77a7bf-d782-4d81-aa5f-7aee4d11f162"]
+Cell[1237, 40, 248, 4, 29, "Input",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
+Cell[1488, 46, 310, 4, 33, "Output",ExpressionUUID->"efbe26a2-4eaa-42c1-ad45-afef01deefe8"]
 }, Open  ]],
-Cell[1544, 47, 162, 2, 29, "Input",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
+Cell[1813, 53, 161, 2, 29, "Input",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
 Cell[CellGroupData[{
-Cell[1731, 53, 178, 3, 29, "Input",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
-Cell[1912, 58, 44289, 847, 58, "Output",ExpressionUUID->"6dc92cf4-f7b0-4b5f-944d-8e71d9267e80"]
+Cell[1999, 59, 177, 3, 29, "Input",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
+Cell[2179, 64, 44313, 847, 58, "Output",ExpressionUUID->"19785128-4fa8-4c47-a58f-b8fa4498fecf"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[46238, 910, 152, 2, 29, "Input",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
-Cell[46393, 914, 1173, 25, 74, "Output",ExpressionUUID->"d0bdeb2f-adbf-4147-833b-8f7a24701035"]
+Cell[46529, 916, 182, 3, 29, "Input",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
+Cell[46714, 921, 1220, 25, 53, "Output",ExpressionUUID->"f26fd3d1-2e33-4472-97c8-86a7ef86cba9"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[47615, 945, 96, 0, 70, "Section",ExpressionUUID->"573a6a26-6857-4953-b73d-9b20853c9094"],
+Cell[47983, 952, 96, 0, 70, "Section",ExpressionUUID->"573a6a26-6857-4953-b73d-9b20853c9094"],
 Cell[CellGroupData[{
-Cell[47736, 949, 727, 21, 70, "Input",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
-Cell[48466, 972, 24733, 420, 197, "Output",ExpressionUUID->"c9689efd-a32a-4e3e-a79a-c95147c925a9"]
+Cell[48104, 956, 726, 21, 29, "Input",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
+Cell[48833, 979, 24775, 420, 197, "Output",ExpressionUUID->"6fcdd4e6-98dd-4046-8afc-a9258d63cc85"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[73248, 1398, 113, 0, 70, "Section",ExpressionUUID->"b7f47d67-b20d-430e-9fd4-cc76f2d7ad60"],
+Cell[73657, 1405, 113, 0, 70, "Section",ExpressionUUID->"b7f47d67-b20d-430e-9fd4-cc76f2d7ad60"],
 Cell[CellGroupData[{
-Cell[73386, 1402, 1531, 30, 172, "Input",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
-Cell[74920, 1434, 722, 12, 53, "Output",ExpressionUUID->"bb3004b0-cacb-4fe9-ad13-4986812f5161"]
+Cell[73795, 1409, 1476, 31, 70, "Input",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
+Cell[75274, 1442, 765, 12, 33, "Output",ExpressionUUID->"c1f152d1-cc9d-45cd-9494-54dfcc6d39f7"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[75691, 1452, 109, 0, 70, "Section",ExpressionUUID->"5a42b275-19fa-486f-8320-f5769a09847c"],
-Cell[75803, 1454, 715, 15, 49, "Input",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
+Cell[76088, 1460, 109, 0, 70, "Section",ExpressionUUID->"5a42b275-19fa-486f-8320-f5769a09847c"],
+Cell[76200, 1462, 765, 16, 49, "Input",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
 Cell[CellGroupData[{
-Cell[76543, 1473, 840, 18, 151, "Input",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
-Cell[77386, 1493, 116631, 1922, 305, "Output",ExpressionUUID->"2bff79f4-74db-4091-badf-f03f83fcf399"]
+Cell[76990, 1482, 839, 18, 151, "Input",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
+Cell[77832, 1502, 116676, 1922, 305, "Output",ExpressionUUID->"3ce6af0e-dc37-456b-9a7a-c45cc7ca2f2a"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[194066, 3421, 93, 0, 70, "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
-Cell[194162, 3423, 159, 2, 29, "Input",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
+Cell[194557, 3430, 93, 0, 70, "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
+Cell[194653, 3432, 191, 3, 29, "Input",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
 }, Open  ]]
 }, Open  ]]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
