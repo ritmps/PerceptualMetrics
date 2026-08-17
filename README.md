@@ -4,6 +4,50 @@ Perceptual metrics experiments with PyTorch and Wolfram Language integration.
 
 ---
 
+## 0. Wolfram Language Package (`PerceptualMetrics.wl`)
+
+`PerceptualMetrics.wl` acts as high-level glue between Wolfram Language and PyTorch's `PerceptualSimilarity` library (via `lpips_bridge.py`).
+
+### Supported Metrics & Features
+- **LPIPS**: Calibrated learned perceptual image patch similarity (`Net -> "alex"`, `"vgg"`, `"squeeze"`).
+- **Uncalibrated / Baseline**: Raw feature distance without linear layer weighting (`LPIPS -> False`).
+- **L2**: Euclidean image distance (`ColorSpace -> "Lab"` or `"RGB"`).
+- **DSSIM**: Structural dissimilarity metric (`ColorSpace -> "Lab"` or `"RGB"`).
+- **PSNR**: Peak signal-to-noise ratio in dB (`Metric -> "psnr"`).
+- **Spatial Maps**: Generates per-pixel perceptual distance `Image` objects (`PerceptualSpatialMap`).
+- **Device Support**: Auto-detects Apple Silicon GPU acceleration (`MPS`), CUDA GPU, or CPU.
+
+### Quickstart in Wolfram Language
+
+```wl
+(* Load the package *)
+Get["PerceptualMetrics.wl"];
+
+(* Start Python session *)
+session = StartPerceptualSession[];
+
+(* Check session and PyTorch capabilities *)
+PerceptualInfo[session]
+
+(* Compute LPIPS perceptual distance *)
+img1 = Import["ExampleData/coneflower.jpg"];
+img2 = Blur[img1, 3];
+dAlex = PerceptualDistance[session, img1, img2, "Metric" -> "lpips", "Net" -> "alex"]
+dVGG  = PerceptualDistance[session, img1, img2, "Metric" -> "lpips", "Net" -> "vgg"]
+
+(* Compute L2 or DSSIM distance *)
+dL2   = PerceptualDistance[session, img1, img2, "Metric" -> "l2", "ColorSpace" -> "Lab"]
+dDSSIM = PerceptualDistance[session, img1, img2, "Metric" -> "dssim", "ColorSpace" -> "Lab"]
+
+(* Generate a 2D Spatial Distance Map Image *)
+map = PerceptualSpatialMap[session, img1, img2, "Metric" -> "lpips", "Net" -> "alex"]
+
+(* Close session when finished *)
+StopPerceptualSession[session];
+```
+
+---
+
 ## 1. Virtual Environment & Wolfram Language Support
 
 This project is managed with [`uv`](https://github.com/astral-sh/uv).
