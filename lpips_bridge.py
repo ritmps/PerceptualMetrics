@@ -1,7 +1,12 @@
 from pathlib import Path
+import warnings
 import numpy as np
 import torch
 from PIL import Image
+
+# Silence torchvision deprecation warnings for pretrained models / weights
+warnings.filterwarnings("ignore", category=UserWarning, module="torchvision")
+
 import lpips as lpips_lib
 
 _loss_fn_cache = {}
