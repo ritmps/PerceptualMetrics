@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    201584,       3588]
-NotebookOptionsPosition[    198034,       3519]
-NotebookOutlinePosition[    198428,       3535]
-CellTagsIndexPosition[    198385,       3532]
+NotebookDataLength[    197102,       3488]
+NotebookOptionsPosition[    194349,       3429]
+NotebookOutlinePosition[    194743,       3445]
+CellTagsIndexPosition[    194700,       3442]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -37,23 +37,24 @@ Cell[BoxData[
  RowBox[{"SetDirectory", "[", 
   RowBox[{"NotebookDirectory", "[", "]"}], "]"}]], "Input",
  CellChangeTimes->{{3.995976707922305*^9, 3.995976713462901*^9}},
- CellLabel->"In[1]:=",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
+ CellLabel->"In[19]:=",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
 
 Cell[BoxData["\<\"/Users/fxpppr/GitHub/PerceptualMetrics\"\>"], "Output",
- CellChangeTimes->{3.995976713885602*^9, 3.995977097938093*^9},
- CellLabel->"Out[1]=",ExpressionUUID->"94376c0a-5c1f-46a4-a0fa-1f54ca0a2b9e"]
+ CellChangeTimes->{3.995976713885602*^9, 3.995977097938093*^9, 
+  3.995977581279398*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"cb77a7bf-d782-4d81-aa5f-7aee4d11f162"]
 }, Open  ]],
 
 Cell[BoxData[
  RowBox[{"Get", "[", "\"\<PerceptualMetrics.wl\>\"", "]"}]], "Input",
- CellLabel->"In[2]:=",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
+ CellLabel->"In[20]:=",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"session", "=", 
   RowBox[{"StartPerceptualSession", "[", "]"}]}]], "Input",
- CellLabel->"In[3]:=",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
+ CellLabel->"In[21]:=",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
 
 Cell[BoxData[
  InterpretationBox[
@@ -198,7 +199,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                RowBox[{
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
-                 TagBox["\"4a9a7032-\[Ellipsis]\"", "SummaryItem"]}]}, {
+                 TagBox["\"f0ceec38-\[Ellipsis]\"", "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
@@ -353,7 +354,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                RowBox[{
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
-                 TagBox["\"4a9a7032-\[Ellipsis]\"", "SummaryItem"]}]}, {
+                 TagBox["\"f0ceec38-\[Ellipsis]\"", "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
@@ -370,9 +371,9 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5", "Exists"]], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
                     ExternalSessionObject[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"]["Active"], False],
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["Active"], False],
                      StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
                   "SummaryItem"]}]}, {
@@ -380,7 +381,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                  TagBox["\"SessionID: \"", "SummaryItemAnnotation"], 
                  "\[InvisibleSpace]", 
                  TagBox[
-                 "\"4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5\"", 
+                 "\"f0ceec38-4ccd-4bee-8e2d-cd924ee04851\"", 
                   "SummaryItem"]}]}, {
                RowBox[{
                  TagBox["\"Evaluator: \"", "SummaryItemAnnotation"], 
@@ -423,7 +424,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     RowBox[{
                     TagBox["\"PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["96081", "SummaryItem"]}]}}, 
+                    TagBox["9157", "SummaryItem"]}]}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
                     AutoDelete -> False, 
@@ -458,7 +459,7 @@ J5bl+1kLYj/QPlh8w9wD4wMA37PnHw==
                     RowBox[{
                     TagBox["\"PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["96081", "SummaryItem"]}]}, {
+                    TagBox["9157", "SummaryItem"]}]}, {
                     RowBox[{
                     TagBox["\"Parent PID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -478,7 +479,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"308.92032`", "\"MB\"", "megabytes", 
+                    TemplateBox[{"309.395456`", "\"MB\"", "megabytes", 
                     "\"Megabytes\""}, "Quantity", SyntaxForm -> Mod], 
                     "SummaryItem"]}]}, {
                     RowBox[{
@@ -490,7 +491,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     TemplateBox[{
-                    RowBox[{"\"Mon 17 Aug 2026 13:38:27\"", 
+                    RowBox[{"\"Mon 17 Aug 2026 13:46:25\"", 
                     StyleBox[
                     RowBox[{"\"GMT\"", "\[InvisibleSpace]", 
                     StyleBox[
@@ -500,8 +501,8 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     RowBox[{
                     RowBox[{"{", 
                     
-                    RowBox[{"2026", ",", "8", ",", "17", ",", "13", ",", "38",
-                     ",", "27"}], "}"}], ",", "\"Instant\"", ",", 
+                    RowBox[{"2026", ",", "8", ",", "17", ",", "13", ",", "46",
+                     ",", "25"}], "}"}], ",", "\"Instant\"", ",", 
                     "\"Gregorian\"", ",", 
                     RowBox[{"-", "4.`"}]}], "]"}]}, "DateObject", Editable -> 
                     False], "SummaryItem"]}]}, {
@@ -510,15 +511,15 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"0.007365`5.", "\"s\"", "seconds", 
-                    "\"Seconds\""}, "Quantity", SyntaxForm -> Mod], 
-                    "SummaryItem"]}]}, {
+                    TemplateBox[{"0.0047699999999999999`5.", "\"s\"", 
+                    "seconds", "\"Seconds\""}, "Quantity", SyntaxForm -> Mod],
+                     "SummaryItem"]}]}, {
                     RowBox[{
                     TagBox["\"User Time: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"0.0211159999999999994`5.", "\"s\"", 
+                    TemplateBox[{"0.0198020000000000002`5.", "\"s\"", 
                     "seconds", "\"Seconds\""}, "Quantity", SyntaxForm -> Mod],
                      "SummaryItem"]}]}, {
                     RowBox[{
@@ -526,7 +527,7 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "\[InvisibleSpace]", 
                     TagBox[
                     
-                    TemplateBox[{"2.`5.", "\"s\"", "seconds", "\"Seconds\""}, 
+                    TemplateBox[{"1.`5.", "\"s\"", "seconds", "\"Seconds\""}, 
                     "Quantity", SyntaxForm -> Mod], "SummaryItem"]}]}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
@@ -547,11 +548,11 @@ macos-aarch64-none/bin/python3.11\"", "SummaryItem"]}]}, {
                     "SummaryPanel"], DynamicModuleValues :> {}], "]"}], 
                    
                    ProcessObject[<|
-                    "ManagedProcess" -> True, "UID" -> 0, "PID" -> 96081, 
+                    "ManagedProcess" -> True, "UID" -> 1, "PID" -> 9157, 
                     "PPID" -> 95465, "Program" -> "python3.11", "Path" -> 
                     "/Users/fxpppr/.local/share/uv/python/cpython-3.11.15-\
 macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" -> 
-                    DateObject[{2026, 8, 17, 13, 38, 27}, "Instant", 
+                    DateObject[{2026, 8, 17, 13, 46, 25}, "Instant", 
                     "Gregorian", -4.]|>], Selectable -> False, Editable -> 
                    False, SelectWithContents -> True], "SummaryItem"]}]}, {
                RowBox[{
@@ -658,7 +659,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     RowBox[{
                     TagBox["\"Port: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["59036", "SummaryItem"]}], 
+                    TagBox["59119", "SummaryItem"]}], 
                     RowBox[{
                     TagBox["\"Type: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -667,7 +668,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     TagBox["\"UUID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
                     TagBox[
-                    "\"db2365b9-4797-4ddf-912a-38408dfc9766\"", 
+                    "\"2c903d9b-6e01-499e-b6c1-013fce5a651e\"", 
                     "SummaryItem"]}], "\[SpanFromLeft]", "\[SpanFromLeft]"}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
@@ -761,7 +762,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     RowBox[{
                     TagBox["\"Port: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["59036", "SummaryItem"]}], 
+                    TagBox["59119", "SummaryItem"]}], 
                     RowBox[{
                     TagBox["\"Type: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
@@ -770,13 +771,13 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     TagBox["\"UUID: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
                     TagBox[
-                    "\"db2365b9-4797-4ddf-912a-38408dfc9766\"", 
+                    "\"2c903d9b-6e01-499e-b6c1-013fce5a651e\"", 
                     "SummaryItem"]}], "\[SpanFromLeft]", "\[SpanFromLeft]"}, {
                     
                     RowBox[{
                     TagBox["\"Endpoint: \"", "SummaryItemAnnotation"], 
                     "\[InvisibleSpace]", 
-                    TagBox["\"tcp://127.0.0.1:59036\"", "SummaryItem"]}], 
+                    TagBox["\"tcp://127.0.0.1:59119\"", "SummaryItem"]}], 
                     "\[SpanFromLeft]", "\[SpanFromLeft]"}}, 
                     GridBoxAlignment -> {
                     "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
@@ -795,7 +796,7 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     BaselinePosition -> {1, 1}]}, 
                     Dynamic[Typeset`open$$], ImageSize -> Automatic]}, 
                     "SummaryPanel"], DynamicModuleValues :> {}], "]"}], 
-                   SocketObject["db2365b9-4797-4ddf-912a-38408dfc9766"], 
+                   SocketObject["2c903d9b-6e01-499e-b6c1-013fce5a651e"], 
                    Selectable -> False, Editable -> False, SelectWithContents -> 
                    True], "SummaryItem"]}]}, {
                RowBox[{
@@ -823,9 +824,9 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5", "Exists"]], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
                     ExternalSessionObject[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"][
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"][
                     "EvaluationCount"], None], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
                   "SummaryItem"]}]}, {
@@ -838,10 +839,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5", "Exists"]], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"]["ProcessMemory"], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["ProcessMemory"], 
                     UpdateInterval -> 5], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -855,10 +856,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5", "Exists"]], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"]["ProcessThreads"],
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["ProcessThreads"],
                      UpdateInterval -> 5], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -872,10 +873,10 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
                     If[
                     TrueQ[
                     ExternalEvaluate`Private`getSessionOpts[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5", "Exists"]], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851", "Exists"]], 
                     Refresh[
                     ExternalSessionObject[
-                    "4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"]["SessionTime"], 
+                    "f0ceec38-4ccd-4bee-8e2d-cd924ee04851"]["SessionTime"], 
                     UpdateInterval -> 1], 
                     Missing["NotAvailable"]], StandardForm], 
                    TrackedSymbols :> {ExternalEvaluate`Private`$Links}], 
@@ -896,19 +897,20 @@ macos-aarch64-none/bin/python3.11", "User" -> "fxpppr", "StartTime" ->
        Dynamic[Typeset`open$$], ImageSize -> Automatic]},
      "SummaryPanel"],
     DynamicModuleValues:>{}], "]"}],
-  ExternalSessionObject["4a9a7032-bbeb-4e4e-b9ea-ee1ba3f6cfc5"],
+  ExternalSessionObject["f0ceec38-4ccd-4bee-8e2d-cd924ee04851"],
   Editable->False,
   SelectWithContents->True,
   Selectable->False]], "Output",
- CellChangeTimes->{3.995976718123212*^9, 3.995977109973455*^9},
- CellLabel->"Out[3]=",ExpressionUUID->"a8a59269-5c2b-4206-a0a5-038e10cf8f81"]
+ CellChangeTimes->{3.995976718123212*^9, 3.995977109973455*^9, 
+  3.995977586453966*^9},
+ CellLabel->"Out[21]=",ExpressionUUID->"6dc92cf4-f7b0-4b5f-944d-8e71d9267e80"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell[BoxData[
  RowBox[{"PerceptualInfo", "[", "session", "]"}]], "Input",
- CellLabel->"In[4]:=",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
+ CellLabel->"In[22]:=",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
@@ -933,8 +935,9 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{"\<\"Lab\"\>", ",", "\<\"RGB\"\>"}], "}"}]}]}], 
   "\[RightAssociation]"}]], "Output",
- CellChangeTimes->{3.9959767193088923`*^9, 3.995977110085094*^9},
- CellLabel->"Out[4]=",ExpressionUUID->"561e1cd4-89bc-43ed-a3e2-8056196287cf"]
+ CellChangeTimes->{3.9959767193088923`*^9, 3.995977110085094*^9, 
+  3.995977587886272*^9},
+ CellLabel->"Out[22]=",ExpressionUUID->"d0bdeb2f-adbf-4147-833b-8f7a24701035"]
 }, Open  ]]
 }, Open  ]],
 
@@ -965,7 +968,7 @@ Cell[BoxData[
     RowBox[{"{", 
      RowBox[{"img1", ",", "img2"}], "}"}], ",", 
     RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}]], "Input",
- CellLabel->"In[5]:=",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
+ CellLabel->"In[23]:=",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
 
 Cell[BoxData[
  GraphicsBox[{{}, {InsetBox[
@@ -1385,8 +1388,9 @@ ftIkeaLwPF6cmRi5+DfYroTX5mzNbhSGXUwXxs6wDOQssH/Y+u5FSnVt2rRp
   Method->{"IgnoreImageSizeAutomaticLimit" -> True},
   PlotRange->{{0, 273.06666666666666`}, {-136.53333333333333`, 0}},
   PlotRangePadding->Automatic]], "Output",
- CellChangeTimes->{3.995976729191965*^9, 3.995977116923005*^9},
- CellLabel->"Out[5]=",ExpressionUUID->"a039d7a9-a51f-4c0e-91de-e32833be75c8"]
+ CellChangeTimes->{3.995976729191965*^9, 3.995977116923005*^9, 
+  3.9959775910706263`*^9},
+ CellLabel->"Out[23]=",ExpressionUUID->"c9689efd-a32a-4e3e-a79a-c95147c925a9"]
 }, Open  ]]
 }, Open  ]],
 
@@ -1426,103 +1430,7 @@ Cell[BoxData[
      RowBox[{"session", ",", "img1", ",", "img2", ",", 
       RowBox[{"\"\<Metric\>\"", "->", "\"\<psnr\>\""}]}], "]"}]}]}], 
   "]"}]], "Input",
- CellLabel->"In[6]:=",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[
- StyleBox["\<\"/Users/fxpppr/GitHub/PerceptualMetrics/.venv/lib/python3.11/\
-site-packages/torchvision/models/_utils.py:207: UserWarning: The parameter \
-'pretrained' is deprecated since 0.13 and may be removed in the future, \
-please use 'weights' instead.\"\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.9959771196734333`*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"a420e4d4-077a-4552-a221-ab2c20c5ea10"],
-
-Cell[BoxData[
- StyleBox["\<\"  warnings.warn(\"\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977119673991*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"290c0471-4075-40b5-81f3-4579ff0cfabc"],
-
-Cell[BoxData[
- StyleBox["\<\"/Users/fxpppr/GitHub/PerceptualMetrics/.venv/lib/python3.11/\
-site-packages/torchvision/models/_utils.py:222: UserWarning: Arguments other \
-than a weight enum or `None` for 'weights' are deprecated since 0.13 and may \
-be removed in the future. The current behavior is equivalent to passing \
-`weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use \
-`weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.\"\>", 
-  "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977119674385*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"29185e8d-62b2-4ad0-8164-c4fdc63f2fc4"],
-
-Cell[BoxData[
- StyleBox["\<\"  warnings.warn(msg)\"\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977119674711*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"12fe1945-3a88-483f-b6fd-a4fc79238415"],
-
-Cell[BoxData[
- StyleBox["\<\"/Users/fxpppr/GitHub/PerceptualMetrics/.venv/lib/python3.11/\
-site-packages/torchvision/models/_utils.py:222: UserWarning: Arguments other \
-than a weight enum or `None` for 'weights' are deprecated since 0.13 and may \
-be removed in the future. The current behavior is equivalent to passing \
-`weights=VGG16_Weights.IMAGENET1K_V1`. You can also use \
-`weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.\"\>", 
-  "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977120141151*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"3496fc5c-bb73-4e36-b218-fd93d4480d76"],
-
-Cell[BoxData[
- StyleBox["\<\"  warnings.warn(msg)\"\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977120141652*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"d560856a-ce93-4377-9750-53a580af3511"],
-
-Cell[BoxData[
- StyleBox["\<\"/Users/fxpppr/GitHub/PerceptualMetrics/.venv/lib/python3.11/\
-site-packages/torchvision/models/_utils.py:222: UserWarning: Arguments other \
-than a weight enum or `None` for 'weights' are deprecated since 0.13 and may \
-be removed in the future. The current behavior is equivalent to passing \
-`weights=SqueezeNet1_1_Weights.IMAGENET1K_V1`. You can also use \
-`weights=SqueezeNet1_1_Weights.DEFAULT` to get the most up-to-date weights.\"\
-\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977120574456*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"a3409d06-61c0-4308-8810-facb8f088259"],
-
-Cell[BoxData[
- StyleBox["\<\"  warnings.warn(msg)\"\>", "Message",
-  StripOnInput->False,
-  FontFamily->"Source Code Pro"]], "Print",
- CellChangeTimes->{3.99597673340591*^9, 3.995977120574952*^9},
- CellLabel->
-  "During evaluation of \
-In[6]:=",ExpressionUUID->"75780289-6edd-466a-bb03-6110c7e46c3e"]
-}, Open  ]],
+ CellLabel->"In[24]:=",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
 
 Cell[BoxData[
  RowBox[{"\[LeftAssociation]", 
@@ -1534,8 +1442,9 @@ Cell[BoxData[
    RowBox[{"\<\"DSSIM (Lab)\"\>", "\[Rule]", "0.02295219898223877`"}], ",", 
    RowBox[{"\<\"PSNR (dB)\"\>", "\[Rule]", "29.795419692993164`"}]}], 
   "\[RightAssociation]"}]], "Output",
- CellChangeTimes->{3.995976734492158*^9, 3.995977120807349*^9},
- CellLabel->"Out[6]=",ExpressionUUID->"394fe597-2576-4658-a79a-44d668391249"]
+ CellChangeTimes->{3.995976734492158*^9, 3.995977120807349*^9, 
+  3.995977593616507*^9},
+ CellLabel->"Out[24]=",ExpressionUUID->"bb3004b0-cacb-4fe9-ad13-4986812f5161"]
 }, Open  ]]
 }, Open  ]],
 
@@ -1557,8 +1466,8 @@ Cell[BoxData[
      RowBox[{"\"\<Net\>\"", "->", "\"\<vgg\>\""}]}], "]"}]}], ";"}]], "Input",\
 
  CellChangeTimes->{{3.995977200753652*^9, 3.9959772070789013`*^9}, 
-   3.995977262731533*^9},ExpressionUUID->"83454589-f2be-4182-92c4-\
-f7ceb86d383b"],
+   3.995977262731533*^9},
+ CellLabel->"In[25]:=",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
 
 Cell[CellGroupData[{
 
@@ -1580,7 +1489,7 @@ Cell[BoxData[
    RowBox[{"ImageSize", "->", "Large"}]}], "\[IndentingNewLine]", 
   "]"}]], "Input",
  CellChangeTimes->{{3.995977320299193*^9, 3.995977321271706*^9}},
- CellLabel->"In[16]:=",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
+ CellLabel->"In[26]:=",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
 
 Cell[BoxData[
  GraphicsBox[{{}, {InsetBox[
@@ -3502,8 +3411,9 @@ BWRxE58dLUyrwJuWUQ6qzKH8B/5x/jdtcQU3
   Method->{"IgnoreImageSizeAutomaticLimit" -> True},
   PlotRange->{{0, 546.1333333333333}, {-273.06666666666666`, 0}},
   PlotRangePadding->Automatic]], "Output",
- CellChangeTimes->{3.995977266626548*^9, 3.995977322774652*^9},
- CellLabel->"Out[16]=",ExpressionUUID->"c5dabd0c-f0bd-462b-b423-88b58a71ec47"]
+ CellChangeTimes->{3.995977266626548*^9, 3.995977322774652*^9, 
+  3.995977598083084*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"2bff79f4-74db-4091-badf-f03f83fcf399"]
 }, Open  ]]
 }, Open  ]],
 
@@ -3512,8 +3422,8 @@ Cell[CellGroupData[{
 Cell["5. Clean Up Session", "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
 
 Cell[BoxData[
- RowBox[{"StopPerceptualSession", "[", "session", "]"}]], "Input",ExpressionUU\
-ID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
+ RowBox[{"StopPerceptualSession", "[", "session", "]"}]], "Input",
+ CellLabel->"In[27]:=",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -3540,57 +3450,49 @@ Cell[686, 24, 183, 3, 36, "Text",ExpressionUUID->"46f6d64b-9106-473d-aa70-27dd8b
 Cell[CellGroupData[{
 Cell[894, 31, 117, 0, 70, "Section",ExpressionUUID->"5cabc5dd-d968-46e7-ab21-bf5402df8231"],
 Cell[CellGroupData[{
-Cell[1036, 35, 248, 4, 29, "Input",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
-Cell[1287, 41, 215, 2, 33, "Output",ExpressionUUID->"94376c0a-5c1f-46a4-a0fa-1f54ca0a2b9e"]
+Cell[1036, 35, 249, 4, 29, "Input",ExpressionUUID->"befdaa4e-363c-48e1-adaf-9e0f9dfd1c3b"],
+Cell[1288, 41, 241, 3, 33, "Output",ExpressionUUID->"cb77a7bf-d782-4d81-aa5f-7aee4d11f162"]
 }, Open  ]],
-Cell[1517, 46, 161, 2, 29, "Input",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
+Cell[1544, 47, 162, 2, 29, "Input",ExpressionUUID->"6717fe39-d514-49cb-a40e-1c5a3de3110d"],
 Cell[CellGroupData[{
-Cell[1703, 52, 177, 3, 29, "Input",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
-Cell[1883, 57, 44252, 846, 58, "Output",ExpressionUUID->"a8a59269-5c2b-4206-a0a5-038e10cf8f81"]
+Cell[1731, 53, 178, 3, 29, "Input",ExpressionUUID->"8538815f-66cb-4126-9e8d-a046598f688d"],
+Cell[1912, 58, 44289, 847, 58, "Output",ExpressionUUID->"6dc92cf4-f7b0-4b5f-944d-8e71d9267e80"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[46172, 908, 151, 2, 29, "Input",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
-Cell[46326, 912, 1147, 24, 74, "Output",ExpressionUUID->"561e1cd4-89bc-43ed-a3e2-8056196287cf"]
+Cell[46238, 910, 152, 2, 29, "Input",ExpressionUUID->"7ca1c331-28f0-432b-811b-2c333fea7205"],
+Cell[46393, 914, 1173, 25, 74, "Output",ExpressionUUID->"d0bdeb2f-adbf-4147-833b-8f7a24701035"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[47522, 942, 96, 0, 70, "Section",ExpressionUUID->"573a6a26-6857-4953-b73d-9b20853c9094"],
+Cell[47615, 945, 96, 0, 70, "Section",ExpressionUUID->"573a6a26-6857-4953-b73d-9b20853c9094"],
 Cell[CellGroupData[{
-Cell[47643, 946, 726, 21, 70, "Input",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
-Cell[48372, 969, 24705, 419, 197, "Output",ExpressionUUID->"a039d7a9-a51f-4c0e-91de-e32833be75c8"]
+Cell[47736, 949, 727, 21, 70, "Input",ExpressionUUID->"76136c5f-9d68-4ed4-b4fd-50189a9f11c7"],
+Cell[48466, 972, 24733, 420, 197, "Output",ExpressionUUID->"c9689efd-a32a-4e3e-a79a-c95147c925a9"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[73126, 1394, 113, 0, 70, "Section",ExpressionUUID->"b7f47d67-b20d-430e-9fd4-cc76f2d7ad60"],
+Cell[73248, 1398, 113, 0, 70, "Section",ExpressionUUID->"b7f47d67-b20d-430e-9fd4-cc76f2d7ad60"],
 Cell[CellGroupData[{
-Cell[73264, 1398, 1530, 30, 172, "Input",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
-Cell[CellGroupData[{
-Cell[74819, 1432, 524, 10, 49, "Print",ExpressionUUID->"a420e4d4-077a-4552-a221-ab2c20c5ea10"],
-Cell[75346, 1444, 296, 7, 21, "Print",ExpressionUUID->"290c0471-4075-40b5-81f3-4579ff0cfabc"],
-Cell[75645, 1453, 706, 13, 77, "Print",ExpressionUUID->"29185e8d-62b2-4ad0-8164-c4fdc63f2fc4"],
-Cell[76354, 1468, 300, 7, 21, "Print",ExpressionUUID->"12fe1945-3a88-483f-b6fd-a4fc79238415"],
-Cell[76657, 1477, 702, 13, 77, "Print",ExpressionUUID->"3496fc5c-bb73-4e36-b218-fd93d4480d76"],
-Cell[77362, 1492, 300, 7, 21, "Print",ExpressionUUID->"d560856a-ce93-4377-9750-53a580af3511"],
-Cell[77665, 1501, 717, 13, 77, "Print",ExpressionUUID->"a3409d06-61c0-4308-8810-facb8f088259"],
-Cell[78385, 1516, 300, 7, 21, "Print",ExpressionUUID->"75780289-6edd-466a-bb03-6110c7e46c3e"]
-}, Open  ]],
-Cell[78700, 1526, 696, 11, 53, "Output",ExpressionUUID->"394fe597-2576-4658-a79a-44d668391249"]
+Cell[73386, 1402, 1531, 30, 172, "Input",ExpressionUUID->"4d6a5b8c-5379-4f8c-9b3d-e6ed78c62aa0"],
+Cell[74920, 1434, 722, 12, 53, "Output",ExpressionUUID->"bb3004b0-cacb-4fe9-ad13-4986812f5161"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[79445, 1543, 109, 0, 70, "Section",ExpressionUUID->"5a42b275-19fa-486f-8320-f5769a09847c"],
-Cell[79557, 1545, 693, 15, 49, "Input",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
+Cell[75691, 1452, 109, 0, 70, "Section",ExpressionUUID->"5a42b275-19fa-486f-8320-f5769a09847c"],
+Cell[75803, 1454, 715, 15, 49, "Input",ExpressionUUID->"83454589-f2be-4182-92c4-f7ceb86d383b"],
 Cell[CellGroupData[{
-Cell[80275, 1564, 840, 18, 151, "Input",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
-Cell[81118, 1584, 116606, 1921, 305, "Output",ExpressionUUID->"c5dabd0c-f0bd-462b-b423-88b58a71ec47"]
+Cell[76543, 1473, 840, 18, 151, "Input",ExpressionUUID->"19b5fb04-2de9-41f0-92b0-f6b104343949"],
+Cell[77386, 1493, 116631, 1922, 305, "Output",ExpressionUUID->"2bff79f4-74db-4091-badf-f03f83fcf399"]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[197773, 3511, 93, 0, 70, "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
-Cell[197869, 3513, 137, 2, 29, "Input",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
+Cell[194066, 3421, 93, 0, 70, "Section",ExpressionUUID->"e4738de9-9245-435d-87c9-f676ee1d338e"],
+Cell[194162, 3423, 159, 2, 29, "Input",ExpressionUUID->"54bb6ab1-830f-41ba-be1e-6d676fbd5a52"]
 }, Open  ]]
 }, Open  ]]
 }
 ]
 *)
+
+(* End of internal cache information *)
 
