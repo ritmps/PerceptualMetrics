@@ -4,7 +4,66 @@ Perceptual metrics experiments with PyTorch and Wolfram Language integration.
 
 ---
 
-## 0. Wolfram Language Package (`PerceptualMetrics.wl`)
+## 🚀 Quick Install on Linux & macOS
+
+To install on a new machine (such as a Linux box or macOS workstation):
+
+```bash
+# 1. Clone repo with submodules
+git clone --recurse-submodules https://github.com/fxpppr/PerceptualMetrics.git
+cd PerceptualMetrics
+
+# 2. Run automated installer (auto-configures .venv and PyTorch with CUDA/MPS)
+./install.sh
+```
+
+> [!TIP]
+> The `./install.sh` script automatically detects `uv` or system `python3`, pulls the submodules, and configures PyTorch (with CUDA 12.6 on Linux if an NVIDIA GPU is found, or Apple Silicon MPS on macOS).
+
+---
+
+## 📦 Wolfram Language Paclet & Package Usage
+
+`PerceptualMetrics` is packaged as both a Wolfram Language **Paclet** and a standalone package (`PerceptualMetrics.wl`).
+
+### Option A: Load Paclet Directory (Recommended for development/local use)
+
+```wl
+(* Point Wolfram Language to the repository directory *)
+PacletDirectoryLoad["/path/to/PerceptualMetrics"];
+
+(* Load context *)
+Needs["PerceptualMetrics`"];
+
+(* Check environment & PyTorch device status *)
+PerceptualDoctor[]
+```
+
+### Option B: Direct Package Load
+
+```wl
+Get["/path/to/PerceptualMetrics/PerceptualMetrics.wl"];
+```
+
+### Option C: Build & Install Standalone `.paclet` Archive
+
+To build a distributable `.paclet` file:
+
+```bash
+# Build the .paclet into dist/
+wolframscript -file build_paclet.wl
+```
+
+Then in any Mathematica / Wolfram Kernel session:
+
+```wl
+PacletInstall["/path/to/dist/PerceptualMetrics-0.1.0.paclet"];
+Needs["PerceptualMetrics`"];
+```
+
+---
+
+## 0. Wolfram Language Features & Metrics
 
 `PerceptualMetrics.wl` acts as high-level glue between Wolfram Language and PyTorch's `PerceptualSimilarity` library (via `lpips_bridge.py`).
 
@@ -15,13 +74,13 @@ Perceptual metrics experiments with PyTorch and Wolfram Language integration.
 - **DSSIM**: Structural dissimilarity metric (`ColorSpace -> "Lab"` or `"RGB"`).
 - **PSNR**: Peak signal-to-noise ratio in dB (`Metric -> "psnr"`).
 - **Spatial Maps**: Generates per-pixel perceptual distance `Image` objects (`PerceptualSpatialMap`).
+- **Doctor Diagnostic**: Automated validation of environment and hardware device (`PerceptualDoctor[]`).
 - **Device Support**: Auto-detects Apple Silicon GPU acceleration (`MPS`), CUDA GPU, or CPU.
 
 ### Quickstart in Wolfram Language
 
 ```wl
-(* Load the package *)
-Get["PerceptualMetrics.wl"];
+Needs["PerceptualMetrics`"];
 
 img1 = Import["ExampleData/coneflower.jpg"];
 img2 = Blur[img1, 3];
@@ -34,8 +93,8 @@ dL2   = PerceptualDistance[img1, img2, "Metric" -> "l2", "ColorSpace" -> "Lab"]
 (* Generate a 2D Spatial Distance Map Image *)
 map = PerceptualSpatialMap[img1, img2]
 
-(* Check hardware / PyTorch session info *)
-PerceptualInfo[]
+(* Verify Python, PyTorch & Device status *)
+PerceptualDoctor[]
 
 (* Optional: explicit session management *)
 session = StartPerceptualSession[];

@@ -12,7 +12,11 @@ PerceptualDistance::usage = "PerceptualDistance[img1, img2, opts] computes perce
 
 PerceptualSpatialMap::usage = "PerceptualSpatialMap[img1, img2, opts] computes a 2D spatial similarity map Image between two images.";
 
+PerceptualDoctor::usage = "PerceptualDoctor[] runs diagnostic checks on the Python environment, PyTorch, bridge script, and device availability.";
+
 $DefaultPerceptualSession::usage = "$DefaultPerceptualSession holds the automatically managed background Python session.";
+
+$PerceptualMetricsPython::usage = "$PerceptualMetricsPython optionally specifies the explicit path to the Python executable.";
 
 Begin["`Private`"];
 
@@ -23,45 +27,89 @@ Options[PerceptualDistance] = {"Metric" -> "lpips", "Net" -> "alex",
 Options[PerceptualSpatialMap] = Options[PerceptualDistance];
 
 $DefaultPerceptualSession = None;
+If[!ValueQ[$PerceptualMetricsPython], $PerceptualMetricsPython = None];
+
+getPackageRoot[] :=
+    Module[{dir},
+        dir = Quiet[PacletObject["PerceptualMetrics"]["Location"]];
+        If[StringQ[dir] && DirectoryQ[dir], Return[dir, Module]];
+        dir = DirectoryName[$InputFileName];
+        If[StringQ[dir] && dir =!= "" && DirectoryQ[dir], Return[dir, Module]];
+        Directory[]
+    ];
 
 findVenvPython[] :=
-    Module[{dir, candidates, found},
-        dir = DirectoryName[$InputFileName];
-        If[dir === "" || !StringQ[dir],
-            dir = Directory[]
+    Module[{root, envVal, candidates, found},
+        (* 1. Explicit variable override *)
+        If[StringQ[$PerceptualMetricsPython] && FileExistsQ[$PerceptualMetricsPython],
+            Return[$PerceptualMetricsPython, Module]
         ];
-        candidates = {FileNameJoin[{dir, ".venv", "bin", "python"}], 
-            FileNameJoin[{ParentDirectory[dir], ".venv", "bin", "python"}], FileNameJoin[
-            {dir, ".venv", "Scripts", "python.exe"}]};
+        (* 2. Environment variable override *)
+        envVal = Environment["PERCEPTUAL_METRICS_PYTHON"];
+        If[StringQ[envVal] && envVal =!= "" && FileExistsQ[envVal],
+            Return[envVal, Module]
+        ];
+        (* 3. Candidate venv locations *)
+        root = getPackageRoot[];
+        candidates = {
+            FileNameJoin[{root, ".venv", "bin", "python"}],
+            FileNameJoin[{root, ".venv", "bin", "python3"}],
+            FileNameJoin[{root, ".venv", "Scripts", "python.exe"}],
+            FileNameJoin[{Directory[], ".venv", "bin", "python"}],
+            FileNameJoin[{Directory[], ".venv", "bin", "python3"}],
+            FileNameJoin[{Directory[], ".venv", "Scripts", "python.exe"}],
+            FileNameJoin[{ParentDirectory[root], ".venv", "bin", "python"}],
+            FileNameJoin[{ParentDirectory[root], ".venv", "Scripts", "python.exe"}]
+        };
         found = SelectFirst[candidates, FileExistsQ, None];
-        If[found === None,
-            "python"
-            ,
-            found
-        ]
+        If[found =!= None, Return[found, Module]];
+
+        (* 4. Wolfram ExternalEvaluators discovery fallback *)
+        Quiet[
+            With[{evals = FindExternalEvaluators["Python"]},
+                If[ListQ[evals] && Length[evals] > 0,
+                    Return[Lookup[First[evals], "Executable", "python3"], Module]
+                ]
+            ]
+        ];
+
+        (* 5. Standard fallback *)
+        If[$OperatingSystem === "Windows", "python.exe", "python3"]
     ];
 
 findBridgeScript[] :=
-    Module[{dir, candidates, found},
-        dir = DirectoryName[$InputFileName];
-        If[dir === "" || !StringQ[dir],
-            dir = Directory[]
+    Module[{root, bridgeAsset, candidates, found},
+        bridgeAsset = Quiet[PacletObject["PerceptualMetrics"]["AssetLocation", "Bridge"]];
+        If[StringQ[bridgeAsset] && FileExistsQ[bridgeAsset],
+            Return[bridgeAsset, Module]
         ];
-        candidates = {FileNameJoin[{dir, "lpips_bridge.py"}], FileNameJoin[
-            {ParentDirectory[dir], "lpips_bridge.py"}]};
+        root = getPackageRoot[];
+        candidates = {
+            FileNameJoin[{root, "lpips_bridge.py"}],
+            FileNameJoin[{Directory[], "lpips_bridge.py"}],
+            FileNameJoin[{ParentDirectory[root], "lpips_bridge.py"}]
+        };
         found = SelectFirst[candidates, FileExistsQ, None];
-        If[found === None,
-            FileNameJoin[{Directory[], "lpips_bridge.py"}]
-            ,
-            found
+        If[found =!= None,
+            found,
+            FileNameJoin[{root, "lpips_bridge.py"}]
         ]
     ];
+
+StartPerceptualSession::nobridge = "Cannot find lpips_bridge.py at `1`. Ensure the paclet/repository is intact.";
+StartPerceptualSession::nopython = "Failed to launch Python session with executable `1`. Check if .venv is installed or run ./install.sh.";
 
 StartPerceptualSession[opts___] :=
     Module[{pythonPath, session, bridgePath},
         pythonPath = findVenvPython[];
-        session = StartExternalSession[<|"System" -> "Python", "Executable"
-             -> pythonPath|>];
+        session = Quiet[Check[
+            StartExternalSession[<|"System" -> "Python", "Executable" -> pythonPath|>],
+            $Failed
+        ]];
+        If[session === $Failed || !MatchQ[session, _ExternalSessionObject],
+            Message[StartPerceptualSession::nopython, pythonPath];
+            Return[$Failed, Module]
+        ];
         bridgePath = findBridgeScript[];
         If[FileExistsQ[bridgePath],
             ExternalEvaluate[session, File[bridgePath]]
@@ -275,6 +323,70 @@ PerceptualSpatialMap[image1_Image, image2_Image, opts : OptionsPattern[
     ]] :=
     PerceptualSpatialMap[ensureSession[], image1, image2, opts];
 
+(* Diagnostic Doctor *)
+
+PerceptualDoctor[] :=
+    Module[{pythonPath, bridgePath, pyExists, bridgeExists, session, info, res},
+        pythonPath = findVenvPython[];
+        bridgePath = findBridgeScript[];
+        pyExists = If[StringQ[pythonPath] && !MemberQ[{"python", "python3", "python.exe"}, pythonPath], FileExistsQ[pythonPath], True];
+        bridgeExists = StringQ[bridgePath] && FileExistsQ[bridgePath];
+        
+        res = <|
+            "PackageRoot" -> getPackageRoot[],
+            "PythonExecutable" -> pythonPath,
+            "PythonExists" -> pyExists,
+            "BridgeScript" -> bridgePath,
+            "BridgeExists" -> bridgeExists,
+            "SessionStatus" -> "Not Started",
+            "PyTorchVersion" -> "Unknown",
+            "Device" -> "Unknown",
+            "CUDAAvailable" -> False,
+            "MPSAvailable" -> False,
+            "Status" -> "Pending",
+            "Notes" -> {}
+        |>;
+
+        If[!bridgeExists,
+            res["Status"] = "Error";
+            res["Notes"] = Append[res["Notes"], "Bridge script lpips_bridge.py not found at " <> ToString[bridgePath]];
+            Return[res, Module];
+        ];
+
+        session = Quiet[Check[
+            StartExternalSession[<|"System" -> "Python", "Executable" -> pythonPath|>],
+            $Failed
+        ]];
+
+        If[session === $Failed || !MatchQ[session, _ExternalSessionObject],
+            res["Status"] = "Error";
+            res["SessionStatus"] = "Launch Failed";
+            res["Notes"] = Append[res["Notes"], "Failed to launch Python. Try running ./install.sh to create .venv."];
+            Return[res, Module];
+        ];
+
+        res["SessionStatus"] = "Connected";
+        
+        Quiet[ExternalEvaluate[session, File[bridgePath]]];
+        info = Quiet[Check[ExternalEvaluate[session, <|"Command" -> "lpips_info", "Arguments" -> {}|>], $Failed]];
+        Quiet[DeleteObject[session]];
+
+        If[AssociationQ[info],
+            res["PyTorchVersion"] = Lookup[info, "pytorch_version", "Unknown"];
+            res["Device"] = Lookup[info, "device", "Unknown"];
+            res["CUDAAvailable"] = Lookup[info, "cuda_available", False];
+            res["MPSAvailable"] = Lookup[info, "mps_available", False];
+            res["Status"] = "OK";
+            res["Notes"] = Append[res["Notes"], "Environment verified successfully. Device: " <> ToString[res["Device"]]];
+            ,
+            res["Status"] = "Warning";
+            res["Notes"] = Append[res["Notes"], "Python connected, but lpips_bridge failed to load dependencies. Run `uv sync` or `./install.sh`."];
+        ];
+
+        res
+    ];
+
 End[];
 
 EndPackage[];
+

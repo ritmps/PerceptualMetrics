@@ -1,0 +1,8 @@
+.git
+.venv
+.vscode
+__pycache__
+*.nb
+*.paclet
+*.log
+.DS_Store
