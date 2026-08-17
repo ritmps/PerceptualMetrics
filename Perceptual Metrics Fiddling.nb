@@ -1,0 +1,3545 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    152596,       3535]
+NotebookOptionsPosition[    139397,       3361]
+NotebookOutlinePosition[    139790,       3377]
+CellTagsIndexPosition[    139747,       3374]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.991926804981785*^9, 
+  3.991926806092729*^9}},ExpressionUUID->"feb885f2-bc38-4107-84e2-\
+c4275c110672"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Given this system for metrics: \
+https://github.com/richzhang/PerceptualSimilarity what do you think wwould be \
+a good way to use it from within WL? A python link or re-implementation in WL?\
+\>", "ChatInput",
+ TaggingRules-><|
+  "ChatNotebookSettings" -> <|
+    "Model" -> <|"Service" -> "LLMKit", "Name" -> Automatic|>, "LLMEvaluator" -> 
+     "WolframAIAssistant"|>|>,
+ CellLabel->"In[10]:=",ExpressionUUID->"2710ee49-2511-489f-b9c9-1c80ccc7fa28"],
+
+Cell[TextData[{
+ "For ",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell["PerceptualSimilarity", Background -> None]},
+   "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+  "62568b84-f54e-44a5-8468-c2d3135c57a7"],
+ " specifically, I would strongly recommend ",
+ StyleBox["using it from Wolfram Language through Python rather than \
+reimplementing it in pure WL",
+  FontWeight->Bold],
+ ". \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Why Python link is the better choice\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}},
+   ScrollPosition->{0., 0.}]], "InlineSection",
+  Background->None,ExpressionUUID->"3bd69957-1202-4f2f-90e0-08c4e8060bf8"],
+ "\nThat repository is built around: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "PyTorch"
+ }], "InlineItem",ExpressionUUID->"b5982caf-b976-486f-bb76-54c558463ad9"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "pretrained network weights"
+ }], "InlineItem",ExpressionUUID->"6a98ca0b-4308-47ea-bdae-7a442a085173"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "image preprocessing conventions tied to the original implementation"
+ }], "InlineItem",ExpressionUUID->"594c14bb-e702-4ebc-80de-5bee56bd5497"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "GPU support through the Python deep learning stack"
+ }], "InlineItem",ExpressionUUID->"518043f9-e2e9-4453-a786-2402d96aeb10"],
+ "\nA WL reimplementation would be possible in principle, but in practice it \
+would likely be: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "a lot of work"
+ }], "InlineItem",ExpressionUUID->"8ebcc629-8119-4891-bb57-8b38fe26056c"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "hard to validate against the reference implementation"
+ }], "InlineItem",ExpressionUUID->"cc1fde7d-a0b2-437c-9b23-d5b6e26be7b9"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "fragile if the upstream project changes"
+ }], "InlineItem",ExpressionUUID->"92de83a9-cc7f-47bb-80b9-9fb7d2a01ceb"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "potentially slower to get working, especially with GPU support"
+ }], "InlineItem",ExpressionUUID->"9d738f70-4ab0-46ff-8a50-4c7f728c9234"],
+ "\nIf your goal is ",
+ StyleBox["use the metric reliably",
+  FontWeight->Bold],
+ ", then the best architecture is:\n\n1. keep the official Python \
+implementation as the source of truth\n2. call it from WL\n3. convert \
+images/results back into native WL objects \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Best integration options in WL\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"dec2f2ac-8cff-4ee9-9cc4-3b9a13cdbdc7"],
+ "\nThere are really two sensible approaches. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox[Cell[TextData[{
+     "1. ",
+     Cell[BoxData[
+      TemplateBox[{
+       "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+        "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+       "TextRefLink"]],ExpressionUUID->"1e8459bd-188b-481b-816e-889e87f1c431"],
+     " / Python session"
+    }],
+     Background->None,ExpressionUUID->"264303e0-ecbb-402e-9d2f-3ffb549873a3"],
+     "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"044d6218-babd-422d-ab0c-67672765ebbb"],
+ "\nThis is the most natural interactive solution from inside notebooks.\n\n\
+You can start a Python session with ",
+ Cell[BoxData[
+  RowBox[{"StartExternalSession", "[", "\"\<Python\>\"", "]"}]], "InlineWL", 
+  "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "c9288680-a1d3-467a-a16c-3c599fcfaed4"],
+ " and call Python code using ",
+ Cell[BoxData[
+  TemplateBox[{
+   "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+    "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+   "TextRefLink"]],ExpressionUUID->"0f429c39-991a-4154-80ee-b6e85bfd2777"],
+ ". This is the simplest way to: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "load the LPIPS model once"
+ }], "InlineItem",ExpressionUUID->"4a5f9415-fe09-48d7-b534-4e0fe63f1d69"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "keep it in memory"
+ }], "InlineItem",ExpressionUUID->"8fbc5dd3-61c1-4299-bc37-548cce51295a"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "send images or file paths from WL"
+ }], "InlineItem",ExpressionUUID->"141b1e6c-22d8-4784-9ade-de0357347164"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "get back scalar distances or arrays"
+ }], "InlineItem",ExpressionUUID->"4cff232a-f41f-4ef9-a1c5-4c9378e60b2f"],
+ "\nThis is probably the ",
+ StyleBox["best choice for exploration and notebook workflows",
+  FontWeight->Bold],
+ ".\n\nThe documented pattern is exactly this kind of usage: create a Python \
+session, evaluate Python code, and optionally return Wolfram expressions via \
+the Wolfram Client Library for Python using ",
+ StyleBox["wl", "TI"],
+ ". See the docs for the Python external evaluation system and the Wolfram \
+Client Library for Python expression representation. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"2. A small Python wrapper script/service\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"805c13bc-f8c1-423e-9923-1c63b0f97744"],
+ "\nIf you want something more production-like, make a thin Python wrapper \
+around the repo and call it from WL.\n\nFor example, WL could: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "export two images to temp files"
+ }], "InlineItem",ExpressionUUID->"6626d0dd-80c4-47f3-bc89-e8919ac08998"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "run a Python script that computes LPIPS"
+ }], "InlineItem",ExpressionUUID->"27c1f445-5f79-476d-8bbd-761552a2dcce"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "read back JSON/text output"
+ }], "InlineItem",ExpressionUUID->"e500b02e-3edb-4d66-989d-0573f2347299"],
+ "\nThis is often more robust than embedding lots of Python source strings \
+inside WL, especially if: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you need environment management"
+ }], "InlineItem",ExpressionUUID->"7cfa9e2e-5221-4f87-a2ae-26f3048577d2"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you want reproducibility"
+ }], "InlineItem",ExpressionUUID->"b8c48660-f35f-485c-a863-5d8daa129d88"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "multiple users/machines are involved"
+ }], "InlineItem",ExpressionUUID->"c45e4a3e-1e32-4d8d-a636-52521cb8e047"],
+ "\nThis is probably the ",
+ StyleBox["best choice for automation or deployment",
+  FontWeight->Bold],
+ ". \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"When a WL reimplementation might make sense\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"d32a45a0-01e9-4e89-820b-29b0910197f7"],
+ "\nA reimplementation in WL is only worth considering if one of these is \
+true: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you want a ",
+  StyleBox["research/educational",
+   FontWeight->Bold],
+  " implementation"
+ }], "InlineItem",ExpressionUUID->"920d763c-2239-4d64-8774-f9d50cd2ce59"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you only need an ",
+  StyleBox["approximation",
+   FontWeight->Bold],
+  " of the metric"
+ }], "InlineItem",ExpressionUUID->"7c819d2f-b03b-4cde-8dea-e72a393ff00a"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you want tight integration with WL neural net tooling"
+ }], "InlineItem",ExpressionUUID->"44f81315-f215-4b13-9973-c9c2082f13d9"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "you want to modify the architecture in ways better expressed in WL"
+ }], "InlineItem",ExpressionUUID->"59a4dffd-3c7f-4a66-a3d3-7d6cc976fed2"],
+ "\nBut if you need compatibility with the published LPIPS behavior, \
+reimplementation is risky. The exact result depends on more than just the \
+nominal architecture: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "channel normalization"
+ }], "InlineItem",ExpressionUUID->"f59d689f-5723-413a-8874-c6ce773d3e0a"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "resizing rules"
+ }], "InlineItem",ExpressionUUID->"1d45e912-04b0-4135-b3b1-725e98a0b9ba"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "layer selection"
+ }], "InlineItem",ExpressionUUID->"cf840cc7-ad48-4d9e-89a9-c4c7c5ae7ead"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "feature scaling"
+ }], "InlineItem",ExpressionUUID->"604431f7-41ca-4f23-a541-89722a47468d"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "learned linear calibration weights"
+ }], "InlineItem",ExpressionUUID->"967053f3-7667-4f87-972b-9e5ae5a1cada"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "model checkpoint details"
+ }], "InlineItem",ExpressionUUID->"a888cb2c-358a-4706-a201-0f6bfa605ca4"],
+ "\nGetting all of that exactly right is the hard part. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"My recommendation\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"f3d383de-05ad-4e0e-ac36-56dc320a325d"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Recommended path\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"216c0957-5643-4dbb-94de-559e63b9fb93"],
+ "\nUse a ",
+ StyleBox["Python-backed WL interface",
+  FontWeight->Bold],
+ ".\n\nConcretely: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "install the repo in a Python environment"
+ }], "InlineItem",ExpressionUUID->"11813ad9-7a6e-4b25-9e63-eae02b807366"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "access it from WL through ",
+  Cell[BoxData[
+   TemplateBox[{
+    "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+     "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+    "TextRefLink"]],ExpressionUUID->"d9ebdcb2-2d6b-4b16-999e-195192cd03a6"]
+ }], "InlineItem",ExpressionUUID->"c3435935-dfe3-4ff0-805d-09ba7b3b3987"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "pass image filenames or raw arrays"
+ }], "InlineItem",ExpressionUUID->"86a34283-4021-43d6-9884-550f4418b418"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "return numeric scores to WL"
+ }], "InlineItem",ExpressionUUID->"4c19aabc-6364-46bb-84c9-2a5342417b28"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Practical design\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"05f8c946-f1fc-4c41-b6aa-08dd7abd4a4c"],
+ "\nI would structure it as: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["WL side",
+   FontWeight->Bold],
+  ": user-facing function like ",
+  Cell[BoxData[
+   TemplateBox[{
+     Cell["lpipsDistance[img1_, img2_, opts___]", Background -> None]},
+    "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+   "35aa70d7-7383-4de4-b581-5454e685a125"]
+ }], "InlineItem",ExpressionUUID->"c5341f16-2274-47c3-a36b-dc3e094eea91"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["Python side",
+   FontWeight->Bold],
+  ": persistent session with model cached"
+ }], "InlineItem",ExpressionUUID->"1251eaa4-022b-4bbe-830e-5c89ec999355"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["Communication",
+   FontWeight->Bold],
+  ": preferably file paths first, then array transfer only if needed"
+ }], "InlineItem",ExpressionUUID->"967af8d0-3427-4288-a2c3-cb0dcaefb1e0"],
+ "\nUsing file paths is often the easiest because it avoids headaches around: \
+\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "color channel order"
+ }], "InlineItem",ExpressionUUID->"445ea52d-aa5a-4b59-99ad-39d2c5355b53"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "numeric dtype"
+ }], "InlineItem",ExpressionUUID->"4e0aa1be-981d-4303-bab4-a3c08c346052"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "tensor shape conventions"
+ }], "InlineItem",ExpressionUUID->"72ca002a-69e9-4a9e-b633-c9df01711ebb"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "serialization overhead"
+ }], "InlineItem",ExpressionUUID->"609a30f0-c4e2-47f1-9517-e46f9bbedfa7"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Suggested architecture\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"1bab115a-a7f0-43db-a0f4-d86db908d973"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Option A: persistent Python session in WL\"\>", "Subsection",
+    
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"a69f5052-1974-4c74-b788-a1698e4500ca"],
+ "\nGood for notebook use.\n\nWL wrapper roughly does: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{
+        RowBox[{
+          RowBox[{"session", "=", 
+            RowBox[{"StartExternalSession", "[", "\"Python\"", "]"}]}], ";"}],
+         "\[IndentingNewLine]", 
+        RowBox[{"ExternalEvaluate", "[", 
+          
+          RowBox[{"session", ",", 
+            "\"\nimport lpips\nloss_fn = lpips.LPIPS(net='alex')\n\""}], 
+          "]"}]}]], "ChatCode", "Input", LanguageCategory -> "Input", 
+     ShowAutoStyles -> True, ShowStringCharacters -> True, ShowSyntaxStyles -> 
+     True, TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "8a226d93-33a1-4ae8-828f-d3c2158b1b47"],
+ "\nThen each call exports images and asks Python for the score. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Option B: command-line bridge\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"2b3cbcf8-c46c-431e-b32b-652fa0ffb260"],
+ "\nGood for stable pipelines. \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "write ",
+  Cell[BoxData[
+   TemplateBox[{
+     Cell["compute_lpips.py", Background -> None]},
+    "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+   "c73e976e-efdf-4428-bebd-ed56e84eac79"]
+ }], "InlineItem",ExpressionUUID->"5d26be99-13c8-4063-accb-a08a695bb346"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL runs it on exported image files"
+ }], "InlineItem",ExpressionUUID->"5e2f5e23-5744-409d-8fdf-99f2ed031635"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "parse returned score"
+ }], "InlineItem",ExpressionUUID->"c26242cd-72a4-4fc3-806b-def3ae39d0c7"],
+ "\nThis is easier to debug and less dependent on notebook session state. \n\
+",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Performance considerations\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"23b4e3b0-1a1b-4cdf-99df-5c0acc6bf434"],
+ "\nPython will likely outperform a WL reimplementation here because: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "PyTorch is heavily optimized"
+ }], "InlineItem",ExpressionUUID->"76707795-7819-47f7-89a1-dbb2a8bad5b5"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "pretrained models are already available"
+ }], "InlineItem",ExpressionUUID->"df68ccc0-65e9-44c0-a52a-d3e5f953db61"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "GPU acceleration is straightforward"
+ }], "InlineItem",ExpressionUUID->"dcdb8177-87d4-4926-b607-61e41c80b510"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "no need to rebuild low-level tensor ops in WL"
+ }], "InlineItem",ExpressionUUID->"14903775-9a13-4f3d-a047-82284e38a091"],
+ "\nA WL reimplementation might only be competitive if you already have the \
+exact model imported as a ",
+ Cell[BoxData[
+  TemplateBox[{
+   "NetGraph", "paclet:ref/NetGraph", 
+    "https://reference.wolfram.com/language/ref/NetGraph.html"},
+   "TextRefLink"]],ExpressionUUID->"02fbc689-ff63-4c18-9249-b60b6c37511c"],
+ " or related neural net object and can faithfully reproduce the full \
+pipeline. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Validation matters\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"7c5cab92-87ae-41b6-ab56-af25c341a746"],
+ "\nEven if you do build a WL version, I would still first create a Python \
+bridge and use it as a reference. Then you can compare: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "same input image pair"
+ }], "InlineItem",ExpressionUUID->"643d6b59-0fdf-4547-aa75-bc18849ebe2b"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "Python LPIPS score"
+ }], "InlineItem",ExpressionUUID->"9e50e5f7-9a8b-4fb7-b45e-3d6af318e2cf"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL LPIPS score"
+ }], "InlineItem",ExpressionUUID->"b5a870d3-4a7a-4833-9184-02f4765ecdfb"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "numerical tolerance across test cases"
+ }], "InlineItem",ExpressionUUID->"8947902c-4575-4a5d-8bf6-910d10270964"],
+ "\nWithout that, it is hard to trust the reimplementation. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Bottom line\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"fd0f8fc2-c346-4cb7-a5d8-18936d0430ac"],
+ "\n",
+ StyleBox["Use Python integration, not a full WL reimplementation.",
+  FontWeight->Bold],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "For interactive work: use ",
+  Cell[BoxData[
+   TemplateBox[{
+    "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+     "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+    "TextRefLink"]],ExpressionUUID->"dcd384c9-acd2-486a-8e9a-d4b455ca6a7b"],
+  " with a persistent Python session."
+ }], "InlineItem",ExpressionUUID->"1927accd-cc63-40e1-8517-b764b2acc854"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "For robust workflows: use a small Python wrapper script called from WL."
+ }], "InlineItem",ExpressionUUID->"13b5e257-1907-40ac-b499-d7082a45c26e"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "Only reimplement in WL if your goal is methodological exploration rather \
+than faithful use of the published metric."
+ }], "InlineItem",ExpressionUUID->"fcf62f88-f4fb-40bb-83d8-1b95867d15ee"],
+ "\nIf you want, I can sketch a clean WL wrapper around the Python LPIPS \
+package, either using:\n1. ",
+ Cell[BoxData[
+  TemplateBox[{
+   "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+    "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+   "TextRefLink"]],ExpressionUUID->"44bb5f68-33b7-478f-a762-5bb78bf30e91"],
+ ", or\n2. a standalone Python script plus WL function."
+}], "ChatOutput",
+ TaggingRules-><|
+  "CellToStringData" -> 
+   "For ``PerceptualSimilarity`` specifically, I would strongly recommend \
+**using it from Wolfram Language through Python rather than reimplementing it \
+in pure WL**.\n\n## Why Python link is the better choice\n\nThat repository \
+is built around:\n\n- PyTorch\n- pretrained network weights\n- image \
+preprocessing conventions tied to the original implementation\n- GPU support \
+through the Python deep learning stack\n\nA WL reimplementation would be \
+possible in principle, but in practice it would likely be:\n\n- a lot of work\
+\n- hard to validate against the reference implementation\n- fragile if the \
+upstream project changes\n- potentially slower to get working, especially \
+with GPU support\n\nIf your goal is **use the metric reliably**, then the \
+best architecture is:\n\n1. keep the official Python implementation as the \
+source of truth\n2. call it from WL\n3. convert images/results back into \
+native WL objects\n\n## Best integration options in WL\n\nThere are really \
+two sensible approaches.\n\n### 1. \
+[ExternalEvaluate](paclet:ref/ExternalEvaluate) / Python session\nThis is the \
+most natural interactive solution from inside notebooks.\n\nYou can start a \
+Python session with ``StartExternalSession[\"Python\"]`` and call Python code \
+using ``ExternalEvaluate``. This is the simplest way to:\n\n- load the LPIPS \
+model once\n- keep it in memory\n- send images or file paths from WL\n- get \
+back scalar distances or arrays\n\nThis is probably the **best choice for \
+exploration and notebook workflows**.\n\nThe documented pattern is exactly \
+this kind of usage: create a Python session, evaluate Python code, and \
+optionally return Wolfram expressions via the Wolfram Client Library for \
+Python using ``wl``. See the docs for the Python external evaluation system \
+and the Wolfram Client Library for Python expression representation.\n\n### \
+2. A small Python wrapper script/service\nIf you want something more \
+production-like, make a thin Python wrapper around the repo and call it from \
+WL.\n\nFor example, WL could:\n\n- export two images to temp files\n- run a \
+Python script that computes LPIPS\n- read back JSON/text output\n\nThis is \
+often more robust than embedding lots of Python source strings inside WL, \
+especially if:\n\n- you need environment management\n- you want \
+reproducibility\n- multiple users/machines are involved\n\nThis is probably \
+the **best choice for automation or deployment**.\n\n## When a WL \
+reimplementation might make sense\n\nA reimplementation in WL is only worth \
+considering if one of these is true:\n\n- you want a **research/educational** \
+implementation\n- you only need an **approximation** of the metric\n- you \
+want tight integration with WL neural net tooling\n- you want to modify the \
+architecture in ways better expressed in WL\n\nBut if you need compatibility \
+with the published LPIPS behavior, reimplementation is risky. The exact \
+result depends on more than just the nominal architecture:\n\n- channel \
+normalization\n- resizing rules\n- layer selection\n- feature scaling\n- \
+learned linear calibration weights\n- model checkpoint details\n\nGetting all \
+of that exactly right is the hard part.\n\n## My recommendation\n\n### \
+Recommended path\nUse a **Python-backed WL interface**.\n\nConcretely:\n\n- \
+install the repo in a Python environment\n- access it from WL through \
+[ExternalEvaluate](paclet:ref/ExternalEvaluate)\n- pass image filenames or \
+raw arrays\n- return numeric scores to WL\n\n### Practical design\nI would \
+structure it as:\n\n- **WL side**: user-facing function like \
+``lpipsDistance[img1_, img2_, opts___]``\n- **Python side**: persistent \
+session with model cached\n- **Communication**: preferably file paths first, \
+then array transfer only if needed\n\nUsing file paths is often the easiest \
+because it avoids headaches around:\n\n- color channel order\n- numeric dtype\
+\n- tensor shape conventions\n- serialization overhead\n\n## Suggested \
+architecture\n\n### Option A: persistent Python session in WL\nGood for \
+notebook use.\n\nWL wrapper roughly does:\n\n```wl\nsession = \
+StartExternalSession[\"Python\"];\nExternalEvaluate[session, \"\nimport lpips\
+\nloss_fn = lpips.LPIPS(net='alex')\n\"]\n```\n\nThen each call exports \
+images and asks Python for the score.\n\n### Option B: command-line bridge\n\
+Good for stable pipelines.\n\n- write ``compute_lpips.py``\n- WL runs it on \
+exported image files\n- parse returned score\n\nThis is easier to debug and \
+less dependent on notebook session state.\n\n## Performance considerations\n\n\
+Python will likely outperform a WL reimplementation here because:\n\n- \
+PyTorch is heavily optimized\n- pretrained models are already available\n- \
+GPU acceleration is straightforward\n- no need to rebuild low-level tensor \
+ops in WL\n\nA WL reimplementation might only be competitive if you already \
+have the exact model imported as a [NetGraph](paclet:ref/NetGraph) or related \
+neural net object and can faithfully reproduce the full pipeline.\n\n## \
+Validation matters\n\nEven if you do build a WL version, I would still first \
+create a Python bridge and use it as a reference. Then you can compare:\n\n- \
+same input image pair\n- Python LPIPS score\n- WL LPIPS score\n- numerical \
+tolerance across test cases\n\nWithout that, it is hard to trust the \
+reimplementation.\n\n## Bottom line\n\n**Use Python integration, not a full \
+WL reimplementation.**\n\n- For interactive work: use \
+[ExternalEvaluate](paclet:ref/ExternalEvaluate) with a persistent Python \
+session.\n- For robust workflows: use a small Python wrapper script called \
+from WL.\n- Only reimplement in WL if your goal is methodological exploration \
+rather than faithful use of the published metric.\n\nIf you want, I can \
+sketch a clean WL wrapper around the Python LPIPS package, either using:\n1. \
+``ExternalEvaluate``, or\n2. a standalone Python script plus WL function.", 
+   "ChatData" -> 
+   "OEM6eJzNfFtzHEeWnrSiLuyZ0VAaaVe7Ya9zQHkJYLsbBEhqJKyk2QYIkJgBSAgNiqOBOER1V3\
+Z3Daqreiqr0GhdIuYPbMTaYTu8fvGjX/y8EfsfHOH/MC/22+4fcIS/\
+c05mVlWjIWoddoS5Gxp0VV5OnjyX75w8WZ2TVvcnOxf9uAh1uBUYfZil40luBn9kru1HJjeNwyDTSU\
+5/d9/aMf1gosPtUZAF/VxnptV9txPH6bSrY93PozTZTpNcX+Tm1d0gNrrV/XFnMtFJuB3lAb02/\
+sXrePEoGOvu6/f1ICjivNVtdIzBNEHS177Zm50iH2H+qM/9u6/t7x/\
+8MuLGRZ7uptk4yM2146zQRAoedYNzDSLOQdzcjI1yeYNXFqzu+\
+qM01700PTPdd56m8SALxvtBMiyCoe7msxgj/PHWbBIYc6TNBAPr7ZHun0XJ0M/\
+wDhiTWw4cZnoirLxOZIHMqN/qvk0t7mfRuU78bK73W/TuIShJs9m+Tob56Lf/8xXbZS+\
+ZFPhPSGxIs+61f/rP//a/tro3qgt98mTvvrn2KE2I6/YFHh8VsTbu+Z/\
+I87w7M7keH6WxPk6fGDR0NLy7XWTEEFA/0PgDO3Ec9LpvdHV2HuFHq/uD+9r0s2jCu/\
+HBQx1P1DTKR2qaRTl4oYIkVEOd6Czgn5aRynFS9dMQ87x3PzL9tMjwZOciz4LjNI23gzg2NW79AK0m\
+cTAjORm8bN44CqZb6YU2+Ltxf5YE46iP3xDVP9vdOQRTg1yf7mbg/04SYpMwfl+DF+\
+AfMbqbZ7RZ3X9xiAWnSUCjuk1wkgfBesuOfFm+/mQnCXqxpvEeZGkx6eqc1lhK2NvSYJEedf/\
+lbpGwhhzpSWoi2uQ9CMowE7m+NSdxO+\
+dBXNBeE2eoISkcxAb0ySTQA7cpjr43sOzj9Ewnbrvf2bmY6CwaY0ODeFcHeZGBeS8JRRAfLA8MmiX9\
+EZiWFuVCbuxm+ncFtn92qJMgzmfZf/o7+vcPP8e7h9jiWGduPabTwMrn1ByUeCLmXnXzIMvdy+\
+vEzE4vLZ+8QU8OU+MfvM4PQLj9/\
+bZw9oHIWJpVp5p7VZvqJ8TJI1qWyY90X4OZvuO78k7U2nYv375BshRzc2H0O/Ms+\
+KWemcFrdqevbaXhrHud/rs9KpKz7tv+T9BH+6XDbgO05YXZhjZ0G8eBOZPf3es7MA05iWar+\
+9rDKAyxm35XHs56WRQSrQc6H6Wenjf3Ejbg1njUdOjHe8kIMsBW9VgbL8x4DoUNYjZZGppnn9+\
+AYHnhYwP9thXNzl5FS35yEFxQN1Eqa65e+\
+mv0pxdiAkUWo7999cZLre6f4vnjIocZu9SNrNx1vJb2Nepv8ONyb8z2q63ujw50NtQHYCQUxUv/\
+Hx9ESTQuxr7psfiCl1vdVw/A5rjzRxAmqzOlH7kmTmg4yVv32nfhJQ7gi6JxGgaeJde+\
+gw3OgDwFi7XsSvdNSKuGHELC9qPkDKQ9hgag3+HeNuQz1myuj/\
+a7q6M8n5jNtbVgErVTtAmidj8dr52vr/\
+WxLWt93xqG9y0axNlJNoM1Tr32OIuGUdK9Yclcc2YPSzoM+hiGV7Hg9Ssgt/s3L3+RFgrOUAVqBKM+\
+KOLLtjtwC1ewkDr0DTp7yvOk3aCBzET3IVzRV1pFyaWBmqpX5GqGdv0g4enEhwTJTOXpJOq3wVmrKx\
+CT0tK8Tl4S4nOcEvlOApbs+KduTaeX2rS6P6z2IGfiRsXf17pxmpOgNKhRt+\
+iNo7rbviGOgN6KDJufXppzvgnUUh553/avrujjGmDRLEblGKyY71/qtqDVAiv153PW0C7+\
+kLwPITWow58tbkLAoPuagAQsfq4RcY8tHf73bajR3OvOa1gH45UuCcHAIjffq/uG2wXQ7Lf2+\
+aVFzs96anHipefO82c6Jqt9P+\
+0X7PFoXN8MVkNoYqCaZqDmtX1MAy9eoef1xxOhtfSRtEBWn88FT3Vf3WjfaW84q/\
+DO0YJZARXmqbTIoCZVrzuM4GcjoT+PQp1V8FcHxvM9gIY46OsnSUT4qcTf3iO5zWcI7HCJM+\
+ldnYQ1K1ql4k00Jwm6jy69Euz8qDtKp2xSocR1um/QK1A6hFM2x4T2bZ8/7U7iKK/O5I20B5iw/\
+BrwKhmK7HqTCU8Ng2GxF9QVsLOnQ6ttdvy3jgMY/nw7Tovwce+\
+32Mj6So4BdeB7DABllNTfvcvOZasI0Z8tPCjVGen8j/\
+gNFine7jXyBHdT6IZTy52LgMywbBZHAt1XgfBo1LdcG4+XapO+\
+414f6TybOV54vE9va4PXOjdKPw9djKgVEDE9tELagSv8oXNK8WQUdK4xPBctATrwM72xm8Zh7cmP4V\
+fxYGsGO5IWCK/+euvHkLMfHOmIsOYk057p712FTDvXIbAc/\
+elw50L3i1wfBvlozoHbBkc6COXtKx2yVm/\
+Z52zKLnezYeOToz3LGUf4jxASsCY9pB12CO09SxTYUpeB7Y/BSGpqAVPNYy549vYhJHNuiD/\
+HEE91b1fnfSCpzssVjIPIkSFM9NJLLxP70Kyrg4zbXXOL7ITYD9vcXLdwTIfYFsfS+\
+lMMvgfDy1DnNScAD9J0SAJwA1PsjSkk/X88T1WL6/7greor1ocaC/\
+m1zwcczyaaLNgP6am3gg5YHaeTQ9LB945hz866/SyNY2zAU0T8h2TvfMsbFKXu0ZYU4i/\
+qhrRimz9o34b4fB6ZCDPZSM+\
+4eH8RiOtex1RRwp6fIkzGisCMTPDgVdvxzW2YrdzHi913awbfbUZVUOq6ebUagQ33gzwgufKeaHBNp\
+iXIeq3O/dftDnf/x8b/V4it0fi4h7C3JUmPT28q8X2xqu5ao+FojlxImwztSKrAFqscoWgxpJ+\
+WIE8KbZBy/G+r41FkFP4/\
+js6IA5keFnGQqcQ2UPqirye5inI1CowfjGA15oZPUX3CVmo6ivojzKplelod/\
+sCalIH9UWO7IfQAr8C2ZTBhhabX5UviSyYhpRpg/\
+eV4I0Qgqqd1ovqSecEeYKgJSZyiGEnae6r7srltBYMfYT3xrEmjZ+\
+VcvOFO9OFaZpWReazK2D09SDOan7gcSi5FCHAEthUgKH5FvMJpmhEJGdaS25nVuDC5CkIItHYdBymZ\
+GxpzWACsQGO12Ww0VtUXRGnmQAb2NY4xuZoEGUJeyKIaB9lZmE4TzhINGPwy3UyDUNRUJvWCRlvh+\
+5gZtO2CiJCewhg/\
+XVvtJKYAldRZc6KSttsCJZo90TrEbNGAm4QpsR1EmlFlzAqRwhstDrrpuk1JmdDeshOiB8jDgh5AQb\
+PInFX4ZsmIcifjPZg5EwdmtKm+\
+XAXHyNJp7F59LSwG2EVDPeK0f6bSASfOwJwig4KAe25MKIzWPC7k4cwwZyNJBzBPY2cKpphKBRPgnj\
+4Z4c3G6empe9mgwekBSOrsP+180a1MlNAG8/QyY5gW6F+ZknTjPI2ww+\
+NeBJHIZ9KwL2kANj1mU52eHsxsZgB/OeR/\
+cvGMp2UgAN6jn76YELIkgwEJIDnbD471r3hpniysbezoiUnzTTRMMMv771/\
+8ZkP9pZr9ZuP99zEuReDYLBFpIvWSjQyrllz1ZnbOuqSL8G2qkzjo6fjZ8oRjgs0ii1ZqcrLZuL6qT\
+o6Jw74RsPwaP1nhl37ix+eUjNBT35DVac29d6+lF0cvqstk+A45DEEGu7YmsQ2/\
+XLFipVwIsTANa2bjHvybsqaiyflbLVwNSO7qXIEIwOY+\
+TsDCMBV74XuSFpF0tDHxJbNoIJyLjOBCs9fkLWazkQ7wgIxHGA14GdZSTsmAe/\
+OK0Q1znJPYYrLZdlArT8d5VHoTLW6XdkMt+\
+cz6kvUGfvoeeSjOtuvQ6RmYxlkrRcn3ttqWHsCpAT8Neum5qFzFyYirk9MVNvwS38GghhyEk0sSlRA\
+PW3Y1ig4QtKGV06AwYwVa20XNuZmcTSZtQJdUkn73iijOWxGZTQIOamD1DS4+\
+n7VVhxUWYnTGLCoSOiUQLg2sX8kkV6pD+\
+PablyWIkZ964D0AOYBfaj0RS2E4YBGjM0kNo7EG71OFEmLHEINSOIhVY64gJFM3odRPWMCoost9sdO\
+EZIaJGsZpDx3PwXPaQyMzRPktw60STTmjIJuRIYunwcywD8GAE7Ap4cBTpDBhQMKuh21vOeKybg/\
+biqKTbBuWCwGc0aRUj9hQ03BkH7A42PYoBzHQRHYx4Hq5Z/PjUb/TAH49OTlTFzBQ//\
+3fPzutLvq0M/\
+eS5pQ8gBqDpdllVOa1OGCowtEMOu0NSsmIyPPRIRWvlHCSQZRQnZe3S0QzLPokwRBBadYULISxpjLz\
+c+cwnmsHX9E1jcX3s8u2Zz8VhHeunX5bVhwESTQpKG2yUrG1L5iiLQubWfw4TLlfCo/B+I+\
+aKJLbiveFpQKW2NrZfXy0o2AaqAfvdV5kSfvjtSpeJRFnxC8QlU1W0CdhYtRDbyxWpEX2mLus0ZSjR\
+eRrOWbaCNuZDktTxbBWvIkFZlWanO8HkKK87xhb2giy4Tr9Z6OxphFgNxodWMVMYAiPyo+\
+bYptEzdl6aYnG+blnjBN1FhbE9+\
+ABNxDCoePCXQhJNmTLb9gCwHOCm5ww0YoVvWnNxIy7k3MnMdIBeOO62qWCQz1CSP00TgXzkSFGXMck\
+y/S0yZcWvSmPWRYb6AFFdTQ0xNgQVzYxZIoxsga3dkxq3LwJ8xYAPpORt5sq4ZuPH9TyWp+fPE96K+\
+5lAPMxLZ1SFZXSOsR2O3F1Il0DjMeO4bwNC2E6d/\
+aYlqBTOSNxiI4BCNxVZ283Om5PGtfdxC2ezf1KRef9UEM6Yq4S12jUIlblQlZwAq7+ueGfKw0+\
+lyU7lyGCPyes+\
+wK8ZKDLE507pGY0NhFLVjJgjXK4k2wGujsQmpysewlO2dPQcFh1WB4w07LY40Mwb1EAks2s2kPaItj\
+jBgXcykbcWMpU954P6NdKgx9WoyEMHVHmhMGMEQ8aqCdH+\
+zUiiyy2rMWbxnUbFsiTfDbRYjKF6WzwgQlAiFpe4jQCzbREUy1xlobQp1laAZnCxW84GUCEBisNcoa\
+LOIEBjYCOei9MN9S5KiatPG2FJLFifALrTa0JIiQCKEEeLqeRsH5wZ4xgP0NMNxnNTNSHEg81+\
+V78bKqRnBsCfmWEwdAwTdLxTODYGJaq3dg7OHx8dNx5dLzprDBFUxUDYogx3lDYVTTFMwMLpBlnIXK\
+7mUR5j8IKBpxgG+mBdaulxZq66MghCI7LyTSnpDpnmiJETnNQQBCN9UJxo52Tv5exL5ayFR/\
+ilyGBsBmxt0bESuydX45FgkGvGlguf5mvtBvXYX0nBrOBZjJJPPwonSp63urNWvS/\
+cEdxwXK9vIVF6iBpQt9l90oZKTXN54hIYNDC/taLqyrqBgu7Do66lZwBPuhYDBS/\
+DlMtiKlupAiuV5xCCb7OFAAUZIiiMlqbdqQw8mfvzz63Gnp6rDEX3Uak5gA0juCx7AXFyW2SrqCSGn\
+BjGAedQwlPvAUlZXY4JVg4mUc6UF+\
+yHqQcRF7KZwvCkxJrmGJCwmoW4hdTkJMzFQQjS2e4kNE0JWZA3A6dHESAgG0qM1qk7BIksFSd/uPf/\
+JuTJZbTpWenTQs2CL5BONJhWvCg/TyLW5/Yflirs/emrR4tHpw4J/kXBzp8qpxTLZRHSLMzm0gbB/\
+0spQAcLhctZHWQ4yIOXWJAWI1hr1gNqEx7OVvdEZ1CycCnnxXkF/\
+IZlnZ6H4yT8xv6teOew2DPeToIUusKYa/\
+IIHv83YKBDwfh8PfHNbxFiLEHDR5YLywVU765iE6ox5L0h1ST5laTUAIAWadqI/\
+jQUNx0o9VqNciuZ5vqMIbiwKQtX6yIr2ndI6LvNXyZW76poNYNanhC0P/\
+iWVN9fdFEw6a6921TdS602ad0g2p9qr5eulhqqiUZcOlbB3YkLbypHhf5SfLsE/XTE/\
+Zxz5ahPvCRxMnNtTUrv62vo/DblRoBDxFb3zK8hAkRDDV5//0vMcvXF9++/36N8M3GT0+\
+I1u8eu8KBh2DiIACgRBxGcvjoi20ZcCuFv0l+\
+fokTD3R63xYAnrA6SMOmOugsgTf86BEg2heUp9yG0Cw9ezbPCCdnJ+\
+sf3G3fXQfLDkgFl57VZtsjtyQt1JjeVwmj1damabsVwTjtQUesfYPnn5BM3Bmp9Z+\
+Nmyw0A3hPNYWJ2JMQ5fIieRV2akuaWpO1yUBLV6/p3u327Z+Va0K/pYewdvOrI6Wdah8lSS+\
+7ToqDoc+ZX9NTzqjAecIOkJrvQVuoQJESnnuIbQeIBqPhCLF1Or1iNUK3y+\
+lMywWwMJB27jkEIOEVu4oyMCo9vjPf20+\
+OjnYeHXsz3m5YT4Spc13CCMbZpKA2AiQgYJNAPmfuDB8iRQfe/\
+YTtBue0OIhMkyollAsWTNF55epDmP/yQQUYkS6xqTHpuPTRV8BlvwRrXe2pgyyYUi6f8D+\
+KS5cOZwjtkyW1vHMBn0RQrzzvVELTivpU7Thz9qk65IQHw7+/\
+UFyiwMcvlYSktkOV7kAiyDWZ7Ob6z+5+uPHh+\
+u3127JlzhLaZW3HEda0m2bS3EJhiimr2VuWCGmBEO/09BQSs5ecrD/b/\
+KRhpJH6RHGZnltaVx6fuEU/+6uGe+\
+Xgz4ntCj2QnKCQ1GeS2qU7YplT05i0A7NuYFb1HWNN47ZTtOU7TXXrQBO+\
+u7VC3cm8bsC8ek28Q0rIDfCaEuegslx3HVR5rBRw+\
+A4BnLGYwNUkZqCzjA4lyLVYlFbh1J0X03yE9erl9duezjug82sYiY2mApV34Uua6oOm+\
+llTfdhUHzXV+u1vhWKKP05PH6ZxeHoqqYwEyD+\
+uIITqpt0lUmhz1YsoohGXq5R50u6CNHp7wq9O1m8/k625R2NDTHVgNL+\
+neWyfe993OdtxarNVlpoq9R/QDPcxg0MejmS7e6W2eZAdXEYe5R5XRdupFeGoARDHmhuiM3/\
+m67vvordVtNsfmNsffdgowb0Ax8Woxx9kVKZ3Z0sTOgQ3jFNFkBwf2myCn3B8Xi7KQcd2m9/\
+fVD4LcgUBdjRsmCgWJzLSsKBDD6fVaoFCluLkVHK+\
+ut4N7ClwtqHMDoZS1gIsm482S3UujcjiMZdXGvZUojoAflB1ieEwktB/\
+ch4h5OXMFYe8dK4XAxxLO9fMVtS7XItj0E4ypEhWTlkpLdjmOaFP88uxG5XAwFeoafpTAUZhRJ89aJ\
+2bIRCcNogyOpK1OBmwuT1sb161/j/8/\
+j9ub64dSp5d7RIEWHPDHmlJ0qwdBBSFsb1aW99o316zG9iGF//D7/9uxQFbkpKrY9CK4a/JyDRmq+\
+HS/rJ7d64QlsvWmzpDNGyaldX7dwXMJycc4JSAVrBd+JsCtiG2SCa4WxEPJ4J6WYZbvnUQTE6+\
+vPmbDfUXTSW26N6zZ7dWVpzFIMNz2xqeu2JmYHM27llTU3JDTiKrVgexB0XKSZDXHiMoIrOzWdo7R1\
+zumi9fmp6qm2RGEWI3FuOnHsZ3Xd3hEmwARfGjgrLf02SRFE2krraGMLo6s7Uf1qTY6jpOjvxq95KB\
+8+2luW19nKLtzfX1ex/ew78PxcHYAY3tIXbAnlVwEHfB+xxUgYOX/1/\
+t2lSAmDDheUW07OBOtNSqjLZaHo/56hEWL7Uf9TI6HeL4sGzt+\
+kfG5nZhPjMKBbRT9jn6v4fZcz0oR2SFWeajzfRThzqIbV6pPgUd4aV4Kge/VChcO0/\
+2T1fYYp2AVbX3wrY1PF6x5r3c48DxTUSy0TigMh77zJ8bUrJTyk38SlzpSJQtck8FVw7SjYuKgZZ1L\
+n99C3IT5Lc21XobjvwWHE+\
+MH1zUh59ysIoHt0YaMTtlJOLwp7eo4SzXBi96t768uH37y4vd3VuIjHOuA/\
+3yuazyk1vTi8GteeVpUHFjh4zDSUMtPb4/2draXj/eevpr09vYvd3/7cFX/H9rB2v7nx/sfDH+\
+6Lz38GD3aLxr+htP8ifTX38VPvzFpDcOj+8/GMW9Bxfnew/D8/744myvS+\
+P84l744POvPhvuddamn3ziUOC2y/Kni/\
+BDRcTFtZ1sQX2z2X3teVzbxUtvV9TmPDq81ObkX1vkRBbk42+WmPNLlENg3i8R7/\
+mn5f6ScJ8fLVX5T/kG5j+/Ktm51Dn8EAv+5lNZMgmXVG8EWS/KSb++0zkQ1rXAyXv8mvb79xX/\
+vzqNV+dcCFn4xvdyIY3GNP7yucWuAKZbQUYl1HkJUu+\
+R6d8RUxTlzv7UtMrXWuCh1O1XbsKtiCSefM/WvZk7Q+OT79y5dpFra/MqrsJqkVvF91OA6o5B/\
+MedXx3sfTbenX22MRr1kyP6vftkvFv8euPz+1uf/R+\
+L8OnpJQlEODEf7n2HmK6TmMrJTKbH6bkOP53H5Ixbmkpqx42cS/hY+PFEyyU6Cnwvlykw0+mV/\
+CVjNea3iZ/a8TtJ6AYvx765fu/\
+O3fUPPrq7DsfWWYCOZXR4EC59oGNPyv26Uq4r7kLykWclGSApmIR2tRY5Gi4vpwp5POVY8Sp43mZdF\
+Khf0gRYSvWh0cD6NzuvnOGkBCUyQF0GEmOu6YzGVFG3ncZcxytKaKoUp0M559BcdGeX4ENbR7gNbMk\
+rRH0u0JSV9G0tWZK6IVU6jijjX1Z2lqdGtvQuKxIlV6IuWALilIo5gpgG5j2Cp+\
+PKJ2rsKhcu8amS16caxxo/7GYJ2ez2hYOyk3LwXy7Nyf8DnZ+eWro9lKDWHEO4WgFX6+\
+LTAi7XxYFdmik+ysZw7WkMBbIHB41vVPVf/dcL/n2Dzq3yn6r9esE/\
+7oyFnSwRIUvP0JnPN3g7mR2caitPgSwHIz68ps4ff8zNLNlmhL2UI58xYSoMfTXZjVW6LiClOnZce1\
+pb2Y/2KqM4KrCikyxXrMBBHPaxD/\
+11zkMKkKk21KG5yjCqk8xKqUSDq9VUDtWtaPDqXLGYnP1UOBLWVLatXHEFbzYIplNVL8zQHdYSPquO\
+EcPLIbPMagtaEOO40lOsztAlofLOtQznl+kLu+\
+gw156n90SoT5bs7SD1ZHJ5pYe2Hmzpsh87IMgbYMIZzCP4/kgu8QyO+\
+ZDn5r2P7twlpHm8SOVKO8R0WmM0tSUgfgfZGnGZUlI7fbOW7a/sCZ9pSlfmpx0aexdMDJ/\
+ImfIkuWIbpC/NYKzBg2UnYdThH37/7waXC32zWu8oOafrVUaNdHA+\
+mzt3zwNzRlUx9nCQClTo1CMeagQbcsI7trC+qRJE7RlZAIlXM/\
+uYTh7d4TA231c9cs3i72yC1tZHOhNnK5jZ0hFYl41tqlAuUVV4iF3jKcrjwkbDOUaSrB4JT0qCoyO2\
+Qny0SE7I2yMrUWKXuJYigWS5EkluZdCsolmmXa1Q4XCdIxoZgROgpIrBWG9yjoRP2BfpXwU7Nt21A3\
+9uDvg60r2A8CvXKdvyUEM5ZRYmYg+Y+iSJLlp8FJlO3McJJONt1DIdPp9QCwcS5D4T1+\
+9dVoUXY4U79zbubdzZWLEXBVKum7Vb2qdUUT7VumJGJNaS6DPKbIV1C3i2f4bGo+\
+A8SjM6jC8fi9pXN8XWzU6q41pT5auCXHvsG9bCh8yxrk1XAw7lsK6ijE6LSfzsKbkUePFh+\
+hxTSzde+n4CRSHVFIEEOs/GrjyNkjCdikZnPHwkZQnVio/\
+AmLQfSSrNelGf8yyBBRHbFFZbD0VHHPYYu7PQk4dRXrp6zyRWm0FA+1TkPtVCjPU+nyRA/eE//\
+D1hz6SWSVmcb2BBtDHNp2p/cX616+KjT6t55iNXUcqi1ahVitfOYuxU/\
+kjm5vrGh3fvfXRvnZLL01jBzFXKU6vxGPOylhIw1IPjpRf0enF2QoJL0+\
+peP9YE6ECiXOoq7zZdo4PIyqHaf3tZQgeJAqjaWj1gz8tlB66eOaUDPgzeN5vK3aMfgqaix3fo8WL0\
+FfzqcO1QZ3QVqAhie6mGLyjwib/cNKE6hTM1FezdIykbpinsbMD3Bch+RK76PKK26un+zyFRE+\
+EYFaCQPcx0i2uey7M+aVmu83rlwwF+sf/rL+\
+n2wOnpIirJnlYqsptqzwYIXKE15BptggmUo15dFdF0pF4SL3ezym50FkiZEkGPTHvK7RAgfUJ46en+\
+6qrk3p6OfIqIV2xTZT2ufVb9URr1Nbl/Lh52XzihVpxQgrmnWxuIClsY5TjN+\
+iP8RddMM8HbCUwiHbdPNZ01G7yUiHDCn9GxHwKoVW7nUXmVKeVvH5BPre0ARnlw+MQZK8+\
+BSuYwpIL1GO6asSL2pn/G0d1+lSe21MOJhzdNxCQIdz9i2NCTipwJe9y+mEruQk4nJh/\
+Lq6fjFcZ3tFz8HgUZLwO4MeKavmBIN39yW0HlXMalhWFzh2zibbH3xLBDIgNJGkwVagmQHHE5zX3oa\
+Lis3VUSEgmMGLS9HhHbmzsVrpV1wcOUGGxY0sR3i/5RqSiVus9WVyt1vT3NhxT9EWysYO+\
+I8oLrbXVGPOddG0CwCeDYzZhjuM2JyGd8GLlnRT5qbLRtqYAT9P3GnbavrmWpMWuuJpEuKUl5YRIwl\
+sTOehMHqd7SXLPmgZiFFUZ01wUYhFXAXGIPpJTKBkUAggm4HfRHHKhRGgyrO5k/\
+G60ZxvmXK2qtzJDL8YHzm3K8ZnJfZ1WDxA4rMgsijgdq6M4d2QsOCuYmsSVnp9998g7zQ3iTuW37c/\
+ji4t75xfgg2FIvd0C4HoYsKYt/nAZyYrJ/\
+uHfY5YsNAC2QcLxjwRDjM9aIFGZ4xiWasqlkZNl90xGZ8ZvfYlHmjTYgFUggdB8Rox58PMQFYRaOZG\
+mPhFWyiqsspmK9lEQBkzi1skCL96jAnX0YNoh8omgLOzjcIivI5wcII+\
+SmGc0H7eLKQ65S3SwPBOu70Szj6Aqbm7YcXGAu23qur3CGveqL6YbT1acdVfTh9o4wPVW6iiJjKcaX\
+j9qWrkCkUg7gfG9gT71ePF0lW5jVgIxVmA2GZuOKhE0zulLlArs1I9/rsUZIQmAqr+\
+HaQgkn5eIKf3eDTG3TXwkZlYlkN2rgLw+\
+ylyrlu7QmoKx27xMWo092nMXXnlaRFbBCSR4IwEaiGrSgJFW5wQI6Ofa0F0WMSD61pJwBy+\
+0vuo8frUmNOtekltIq1+B4mZDbgt0CJcvHCOc5QQJnwkGTm1CMpQVdzjA83a+Z+GjAa/\
+FF3NXj73GQYFn0p23BHGcnDCZHvYiuj+GVL42mwkezNqZ6/MSGdTZYDr+30rlyGVf/\
+DxWcEQkl9tCc8lzglcdcmsY7TmZZk/e+1IiNObOTogNoslxO5SQKA56BKo/\
+6DKcj4Gu05xLzIADhmTsx12CGDf9XVy87Z+rEczF/sWGrq+wrLiJZJvrYTJS40Oo8Oa+o6pPkKsA+\
+BmM/AKjEdWqgvNYvJWvqruXUPW+i+CqcBWtWKSX0IS+\
+3VfgcKxNMooqpZbPLGtcJwsQI0XZojbeLTJsLOG4UXYWe2epqsomulLtSe8FyzQL928IiniQdM5Cr0\
+s/7QHiGalokLWHTKaxFJvqKNjErRAHpjjulme0HKAgqyZfv2D0I0xjx6dClauh5zzHbA1DxTX36yOM\
+kxX6A8jyI6DLRA5tCC/iiqqi3s/\
+tSK2k9IIM7ilFFjg8qgF3oZyN45J6JJxnxuTmJmyh1i2wEfbthvwxNWTMQQsCj5ACXzCFCjUSRN25R\
+xRJVdJxAqFSpl0bPY+N/\
+JnwheBnQSGOXhuDL3hwPBVPnfFvOd9nkF3YizcR2kvgRDw4FNmPnQ00XPRuVUMfmbvmYjFe6ugqKSX\
+tXVzfZALXAE77j6LLvUnN+Gk+iifElxdF4uP68CVqHG885LWeeP39Ot89bntd+\
+1EoxVQ0zWaEg0Bdyv21sXZHYj1xxTwbtbO2qaIWKdiw8looVV/0nhgLqJ58noKoJXkrZ1/\
+sBrlUKTKQ5JdEPbGjKl+85NRkyGK0GW3T1LvPKw9cu8NTtQ0iJJ/\
+ymPAllIEf80YQyyGIAVq1KoKthNA+Lc7cYDvmCcE1bZT/lG0WqU+PkHAgV6/\
+OAYu1BJTlJO0onOfvea7No8tVz/tCEZAf+r9SPNuwZMQtKI0Zk93xAQ/\
+LvNpu5ZdjbT24Fsb64tdJwZ6THtI985ZHRg8AC4zAB33Q0Z8bXp1hkxWLfrjFoa9Ml+\
+lucvqQPPA51yRQjV9VBjtyyplIsWzl9emohxXOhdjJjUSYvWSSs3ALAJE9XaijHhHwfRbSSziqIsNJ\
+ds4xxlBjqXiHfdOX74WK7+b5heffE7yfXZoulO5TkOqmd97S2BrnhqxbBOBsbE+\
+yRHle4eQ7DrMhXkwhELaXkIxpE8uysl5XMAmus/\
+W5KTJhrBoWxt0NtgoDMYWwJ5BNc6gszDoKmsOCkMKk/\
+K800ZTTo9HHaivU5tMpqTzrxYePiDIJgFVb3nhz+aLqiJ6X2fDPX0sfXiXLvOMXmiKS6+08nj3T+\
+gK7v1eyze7giCSn+Ml0VNkjoa1Ev5DKASRsUElyU97/pij72xsmc7Ojnkp/gdXC0Y6hklY7D/\
+OdUhC+8gbZUspqxou2W0sX5MEhknqlyFs3wVXWb/\
+GAQkfj7OIxOLCqg0wN30UnyRUGUsXjwyIJTRLpZM+\
+oPyrOYPKX9J2mlC1B0gYshamDoLtFTcEkujQV50+\
+aoXdoG3snnaurbLWzbSnNgWwYajcbqaqUirnb8w5fshO0LJKe9ukqL3eVTlzIJQCEp+79/\
+dtLhcsVw3TS37Ww25vCx76a9a/\
+EdERsbRPeBD4qmWvLZkMqaHB6fyytJUSD81ZC3pBqJV5OVTmjlYGcwh0wFT/\
+vb7AyNSQo5F3LGV4ID1aerl6riYCphYU1y/\
+DGqPRbj6HmTkliLsh90xEbpqYAsIRBeTEFFPRKcxIWhiR1Qabe6P6x+cHfRB8r+N87gGBc="|>,
+ GeneratedCell->True,
+ CellAutoOverwrite->
+  True,ExpressionUUID->"278406af-0046-4eb0-8401-31069d171d9d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+I've stepped away from this for a bit and want to pick it up again. I've been \
+using uv for my python management, etc and  want to integrate some metric \
+into here. \
+\>", "ChatInput",
+ TaggingRules-><|
+  "ChatNotebookSettings" -> <|
+    "Model" -> <|"Service" -> "LLMKit", "Name" -> Automatic|>, "LLMEvaluator" -> 
+     "WolframAIAssistant", "ServiceCaller" -> "Chatbar"|>|>,
+ CellLabel->"In[1]:=",ExpressionUUID->"ed80aa19-0070-4649-91a2-2056b2f0def5"],
+
+Cell[TextData[{
+ "That\[CloseCurlyQuote]s a good fit. If you\[CloseCurlyQuote]re already \
+using ",
+ StyleBox["uv", "TI"],
+ ", I\[CloseCurlyQuote]d still suggest a ",
+ StyleBox["Python-backed integration",
+  FontWeight->Bold],
+ " from WL, with ",
+ StyleBox["uv", "TI"],
+ " managing the environment and dependencies. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Recommendation\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"462b1ee2-f02f-4c09-994f-893da3d7f503"],
+ "\nUse: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["uv", "TI"],
+  " to create/manage a dedicated Python environment"
+ }], "InlineItem",ExpressionUUID->"168967b7-0374-4154-8def-d49510a6e387"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  Cell[BoxData[
+   TemplateBox[{
+    "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+     "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+    "TextRefLink"]],ExpressionUUID->"2e103f21-b9c7-414c-850b-54b7e3a4a4a5"],
+  " or ",
+  Cell[BoxData[
+   TemplateBox[{
+    "StartExternalSession", "paclet:ref/StartExternalSession", 
+     "https://reference.wolfram.com/language/ref/StartExternalSession.html"},
+    "TextRefLink"]],ExpressionUUID->"fd96a413-d45c-49b6-8075-48f2002c642a"],
+  " from WL"
+ }], "InlineItem",ExpressionUUID->"c365ef21-2b2c-4871-8968-6d3c6dba4070"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "a small WL wrapper that talks to that Python environment"
+ }], "InlineItem",ExpressionUUID->"277c1764-52e3-4ed7-9de6-4cf798a9c830"],
+ "\nThis gives you: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "reproducible Python deps"
+ }], "InlineItem",ExpressionUUID->"baa540b5-935f-460e-b79d-5cf48507162e"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "access to PyTorch / LPIPS without reimplementation"
+ }], "InlineItem",ExpressionUUID->"b4892fc1-8206-4ef1-a8e6-df8bace2edbf"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "a clean WL-facing API"
+ }], "InlineItem",ExpressionUUID->"723d771d-30f1-4dd5-b565-55f9caa0a71f"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Two workable patterns\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"debc48af-1b01-40b3-af52-287738f62aae"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox[Cell[TextData[{
+     "1. Point WL at a ",
+     StyleBox["uv", "TI"],
+     "-managed Python"
+    }],
+     Background->None,ExpressionUUID->"798a297f-fc90-4432-af9a-60122dd4d093"],
+     "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"a74df1cf-6864-4c50-b865-930da5037293"],
+ "\nThis is the simplest if your ",
+ StyleBox["uv", "TI"],
+ " environment already has everything installed.\n\nAt the WL side, you want \
+Python configured so that ",
+ Cell[BoxData[
+  TemplateBox[{
+   "FindExternalEvaluators", "paclet:ref/FindExternalEvaluators", 
+    "https://reference.wolfram.com/language/ref/FindExternalEvaluators.html"},
+   
+   "TextRefLink"]],ExpressionUUID->"bd3f9fab-5e92-4b8e-9d0c-0b03405af392"],
+ " can see it, then use ",
+ Cell[BoxData[
+  TemplateBox[{
+   "ExternalEvaluate", "paclet:ref/ExternalEvaluate", 
+    "https://reference.wolfram.com/language/ref/ExternalEvaluate.html"},
+   "TextRefLink"]],ExpressionUUID->"d554531d-ff3a-474d-bb90-30780402f17c"],
+ ".\n\nTypical docs flow is: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "verify Python exists"
+ }], "InlineItem",ExpressionUUID->"51513804-c76e-4014-8fd0-f52db961e9e5"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "install needed packages"
+ }], "InlineItem",ExpressionUUID->"353326bd-6c61-4c1a-a765-70bbe0e58fbc"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "confirm with ",
+  Cell[BoxData[
+   RowBox[{"FindExternalEvaluators", "[", "\"\<Python\>\"", "]"}]], 
+   "InlineWL", "Input",
+   ShowAutoStyles->True,
+   ShowSyntaxStyles->True,
+   LanguageCategory->"Input",
+   ShowStringCharacters->True,ExpressionUUID->
+   "4aeabfc3-22b6-4309-b04d-deb85317172e"]
+ }], "InlineItem",ExpressionUUID->"127796a5-617d-420a-96d7-15b4dd77a8b7"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "call ",
+  Cell[BoxData[
+   RowBox[{"ExternalEvaluate", "[", 
+    RowBox[{"\"\<Python\>\"", ",", "..."}], "]"}]], "InlineWL", "Input",
+   ShowAutoStyles->True,
+   ShowSyntaxStyles->True,
+   LanguageCategory->"Input",
+   ShowStringCharacters->True,ExpressionUUID->
+   "3957010f-a2a8-4497-8b42-c065bd1a05b2"]
+ }], "InlineItem",ExpressionUUID->"0e6004cb-2e12-4c7f-9a5a-c99ff5119644"],
+ "\nThe docs also support dependency-managed evaluators directly through: \n\
+",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", " ", 
+        RowBox[{
+          RowBox[{"{", 
+            RowBox[{"\"Python\"", ",", 
+              RowBox[{"\"Evaluator\"", "->", 
+                RowBox[{"<|", 
+                  RowBox[{"\"Dependencies\"", "->", 
+                    RowBox[{"{", "\"numpy\"", "}"}]}], "|>"}]}]}], "}"}], ",",
+           "\[IndentingNewLine]", " ", 
+          "\"import numpy; numpy.__version__\""}], "\[IndentingNewLine]", 
+        "]"}]], "ChatCode", "Input", LanguageCategory -> "Input", 
+     ShowAutoStyles -> True, ShowStringCharacters -> True, ShowSyntaxStyles -> 
+     True, TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "54b9e9f9-1fd9-40df-b23b-6934496424c3"],
+ "\nThat dependency mechanism is useful, but since you already use ",
+ StyleBox["uv", "TI"],
+ ", I would probably ",
+ StyleBox["let uv own the environment",
+  FontWeight->Bold],
+ ", rather than split package management between WL and the external \
+evaluator provisioner. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox[Cell[TextData[{
+     "Best practical setup with ",
+     StyleBox["uv", "TI"]
+    }],
+     Background->None,ExpressionUUID->"28bf787b-411d-4b66-a131-1ead56de658a"],
+     "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"05946f2f-85c7-41e7-8691-f61a822b1804"],
+ "\nI\[CloseCurlyQuote]d suggest a project-local environment dedicated to \
+image metrics.\n\nFor example, outside WL: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      Cell[
+      "uv venv .venv\nuv pip install torch torchvision lpips pillow", 
+       "ExternalLanguage", CellEvaluationLanguage -> "Shell", FontSize -> 13, 
+       Background -> None, CellFrame -> None]]], "Shell"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "9f70fcb5-a981-433b-9254-cacd3b0a0e31"],
+ "\nThen identify the Python executable inside that environment, something \
+like: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "macOS/Linux: ",
+  Cell[BoxData[
+   TemplateBox[{
+     Cell[".venv/bin/python", Background -> None]},
+    "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+   "8e0de789-e43c-4176-9e1d-fba5a7c96438"]
+ }], "InlineItem",ExpressionUUID->"f039746e-7dbc-4a69-a05f-f6cbf1e16cf7"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "Windows: ",
+  Cell[BoxData[
+   TemplateBox[{
+     Cell[".venv\\Scripts\\python.exe", Background -> None]},
+    "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+   "b038743b-a842-4f0c-a1b9-658564767f80"]
+ }], "InlineItem",ExpressionUUID->"ca360ba3-6faa-471b-88ea-4c1db9426f48"],
+ "\nThen in WL, use that interpreter explicitly. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"How to connect WL to that Python\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"79af9373-a6f8-4fb9-ad0d-623f95d6099c"],
+ "\nA good first step in WL is to start a session with that interpreter. \
+Depending on your setup, this usually means configuring Python so WL uses \
+that executable.\n\nA minimal thing to test is whether the evaluator can see \
+Python: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"FindExternalEvaluators", "[", "\"Python\"", "]"}]], "ChatCode",
+      "Input", LanguageCategory -> "Input", ShowAutoStyles -> True, 
+     ShowStringCharacters -> True, ShowSyntaxStyles -> True, 
+     TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "86eb2267-6555-410d-8d2f-3b60c770107d"],
+ "\nIf needed, configure the evaluator to point to the interpreter from your ",
+ StyleBox["uv", "TI"],
+ " environment, then test: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"ExternalEvaluate", "[", 
+        RowBox[{"\"Python\"", ",", "\"2+2\""}], "]"}]], "ChatCode", "Input", 
+     LanguageCategory -> "Input", ShowAutoStyles -> True, 
+     ShowStringCharacters -> True, ShowSyntaxStyles -> True, 
+     TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "0e7f5a52-5ff9-4381-acb8-c9e5c99d6152"],
+ "\nand then: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"ExternalEvaluate", "[", 
+        RowBox[{"\"Python\"", ",", "\"import lpips; 'ok'\""}], "]"}]], 
+     "ChatCode", "Input", LanguageCategory -> "Input", ShowAutoStyles -> True,
+      ShowStringCharacters -> True, ShowSyntaxStyles -> True, 
+     TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "f8138b93-1e4f-4399-9995-c852bf1f2799"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Why I still prefer Python over WL reimplementation\"\>", 
+    "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"d0e41c9d-dff8-40a7-a825-d09a065a6c90"],
+ "\nBecause LPIPS and similar metrics depend on: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "pretrained model weights"
+ }], "InlineItem",ExpressionUUID->"73e6d4c7-a31c-4ef0-bf3a-5526d99f50cd"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "exact preprocessing"
+ }], "InlineItem",ExpressionUUID->"e77abc33-b6a0-44ce-b700-9972705acc38"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "PyTorch semantics"
+ }], "InlineItem",ExpressionUUID->"6d639524-0779-4214-b3d6-fba4bd8f5a33"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "often GPU support"
+ }], "InlineItem",ExpressionUUID->"9b2be4ad-f297-4f7c-9ab1-476702e41a60"],
+ "\nUsing the upstream Python implementation avoids mismatch. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"A nice WL-facing design\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"771e17e4-9c8d-4617-8f99-880fa608f5e2"],
+ "\nI would make a small wrapper function in WL with this shape: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"lpipsDistance", "[", 
+        RowBox[{"image1_Image", ",", "image2_Image", ",", "opts___"}], "]"}]],
+      "ChatCode", "Input", LanguageCategory -> "Input", ShowAutoStyles -> 
+     True, ShowStringCharacters -> True, ShowSyntaxStyles -> True, 
+     TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "9679fe43-b8fe-40ab-b5f0-255ebeeb0275"],
+ "\nInternally it would:\n\n1. export images to temporary files, or convert \
+to arrays\n2. ask Python to compute the metric\n3. return a WL number \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"File-based transfer is the easiest first version\"\>", 
+    "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"27b4005f-bcc8-4145-abd3-68f907ea0a50"],
+ "\nThis is usually the most robust start: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL exports images as PNG"
+ }], "InlineItem",ExpressionUUID->"2e14d3cf-1be6-4dd1-8f42-4e105eb961ff"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "Python loads them"
+ }], "InlineItem",ExpressionUUID->"606ee29c-1fec-4df2-bfc0-9ad630fb992d"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "metric is computed"
+ }], "InlineItem",ExpressionUUID->"084e279b-6f4a-4642-8fef-5eda39dfa163"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "result is returned as a scalar"
+ }], "InlineItem",ExpressionUUID->"6d70de95-a8fc-4711-ab55-c2f8066077e0"],
+ "\nThat avoids early friction around: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "tensor shapes"
+ }], "InlineItem",ExpressionUUID->"5d8b61c7-14a1-4ae6-8b1e-e59eac78a48a"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "RGB channel ordering"
+ }], "InlineItem",ExpressionUUID->"5dc1a61c-3a78-454a-9649-6423f59b0b00"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "byte vs real arrays"
+ }], "InlineItem",ExpressionUUID->"ca3b5a00-2983-4143-b59a-9799b96e4cd4"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "normalization conventions"
+ }], "InlineItem",ExpressionUUID->"29088912-6d24-4217-9bdd-90aceb3ecc48"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Slightly more advanced: persistent session\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"caa478bf-031f-4cc2-b53f-ea981c02a9d9"],
+ "\nIf you\[CloseCurlyQuote]ll call the metric many times, keep a persistent \
+Python session alive and cache the model in memory.\n\nThat is much better \
+than re-importing torch/lpips every call.\n\nConceptually: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{
+        RowBox[{
+          RowBox[{"session", "=", 
+            RowBox[{"StartExternalSession", "[", "\"Python\"", "]"}]}], ";"}],
+         "\[IndentingNewLine]", 
+        RowBox[{"ExternalEvaluate", "[", 
+          
+          RowBox[{"session", ",", 
+            "\"\nimport lpips\nloss_fn = lpips.LPIPS(net='alex')\n\""}], 
+          "]"}]}]], "ChatCode", "Input", LanguageCategory -> "Input", 
+     ShowAutoStyles -> True, ShowStringCharacters -> True, ShowSyntaxStyles -> 
+     True, TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "fc9964bb-cdcc-49dc-b11d-c5c9d1d24ef2"],
+ "\nThen future calls just send image paths and evaluate with the \
+already-loaded ",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell["loss_fn", Background -> None]},
+   "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+  "dbfc91c3-6bf8-4a41-883c-8b25a23e4dc9"],
+ ". \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"If you want WL to stay clean\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"b159f4d0-e235-49fe-8f1b-dade80519cac"],
+ "\nA very maintainable pattern is: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "keep the Python code in a small ",
+  Cell[BoxData[
+   TemplateBox[{
+     Cell["metrics.py", Background -> None]},
+    "ChatCodeInlineTemplate"]], "ChatCodeActive",ExpressionUUID->
+   "d6097da1-395f-4fc7-a096-57ff924db1b1"],
+  " file in your project"
+ }], "InlineItem",ExpressionUUID->"bffb9bf3-7714-49ed-96b2-ef37ad578806"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL calls into that file through Python"
+ }], "InlineItem",ExpressionUUID->"84fe3656-fa62-4bff-af59-7e8a17d36fad"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL remains a thin orchestrator"
+ }], "InlineItem",ExpressionUUID->"44c2cc58-1ddd-4504-ab45-04be2779b684"],
+ "\nThis is often nicer than embedding long Python strings in notebook cells. \
+\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"If you want dependency declarations from WL\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"90f5b389-8b80-45aa-a215-7473ece217c5"],
+ "\nWolfram\[CloseCurlyQuote]s Python environment support can provision \
+dependencies automatically via the evaluator\[CloseCurlyQuote]s ",
+ Cell[BoxData["\"\<Dependencies\>\""], "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "bff44742-2867-4c59-8bfe-ebf9341a901f"],
+ " setting, including pinned versions and requirements files. For example: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", " ", 
+        RowBox[{
+          RowBox[{"{", 
+            RowBox[{"\"Python\"", ",", 
+              RowBox[{"\"Evaluator\"", "->", 
+                RowBox[{"<|", 
+                  RowBox[{"\"Dependencies\"", "->", 
+                    RowBox[{"{", "\"numpy==2.2.2\"", "}"}]}], "|>"}]}]}], 
+            "}"}], ",", "\[IndentingNewLine]", " ", 
+          "\"import numpy; numpy.__version__\""}], "\[IndentingNewLine]", 
+        "]"}]], "ChatCode", "Input", LanguageCategory -> "Input", 
+     ShowAutoStyles -> True, ShowStringCharacters -> True, ShowSyntaxStyles -> 
+     True, TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "35fe2098-3795-4c5f-b2d7-d04439761bc4"],
+ "\nThat\[CloseCurlyQuote]s useful, but if you\[CloseCurlyQuote]re \
+standardized on ",
+ StyleBox["uv", "TI"],
+ ", I\[CloseCurlyQuote]d only use this if you want WL to own the environment \
+lifecycle. Otherwise, it\[CloseCurlyQuote]s cleaner to keep: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["uv", "TI"],
+  " = environment/dependency manager"
+ }], "InlineItem",ExpressionUUID->"4f776fa2-9b7f-41c6-82ac-f518f3471b94"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "WL = caller"
+ }], "InlineItem",ExpressionUUID->"dd5c4fc7-a0aa-40da-8ed4-295cb890f062"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Suggested path forward\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"3de72a18-2d31-4259-8fc9-b07dd948358c"],
+ "\nI\[CloseCurlyQuote]d do this in stages: \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Stage 1\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"42bc45e9-8b0e-408b-9a7d-2fd68e358d82"],
+ "\nGet WL talking to your ",
+ StyleBox["uv", "TI"],
+ " Python.\n\nTest: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "Python executable visible"
+ }], "InlineItem",ExpressionUUID->"9c7459a3-af31-4650-b247-2ce9af1d4d73"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["torch", "TI"],
+  " imports"
+ }], "InlineItem",ExpressionUUID->"dc29e85e-2398-4dea-b615-539fab938329"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  StyleBox["lpips", "TI"],
+  " imports"
+ }], "InlineItem",ExpressionUUID->"2968a760-20b7-4973-9adc-0a9fe7652ea7"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Stage 2\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"72f506ff-79aa-4179-9c24-07b6092c67e1"],
+ "\nImplement a tiny Python function such as: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      Cell[
+      "def lpips_distance(path1, path2, net=\"alex\"):\n    ...\n    return \
+float(score)", "ExternalLanguage", CellEvaluationLanguage -> "Python", 
+       FontSize -> 13, Background -> None, CellFrame -> None]]], "Python"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "eb4a911a-4790-40dd-add5-70221cb44065"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Stage 3\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"ee1417aa-b758-41ff-b32e-8c995b5badd0"],
+ "\nWrap it in WL as: \n",
+ Cell[BoxData[
+  TemplateBox[{
+    Cell[
+     BoxData[
+      RowBox[{"lpipsDistance", "[", 
+        RowBox[{"img1_Image", ",", "img2_Image", ",", "opts___"}], "]"}]], 
+     "ChatCode", "Input", LanguageCategory -> "Input", ShowAutoStyles -> True,
+      ShowStringCharacters -> True, ShowSyntaxStyles -> True, 
+     TranslationOptions -> {"Enabled" -> Dynamic[
+         AbsoluteCurrentValue[$FrontEnd, {TranslationOptions, "Enabled"}]]}], 
+    "Wolfram"},
+   "ChatCodeBlockTemplate"]], "ChatCodeBlock",ExpressionUUID->
+  "d00c05ff-09b9-4dc2-9ea1-7b2039d091e5"],
+ "\n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"Stage 4\"\>", "Subsection",
+    CellFrame->0,
+    ShowStringCharacters->False],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"443b62d9-47d7-4855-bfba-9a1528e66202"],
+ "\nIf needed, generalize to other metrics: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "SSIM"
+ }], "InlineItem",ExpressionUUID->"a8fbc9b1-4fd2-4118-bfea-328d96504dac"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "PSNR"
+ }], "InlineItem",ExpressionUUID->"6c378f0e-1e4f-468a-a298-ca669e41ca5f"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "DISTS"
+ }], "InlineItem",ExpressionUUID->"c807b27e-9c0e-49c2-817c-7ae10297849b"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "CLIP-based similarity"
+ }], "InlineItem",ExpressionUUID->"b90fb1c5-f21e-402b-b7f5-e05135f0f0fe"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "custom torch models"
+ }], "InlineItem",ExpressionUUID->"adef1234-049e-4225-bd5d-d6b67005db00"],
+ "\nThen your WL API can become a unified metric front end. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"My opinionated choice\"\>", "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"2dcd6a49-31f1-4828-b6bf-aa224c575bac"],
+ "\nIf you\[CloseCurlyQuote]re restarting this now, I would ",
+ StyleBox["not",
+  FontWeight->Bold],
+ " begin with a WL reimplementation.\n\nI would build: \n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "one ",
+  StyleBox["uv", "TI"],
+  " env"
+ }], "InlineItem",ExpressionUUID->"c764338b-a371-4be1-b20c-e637ba56fc0c"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "one Python module with metric functions"
+ }], "InlineItem",ExpressionUUID->"38baee7f-66c4-4254-b715-271ac6862d55"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "one persistent WL Python session"
+ }], "InlineItem",ExpressionUUID->"4427ffb6-b287-4061-b1f8-068c20232995"],
+ "\n",
+ Cell[TextData[{
+  StyleBox["\[Bullet]",
+   FontColor->LightDarkSwitched[
+     GrayLevel[0.5], 
+     GrayLevel[0.7533742]]],
+  " ",
+  "one WL wrapper API"
+ }], "InlineItem",ExpressionUUID->"9c7ff29b-f292-42b6-a9db-efb40f303450"],
+ "\nThat gives the fastest route to something trustworthy. \n",
+ Cell[BoxData[
+  PaneBox[
+   StyleBox["\<\"If you want, I can write you either of these next\"\>", 
+    "Section",
+    CellFrame->0,
+    ShowStringCharacters->False,
+    FontSize->22],
+   ImageMargins->{{0, 0}, {5, 15}}]], "InlineSection",
+  Background->None,ExpressionUUID->"034eae5b-c608-4c39-a9ec-d4a265ca94fd"],
+ "\n1. a ",
+ StyleBox["minimal WL + uv + Python setup checklist",
+  FontWeight->Bold],
+ "\n2. a ",
+ StyleBox["WL wrapper function for LPIPS",
+  FontWeight->Bold],
+ "\n3. a ",
+ StyleBox["small Python module",
+  FontWeight->Bold],
+ " that WL can call for multiple image metrics\n4. a ",
+ StyleBox["persistent-session design",
+  FontWeight->Bold],
+ " that caches models in Python\n\nIf you want, I can draft the exact WL and \
+Python code for option 3, which is probably the cleanest starting point."
+}], "ChatOutput",
+ TaggingRules-><|
+  "CellToStringData" -> 
+   "That\[CloseCurlyQuote]s a good fit. If you\[CloseCurlyQuote]re already \
+using ``uv``, I\[CloseCurlyQuote]d still suggest a **Python-backed \
+integration** from WL, with ``uv`` managing the environment and dependencies.\
+\n\n## Recommendation\n\nUse:\n\n* ``uv`` to create/manage a dedicated Python \
+environment\n* [ExternalEvaluate](paclet:ref/ExternalEvaluate) or \
+[StartExternalSession](paclet:ref/StartExternalSession) from WL\n* a small WL \
+wrapper that talks to that Python environment\n\nThis gives you:\n\n* \
+reproducible Python deps\n* access to PyTorch / LPIPS without \
+reimplementation\n* a clean WL-facing API\n\n## Two workable patterns\n\n### \
+1. Point WL at a ``uv``-managed Python\n\nThis is the simplest if your ``uv`` \
+environment already has everything installed.\n\nAt the WL side, you want \
+Python configured so that \
+[FindExternalEvaluators](paclet:ref/FindExternalEvaluators) can see it, then \
+use [ExternalEvaluate](paclet:ref/ExternalEvaluate).\n\nTypical docs flow is:\
+\n\n* verify Python exists\n* install needed packages\n* confirm with \
+``FindExternalEvaluators[\"Python\"]``\n* call ``ExternalEvaluate[\"Python\", \
+...]``\n\nThe docs also support dependency-managed evaluators directly \
+through:\n\n```wl\nExternalEvaluate[\n {\"Python\", \"Evaluator\" -> \
+<|\"Dependencies\" -> {\"numpy\"}|>},\n \"import numpy; numpy.__version__\"\n\
+]\n```\n\nThat dependency mechanism is useful, but since you already use \
+``uv``, I would probably **let uv own the environment**, rather than split \
+package management between WL and the external evaluator provisioner.\n\n## \
+Best practical setup with ``uv``\n\nI\[CloseCurlyQuote]d suggest a \
+project-local environment dedicated to image metrics.\n\nFor example, outside \
+WL:\n\n```bash\nuv venv .venv\nuv pip install torch torchvision lpips pillow\n\
+```\n\nThen identify the Python executable inside that environment, something \
+like:\n\n* macOS/Linux: ``.venv/bin/python``\n* Windows: \
+``.venv\\Scripts\\python.exe``\n\nThen in WL, use that interpreter \
+explicitly.\n\n## How to connect WL to that Python\n\nA good first step in WL \
+is to start a session with that interpreter. Depending on your setup, this \
+usually means configuring Python so WL uses that executable.\n\nA minimal \
+thing to test is whether the evaluator can see Python:\n\n```wl\n\
+FindExternalEvaluators[\"Python\"]\n```\n\nIf needed, configure the evaluator \
+to point to the interpreter from your ``uv`` environment, then test:\n\n```wl\
+\nExternalEvaluate[\"Python\", \"2+2\"]\n```\n\nand then:\n\n```wl\n\
+ExternalEvaluate[\"Python\", \"import lpips; 'ok'\"]\n```\n\n## Why I still \
+prefer Python over WL reimplementation\n\nBecause LPIPS and similar metrics \
+depend on:\n\n* pretrained model weights\n* exact preprocessing\n* PyTorch \
+semantics\n* often GPU support\n\nUsing the upstream Python implementation \
+avoids mismatch.\n\n## A nice WL-facing design\n\nI would make a small \
+wrapper function in WL with this shape:\n\n```wl\nlpipsDistance[image1_Image, \
+image2_Image, opts___]\n```\n\nInternally it would:\n\n1. export images to \
+temporary files, or convert to arrays\n2. ask Python to compute the metric\n\
+3. return a WL number\n\n### File-based transfer is the easiest first version\
+\n\nThis is usually the most robust start:\n\n* WL exports images as PNG\n* \
+Python loads them\n* metric is computed\n* result is returned as a scalar\n\n\
+That avoids early friction around:\n\n* tensor shapes\n* RGB channel ordering\
+\n* byte vs real arrays\n* normalization conventions\n\n## Slightly more \
+advanced: persistent session\n\nIf you\[CloseCurlyQuote]ll call the metric \
+many times, keep a persistent Python session alive and cache the model in \
+memory.\n\nThat is much better than re-importing torch/lpips every call.\n\n\
+Conceptually:\n\n```wl\nsession = StartExternalSession[\"Python\"];\n\
+ExternalEvaluate[session, \"\nimport lpips\nloss_fn = lpips.LPIPS(net='alex')\
+\n\"]\n```\n\nThen future calls just send image paths and evaluate with the \
+already-loaded ``loss_fn``.\n\n## If you want WL to stay clean\n\nA very \
+maintainable pattern is:\n\n* keep the Python code in a small ``metrics.py`` \
+file in your project\n* WL calls into that file through Python\n* WL remains \
+a thin orchestrator\n\nThis is often nicer than embedding long Python strings \
+in notebook cells.\n\n## If you want dependency declarations from WL\n\n\
+Wolfram\[CloseCurlyQuote]s Python environment support can provision \
+dependencies automatically via the evaluator\[CloseCurlyQuote]s \
+``\"Dependencies\"`` setting, including pinned versions and requirements \
+files. For example:\n\n```wl\nExternalEvaluate[\n {\"Python\", \"Evaluator\" \
+-> <|\"Dependencies\" -> {\"numpy==2.2.2\"}|>},\n \"import numpy; \
+numpy.__version__\"\n]\n```\n\nThat\[CloseCurlyQuote]s useful, but if you\
+\[CloseCurlyQuote]re standardized on ``uv``, I\[CloseCurlyQuote]d only use \
+this if you want WL to own the environment lifecycle. Otherwise, it\
+\[CloseCurlyQuote]s cleaner to keep:\n\n* ``uv`` = environment/dependency \
+manager\n* WL = caller\n\n## Suggested path forward\n\nI\[CloseCurlyQuote]d \
+do this in stages:\n\n### Stage 1\nGet WL talking to your ``uv`` Python.\n\n\
+Test:\n\n* Python executable visible\n* ``torch`` imports\n* ``lpips`` \
+imports\n\n### Stage 2\nImplement a tiny Python function such as:\n\n\
+```python\ndef lpips_distance(path1, path2, net=\"alex\"):\n    ...\n    \
+return float(score)\n```\n\n### Stage 3\nWrap it in WL as:\n\n```wl\n\
+lpipsDistance[img1_Image, img2_Image, opts___]\n```\n\n### Stage 4\nIf \
+needed, generalize to other metrics:\n\n* SSIM\n* PSNR\n* DISTS\n* CLIP-based \
+similarity\n* custom torch models\n\nThen your WL API can become a unified \
+metric front end.\n\n## My opinionated choice\n\nIf you\[CloseCurlyQuote]re \
+restarting this now, I would **not** begin with a WL reimplementation.\n\nI \
+would build:\n\n* one ``uv`` env\n* one Python module with metric functions\n\
+* one persistent WL Python session\n* one WL wrapper API\n\nThat gives the \
+fastest route to something trustworthy.\n\n## If you want, I can write you \
+either of these next\n\n1. a **minimal WL + uv + Python setup checklist**\n2. \
+a **WL wrapper function for LPIPS**\n3. a **small Python module** that WL can \
+call for multiple image metrics\n4. a **persistent-session design** that \
+caches models in Python\n\nIf you want, I can draft the exact WL and Python \
+code for option 3, which is probably the cleanest starting point.", 
+   "ChatData" -> 
+   "OEM6eJzVfVtzI8mVni6jkRqry0gr7Wo37HUtelZNUgAIgHfO9KzYtxmuuqcpgjO9CgzVLAAJsM\
+RCFVRVaBLq6Qg5HH5xxEbYG+EIr2Md6yf7Zf+AX/zqF0f4P8yT37w/\
+wec7JzMrqwB2kz2tCLtHAoGqvJ48ee55cu+zeucP71/0w+\
+lADe74qTpI4vEkS4dfS996GKRZWjnwExVl+N75/v2070/U4O6pn/\
+j9TCVpvfOjvTCMzzsqVP0siKO7cZSpiyz9xgM/\
+TFW98729yURFg7tB5uN1al98k1587I9V55v31NCfhlm9U9lLU+rGj/\
+rKFvvu3jQ7pf6DPtfvvP3w4aOfB1x4msUP4mTsZ+lbR8lUYSj0qOM/UzSIZzS4Uo+VfHrDry+\
+Y3Y2P40z14vgs7fzwSRwOE3/80I9GU3+kOtkspBb+\
+6M5s4qfpoUon1LC6e6r6Z0E0sj38kACTaQgcJGoioLyBYdEwg3698wOUuJcEz1RkezO1v493H9FI4m\
+T2UEWj7PTX//vrusp+NJnSxwBgiJPOW//0D3/7j/XOO+5EP/lk/1761sdxBKjrF/T4cBqq1Dz/\
+Y3medWZppsaHcaiO4k9SKmjG8KO70wQAodEPFX2hlTjye51vdVTyLKAf9c4f3FNpPwkmvBqbH6lw4p\
+0H2al3ngQZwcLzo4E3UpFKfP6pAekZSHr9eED9/PhekPbjaUJP7l9kiX8Ux+FdPwzTArT+\
+gEpNQn8GPBl+Nf3WoX9+J75QKX2v3JtF/jjo029C1T99cP+AgOpn6uRBQvC/\
+Hw1okaj9viJYEPwA6E6WYLE6/+yAJhxHPlo1i2AwjxDr+7rlefz64/\
+uR3wsV2vswiaeTjsowxxzDfiAFFu2jzj9/MI14hxyqSZwGWOR9QpRRInh9q4Rx95/\
+54RRrDcigIDYcoQ2NTzqhfWAWxYzvWzTto/hMRWa5f3j/\
+YqKSYEwL6ocPlJ9NEwLeV2REhD40PQLQLOqfEtDiaT6Rdx4k6jdTWv7ZgYr8MJsl//Hv8O+//SW9+\
+4iWOFSJmU+6V6GZl7Y5jcQOovSqk/lJZl7eADD3enH+5Ft4chCn9sE3+QENXP/+\
+gUD2Q8GxOHG7Kr0qdPWHgOQhppVmh6qvCJi24o/knWxrXT1/+y3gUsjFBdA/LIPg52qWDt/WK/\
+3WnXgw69zA593TaXTW+YH9SuPDeqlBp0Jjy6bpXdoNncqRn57J786N+0QaMqBmvfP2R8FgQKtpV+\
+WjWS8JBhjrI5WdxnY8392PmIBr4lHYQ9/bj04JB5iqHqnUIjM9pw3rh0yyFO08/\
+fwdQiyLfEygf6BRc2/f2SV/+Mi/QDXZVJpcfeVnVB8vhAQKLgb/9hvvfKXe+RN6/\
+niaERmbqwYqd4NeS/nC6N/hx/napHe/Ue9855FKRuoRAZI2isX+P3oURMF4OrZFj4QXfLXe+\
+cYjAnO49zVCJr1ncj7yljCh0SSrbzTWiUs8Il4UjOOBb0Hy1kvAYAjIEwKxklXpfJewVREeEoY9DKI\
+zGtpj2gFU72D/LuFnqJhcHz7srJxm2STdXV31J0EjpjJ+0OjH49VnrdU+\
+Lctq35Ymwvt9NGLoJJPBAqTefpwEoyDqvKOHuWrIHk3pwO9TMzyLBa+/TsPt/M1XfxlPPWKGnu+\
+dElEfTsN52u2biXtEIdXAFtjb9yxMGhU0lE5Un5Ar+K3ygmiuoZrXm2bejMr1/\
+Yi7Ex7iRzMviydBv0GQ1XuF0CSnNN8ElyT0OYoxfIMBVd3+iZnTyVyZeufbbg0wE9MqfX+\
+rE8YZEKWCQp1pbxwU2fY7wgjwVnA4/fO5PstFaFvKI8vb/\
+sUldUwBmjSjUd4Gb8x356otKLWASv1ZiRrqyR+A+0BSo+3wp4uLQDDovC1CAk2+\
+VAjQY0pHf39A26j0eu9tmgfLKx0gwVBLbrZW51tmFWjMdmmfzk2y3OuJlhPnnhvOn6gQVPte3J8yx0\
+O7thhRDRkTC6pxQqN5+yF1Q1zcGc83H09krDmPxAR5+3wq8lTnG+\
+3GWqNtqMIPDxf0SqJCeZRaMihg1TeNjGB7A9I/CwYqceSvPSKePyahIfT76pMogPyUy9+\
+WI5nFZxHYyCWGpHdUNChQUXcU39EkERioEmG3PZ8A9l1qB6h1j9rq5VLQdzqn8TnTWtrdxQm9g1c0h\
+RFx6/QIaoCu8yedSRhk7hAs9baSJ7EERXJXNBKktrSUWDhREi2U0T4mebSnBnob6va/f+\
+QTR8juhvF08Lj3a1rhwri+e0QyEDGllCTNICq++\
+xFznTvTAdVn0k8jVQmIwXf4DU1S2ODbYBHrMW0as1/vX/\
+igz7KKrCJ0vkGiH1r9viljBalCpz80rw9VlswMLKwigLeFxguVK7kAQJs0QCkSlfFQY+\
+8e8chvG24VTk79vbdYbpftQ2KD7elbD+JwUHjyPWK49ODOjAhMPCW962d3vkcI+\
+AeHKoAQOkmUBfqPLxNZ924QJrNaqAb3L1R/mqkDPzstcXZd4FD5A3n79T2Qse/\
+r50zj5qtpffKTw30NGTPw75CuwFvsI6ywEd1+rAdFYCniwN33CZAoqiWpAitd8OwHB4SZpSb+\
+jJp4onoPVNYnEWvvq47wQyolyzbBV77yVYCPinWUn3C5t8wk9wa0Hrp4ekPLaWpAy2JAWnxKje8TRW\
+YZ6G2DAB/G8QgI8A51sT+Grvp77sfdxUVG8X33Fe+HAgj5tTUUHM0mCqTt23hqyaORuI7iyQH24I+\
+PiNCddfpJHIa0AE9OVXQAQmhLvgP1dR9LMhVGUqSwDtHeamwQ+\
+nwapAH1pFXA1BgCFkl3nRvUVRCxSADVk4VIEiZ5wMNv6IrfvUtkK7OKZOdHBU5gFsNFlOLevHwbERj\
+u+ZkPvLIsyigZkGXfKkL/m3qFO/9j5/8pUa5Seb9H+\
+nBdrCEf3PSEKYaeu2qVihlzYHTdaKRb8qa0xF5GOup0hJ96QHYoWCDPwL/hHZ0GqUf/\
+C4MzQCBRo2noJ16kC3jqoq8mmRdk3qmf2sYgb1PfxFO8PoQu7/w06J9Sr0q6x+zoC83JS4n+\
+eGO9IHhArwhsSwSEZXSv8peASyK6pjek+eftnZJq4vWUiry+mGRoDaipCTDOg/Ik5e2o+\
+7K4DY8IfkDzCWc1tJ7kffGCG9Qn1jJzWua2nLZ7ahgn6B9QHoiRRQZgBtjwSDalXwHP8DxOMISE5pL\
+pnr3xNM08f0AIrUzFYQxygzZHU5JiaMeqdLdSWfF+iZEmRvqgdQ1D6tyb+\
+AnpwoSL3thPzgbxecTmoyFLxTxuHoOMqOalsUU0LIWtk85ot11gEFJTAGO7a3j3o3RKo0RlxRZMLLe\
+WoNB7pNSAeguGXGQQA+\
+w0yPTUadMZpMBGCYOumWrn2ExUXoOTUI9EHkZ0nzZoEqRnDtz0MILM4HiPyFwa+\
+unprvfZCkEMlE7R6hXnwmhAq5iiRhj3z7x4yBY1As40oQ1C0DNt0oZRitslfDhLGbKB2AkYpqEhBef\
+UledPSO7pgwjvVk5OTszLChrHAxrS3sMne7/sOB1FWGDuXnocxFOq73SJvfEsDmiFx72AUCKbScG+\
+2AeY9KS73snJo5k2GdA3oxJ0L465WxYECPZUT11MIFmCYBAGAM8e+\
+kfqr3lqdlg0t7EZT4idnwajiHp5992LX7W9n3qzX7XffZfahWpOiyUojaHO0ciBS8m93kz3WcR0Qb5\
+drxv6PRUeL01YWdidJsFyAU92KzdWvO4RIGwLkZC/yk+W+aXt+PEziOTq3Bbk7bRq3pvXUovVGq/\
+Dw7AVMiIECdG1VVF6+OWyRivP6BYL7bPpbNwj/\
+uZpUlFjw64SqPrAuyJUCAWI5j6OCISDWOiFrYldBOxoUMdzZDEl5FxEBBeSvRovMZONeEgPQDwGwZC\
+noSnlOQi4Ja/UesoQZ+u2kGymHShlx/\
+EsyLmJEraL1fCq1uRe1dzAdt8Dh2IzvBqYfUZAY3OWB6t8w7srNUhO9fmp34ufyZZzmIywOnG7MOEX\
+xY8I6oC1c7Ak2RLCYfOqqQfPgkoxczRKZGxKpfWkSmwmY5KJBehgS+\
+J3bxqEWT0A2YTg4A31fiMWn80a3h5vWEKjMwbRNIL7QKA01HwlESOqGqBdY2e3mrw3ISpAtBMENeKR\
+mFdebvrm+ScKWAwGQNAleBEI6AftM4OUJIUMhwW6Dx0xs8g4DBLSmvtENlOvT2D7raLuiSKi0znEDv\
+g5wJ5Gt2gBQmpqADJtAULTCggLwGYrlZvzLbBI631oWRs428+\
+VmggJTFkTE2pK02Qxs8II6IAY6zyiRqHnEngIiP4AI57A2DWYEregKveEAUFEG0XeKIx7VPEZIROQM\
+5UeguxWyqUiBSuZn8xAocNzf5Yyc6QGJ7T+\
+EWvUsr0iWR7wVGYqeYtLqjFqeFC7krtEkkkzTRWoxcfMgdAcCB9NjphWkNFgiMQw7yR0ypGx3B7qnf\
+gksETdM++CKO//+vfHJ+6kT/\
+ZKL9GnWD68MYE0mRc3LXnyWQZjNY0q7Q9lSrwQ4OYgVNjQ2HeEMDHoU0GW0/\
+ut5ozfMM6TE1YxTkk1Vkm3Osj9XVXiSEWiToUHRDS8216hDg8GL6rH73kkxCvI7AdhnHXxkFthMZVJ\
+CtEwqsTENTJMVYjEMFDhQGaQiAGIqGuWqnCYkx7M6FYqFRrex/c/vX/IkPcJGGPQaaHaEOgHQHIsP/\
+WTs1K9WnYiSyueHb63snxyslzD8veVpu7oi0BLRELLXZY2Ah2N9GOFxYJQKUtlFyKA9AUPqowKYg5p\
+qi6K8IIKeRxM+8rAAsVqIo9TW+eCJE+N0PJUGRWKqsahyJ+86tox6WgZz5ThMRoOj/womExh01t2+\
+P0rumgY1mq8oBo/9PiZdo8n8HLRmmKH+\
+CKoGF1AtrImsiCIEI2JYLPmghoyWaJYoacNQ1ANdWMuHcmxkJrITrUaVMX31SxeRYUGMZVqw+\
+4aJsWjmGcak5zFWhMm5YHaOzIr8XeixHfuP3h8eN8jnEUNxpRsmkSN91ddLQ/0k/\
+VkUeyY0ft9UCrGB7zRGhaWpceAYD4Il8c0U3qN00blKOZx6DE54ogjg2l1xh2TkZhJ/YAbZUwAr/\
+jJqIWPdmVVXah+\
+pbJHskQiwju3yo9rwtGFOTJeK7Fh8XMLGENHeSkTBRhwARk4MRBDk6hDlpdS5pskbxI02cyoPOYiNb\
+3uQqAgEmMhlU+\
+wMVX1VIU5YmOHsWhKEF9owXnI0j0TvfKkdx1aWKEaxAXMGCrCyQCVXWoyBouscGkDpMrNmyQU+\
+KR0QjTSiypGD6t1e0urfX7yNOotm5c+\
+UeLzXJRzdTnMQyiw2WBmExbUrCMDcF6GhcotV7aaIBSOvEdACF41UHa390Zlz6xJ5YbpuM69mV9aiL\
+BNjRCx4Q6uUinYeTxj6CFIkID8NOWfyxUOcwATTVRIJINafoWWkRL1majM6DepokWkKXvSYGHkJISR\
+IFX39ghpMogOuUrH8hmao1k7/AvTYjmZEPMW1PZkprc9YVtAzL4CM5Wn7VQ0lXPVezrEr+\
+UKP3RtCNR0AHsjqwCpyJ2+\
+98nhw8Igp0moQUtvKje0Mi1PstlECZEXoLM0QZI0DcRbqrLxDT1V0VWVbZvQ2dLqMg1ToPg5m9AwUH\
++5AklrESSowVT4ZbEWdTdSmTed1LO4PgDGCvHxtaimSRDkd+LFEJ+\
+ygKktCeNqTAw9mdW8yeksDfq0iUcKgh39rHmn4oYnpSWB5kIF4ygez0SJGROlalT2Hx08Pjza+/\
+ho11BhSC0OAWE51hIKPYuaiH3CStjcoBcTI+\
+9BbmDJmMCGfaBltpxinRubghFP2ZoF0hxj65wp2FXYOAjuFIzVQnTDysn3JVoXPbJlaxjLFWkBM2kU\
+1LVZhvQ0npJIQwQfFBeaHIHzPo2TFIYGbSJie1iI8sS1uOP3XMPN0mfZcqNyg+j0JKVx0exAvHggp/\
+G5h+f13qyOv8S4winvgKU7BA7lRzWiDLLOOTble9LaYIFaVEL/\
+XqBVMIMvkDaaEMHezOSMpFgVCinj14NYCbcvkjOoww77yHWAM4/\
+keMI2FtVobsoMhTVrlmyYO7umHStHlaxHAQgCRAM94LGsGuxQDeCh75jeTBupEZUHIkhaWottb2Qwf\
+2FnViqhjQ46g22E4cXsuxOY5HJUOp2IhLRINkunYIepI53J1FmwgCLnSBdhTCAV0aiB+\
+L5FZEHkaxH3/8/f/LtulTGa5PuaFksgmhJyxKN4yo32sySs39b1aK6GM6Qkcy9uHJAT+\
+6YRT6wrilVaqBtxcqYltLHfT2JI5cScqYTMTu8WbXgTUFOzl8yGRhn3MqbPp3D/\
+SsMnv5iCg2QzmtoJVBHxj+\
+LXffOcSHuJJxIi1S9BdgcHWTZ4MGURiYVSkgyOCpIZZMse7eCh5tcSqmiLC+\
+oM1FicaoTV2LmukVdERd5ThRYK+g9JW/V6vQIOkOx60LNA/JYuloUr1Tcw6I2KjS/\
+Ndj3a1hVWyKCBXhzXvOcXNSpY8zZe1Ly9C5U+hDnPq3/gPa9eVGteVRqsvjBikbhddr3H06wbHd/2/\
+rzL3PB4ibYPcVNAcnd1VeNv/XkweLFcGMBHKlG3Up7CBAOmbfLuu59RL88vXrz7bmHgu5U/72KsL2/\
+bgcBHBMQhaQ7+OWlihDAf//KuNHgnJs4U/eUcJD5U8T0dedvl7SAFa96jvSrBhh99TMLcL+\
+EHuEtIUz0+LgPC4Fm3tbneWG8RyB5hC1aPC73tg4FJCW/\
+M2oszMMy20E3DzIiI0z7tEU3fSEaYACfWTr3W1rjGSDMkPuudE4nYF2VmfpI8C921Hpq3KnOThqqXz\
+2mj2Whu5XOietWPiNqVZ4dNe66sPiW19DxhjqH9nNg5PWGLJbFZogPY5vu0WxAZDEvVvheqIWm6weg\
+0I1pzfslsZNzGZnqeT4CRAbtz38gKoogxq8hVqFw2MOT77ieHh/c/\
+PrJkvFHRnIi6zlQucLBELnYGbgQigzayWp+UIXykUxox33bYqLDNmNXNOHJHAl+LSB97X7/cyfn3//\
+prjgyFzcS0Jo3HOZO+RLK2c9DkVbv1ZMYDWp7b/A8qLPU2DEbwHR3MstNYrCf3L4g/EW+\
+wQsEHbBIi2XR60Wg0KtoED+I+\
+JDK4ahuRNqhsuYWbG8319s72xvoG1uwme0YBCqdTbr1S0U9I3ANGJaoeSFHiMpgiZs8lYYehXdJjoS\
+dtWANIpiAqaM1U67gwP+h2favnkYJm+\
+BVbKrEmkENo1KRdskNo5V1vwtXWvHpdR5uvrPA7rfyyfO1bdDBMvKp1U8arIZw21ZojA8deUJy/\
+Cliwsw4Y35inYRUzBmVGoDgqzCzmSpBWwti3qqZu1UAuAcZ1EYlJNFUm1IiT0fHS3KNlxvJpBDUhkd\
+BER9ziX37SY+SWDeiupdOzGT3BgP4kBK1I5C6gqWgboGjwJeqha+\
+fdq1oidSSY1IxJRYQB41LpmlhTKtKYzCZ+I4hXVbSasstjVTfOY5CpX63s6vKiyX7xu7+fzH47/\
+s0Xv/tPdozAYhl2BUYddzYLii9CsjGmZyvW6yxPc0WDdnYgn5LaoC0q7mgZMcsPmWsQbkJ+\
+HE5DEoxOHgTRoLRJEWl4ImRvGIibtSDBy4CJMO9H3bXj3dve4ja6VYEBGAdEhzUSHWDKS1XWff+\
+D49I0LImx+\
+36gmH0sQGSZi6shOJXc0W1idGUSZMdFPK7907Y7vOp6VYaV08UnRNtsgIbu5n70LCBFV0xdN4go3lP\
+9UDxgusQ9hdAtOB5JUCw7KqWM08jN1s722sZGs7XerlQ+DRL2cim3E+\
+A5KKH29jqtg8qcK9qIBEFoqk41kS7FQsXm7JjjN7X9Ipqx7OypMFWir7NXIAyN550BT+\
+JrPyt2ODORMrDfutBuLYT2cwfcFjmqEDff/7zqwqkqImg0HU9m1Reff0DSaVX0f4+fvSd/Gk+\
+fagr89KlZuxbWDsGqLb1+\
+EM1ZmUM52jqLrGo40sRbNVIkyHi6UbZGiFfAjG0mSozRKKFIEnUIOE4IqmXNivGueVMgp+\
+MtdOMutNpvDlq3b7cb9N81gdYWoKGiAK0Dx4mfDIz1VuyxLNE5puuaZW7+\
+XEFjGvswyD6a9hyeNUcyChh1GxazbtWQ4sQ/b4wIz6c9kD0TDoTTAlrcOVRiIzS/\
+74YBlSBpQ2C3mqhhunpKqnK6OuaIFBgq01VntGkju8iqx+/JxH/\
+paGEnJyJHEgXUFgM2I7IvKA20VI65ulNax5TYVHhbi6Fdd4Ia4OvHtyu0vCMeAK9ZZaJ/\
+1RH0oQQ5b99uEiavVYtjs+EbxhUkvhIwffMGB/YMoyaAEleE+uuOc+MN4Jw7sQK+\
+mbm8Z78twroNg3VNPcHHid0+VgYwM2AhhCVvMKpQnVin6hyVZ/\
+RjRLqnW1m0BJvH4FYh8YDVicTSrz7zk9Uhu5EIQ5qr6+3z9XS9+\
+evm9rPWaXP714PfNtfG56PzJv0bRatHBSyq77RbW61Wa7vu72z79fXBZr++47e36kO1s7G+\
+M1SD9e1tQTWIPt2tNwB/TPQ14L5VhrtBLH9A6gwOJhb3JMvBYWBlaBv0BRt/\
+go0APybVLdSSEEF1QfXY11naJ9tvguYJ4lcHv/ajUVyieTks9ANdSksbbmOGpsGAbSx+\
+JydOXD0hmzv2HYy9j9cw9N/2uOT9C97sErxSxTkAmsSBtWKmGHD1AFEifbMQO8e6rvSSk73z8/\
+OGdr5yN0zxaA+vrm9ttYY7a359rb/Wrq9vbq7Vt1uqXR/\
+2N3Z6aqfXbG2uaQRrNd8AhM0kXwPLqP8SmjmS1INDEpVkIDJ3SE4FxRWSFIkeYer9xNMR/\
+hXLFXT0TToPpPnzpnnpVbfDm2ut9c3tnY3tDQS0nJyUI3qMaCilq8fdL373X45BdIAcczZCG0/hG4+\
+Tr6dXZ04h9FdLYDqEqltem0KEXPklNI4rjTOVAAdarv54gNgNTw2Hig3LxBi0Vzellq7Z/\
+4KGcydwatTVAD4ctnTXrg7UmjcXnqEFTzagR0xg4EIyMrWAMxVj+\
+qu7kWWTkQL6xm0sA83DSx2YSNWFEJFXy3bsTi0zgIX1zEtTE5Pqq4Tl63lcSa+\
+93sTy4z6PSEfX5mYTtjvkgRYkKZyccHGUBkaHJNVqVwQC3K69I1DfwheCNBtlTPwc+\
+zxZmr4mznlDogA4vp1LmrxukUod+4NWYjxiRjF7ooz0w9FQwcDsvgXRrq+3qWpeF+\
+cwihGt9GAZ4DAb4uoAVPCyG2+aBNQRr9VokM8cHqIRXIAAr5zql43jdR8ImAoD0s+\
+WzewlEtB4uBBswaQAcDo5wbROTmCJsJ66PETML26714YZn1kqjZGeFKDGQ/\
+TPzda8Psrw6IruGPF5Wi7PUQ3Ezj/3rvPvKqWv16JbkQZTv/o/7wqlr1Lmkoo0mK4+Jx/81p+\
+jZ8VXy9RR1x4+KhS0T1EmJ0ZEi1g6NAFGJH1zQJlwR6O1aKzFYKrGlswdVl+\
+xBFcZTH9Kot7YWN3qIe3AkBS8bDp55TJVH8LRetfvn6qXj+TKgzEu/\
+D7aHEjQkhszMIFklbJDuDiY19uGRHRq11pfEgNfOQ2WBrIM5/\
+95bQcqo95rxkqnjUpafDRR1lp90gzDmiINYWI5SkhTFbGjjxlKNopDw0nHLF1nQkIP4Dm5NhUoLO7r\
+VLreRv+y+1kwlgDYeo8+2u/R2r8Sad0ZujGAufigBYr00hk+\
+5y6rgnJti3OvQqIXTo9UMcgpA0f8m3KEVO56Cr3CwddCs3iw/\
+OoZRnG5uSusoeYwFg6CpEEVhqLZRBsVTWiKK76enATGosSeRVGe4OcV46BEYdrg9nyryMEJ4/QqWi+\
+nrkuGaYENvfe62sCsueMTEgxdHS/3eXw5leqy9ldzdkwwKpJxCMCyEeEONaF/RQFfoCZx/\
+AEfBCy0IXDpx/pIpRo4sLiSVrB3sI/4K0Fw5NyihUJ0Z0p0N4R7nSMJWQ1teAeG8uhhawKk1/\
+n1Scll1V6XVlxGKWSjlKFS2DTll8vd6rB6TA3OY5YZYfUu89JrkBWeshPuhENUasg+\
+Ox7hK1nmwgZz8lCG4WvRBqYMfRfZTIOEz/dNII+EcboIaXb9HMBS2ouwqadGs/\
+zSO89pbXWZyOvHKoP3/a/fVAfF9lbFD9zt9IOD2ZvqwmmM2ufjEH2d/\
+qbk7CXwTXjCjpuWfzcmM5zZYE+\
+1A4S8WCRPLnSJfBJ5kbQfTGb6PQIijLWEiRchS30gWSTKi81UeYAYWaNW4yxLP44czTc2gd4OJmlVj\
+89lUJmR8hOp9r7EFidqjENhH1jiqSkO0VBH+\
+gQT0Tw5zYVIbVDQwmQw52MvEdhczNTGTzb2drmbBTYQ5/\
+nyG6KIVyhzJUp4BQHpivTlc4GFnJ8KkWNlDhm5ocU2gCJVkrNp0p6tXSZQlynGLjXiEObL2xHClJ9Y\
+kJNwHLrtGCONVnVyMiHs0fqwRBsPzDGwCfFJW1nOfj0Re9JQnes8AsB+\
+kVXYLWBtBob6VSPaNBOxdct5Z4k/6qlREJlUCd4UJ8DSvghG1acQ8it8Fq449KvZ94y0xY/\
+qdv85cNDecWNEyu0DeZlLUPa1dYSX4e9rK+guMlf3wsBPYax3cY4fCfAsv4axkY+\
+MXmGsVSYw2OtG4f7c1UIl1JgpzHUgMK/\
+Gf76Iw14TrlVE4jqhRFWWVvpTGi2CCh36N2QpfIDMoK9utdAiPy3YaN12rzFWaeLQZLnCWH17MN0ml\
+FjgOHhpq4f+eXG4xbFyepJr/ZNWzbA+hQ2VW7WHDVjXMKPmQ48cRWicfjqMXdMcbYCQVjvyw8VXa+\
+DT715iei+UWNZjJZLx+PJdfykzWrjRSxt10R7V+JEikRVILRaxr7/\
+ny6ULPWJ8E1wX3JuDM7WEfVmVMc3vUV3I0D50VxDC3UJ3cKg7EBSwB7xtaau4GnFGg4mjpYkCl7FT0\
++MrGrK7hT1Duj/Bgkkz7K1pYcfE0QK6ZCQSowvoqKMJpyo2wMMWlvPPxvCj33MbPFxEpZbWI4UF4u+\
+d4cHQzT4L6/qRMB1IfjBwINIOx9A5d2xN4xCxijks+\
+ry0UJfgjqbV5qwB73t7QJLfaRenYIoxWBvs1md28iF5KhTbwVVkrS/\
+LvS6b4BvkZSVAfeonBKu0pFMW6Y9FIGgMsDr69ig+4px6VAwng3XaR+SjKQKc+\
+vi5mpFmMHD7eVUfSS/IElhmJH9U3uYiWFV1B4j5vmTtWSri8PSeKjro+Ejsq9fD7UPnukt5+\
+5s9nptJXzXkS/pgClDY27D1YvPIxrZIyZ0MFLEDCS00ii/vyv3oSnJczevFJByaU2qL14+\
+DqEuToa5zTRsFyiRADnybA61zDny95SwFuaLYKYK0yVUg/rI0F7eFatVEqi4LKjV2i+\
+YUUsfYQGzLJIo9N2/nqMHHR0s0UhNHnSRB4jcR3NvT4k4tl4hIqdXmODSUKwFspRwWBeMvR+\
+1sahSXY+nNxxxPaWrXlx8GoYVlpi7PtJRwf1gwp9oMI5aLKJOCBqCx5yl1TpkUCzG3DI7z0UQ5RRoO\
+yZgqPK8C19iajS/\
+WnP28qpsNWo0G3gRs8NbP2g2n8Av5ZNc8J2M5OTHlfi0OdF7jU3jf08wmikqnQxJmAn1IeBoFpKnBs\
+CwWB/jwq9IvdLSXoBgN6xdTEuKAP0jqyZE9L/FgCzoOpzAu/\
+8ZUtEAUMw1yEhXiFKh3o4toSFUXorZWTgwGSwqMeWng5ARNXF0CsV6uRb6HF8fzi0xjed1Ai4Vd0ON\
+JTPrurFXz5Es775vzjHHQjbwKEFSPKBTr8vStbs7RDIQg40EgGVNUoZqm53rbXrKKL3G2A8SvNIFcF\
+SSXQELHNaSciF5nRDg5KQnxOn5IQqJSxqiTE4JBwNq80FQN8qtzEJFEIdea+\
+KSr1gEKdomfpHxGOj3WoT1oSr6hgG5Tm7vEsGFiB/M0JpJ5hs8AxAnickhjxhIzKMDW5+\
+wluSUkNaaQGhrhtD88+yc6ZokzOQn1IwhFTA7t7skzc9nBcH+\
+aoBVsQLWihMPljCBi2aSZR83SxBJRGCAXU6yj3mjkQq9bDfnbJsgyHayaGK/\
+Uzsq0mGuPgFfEGbYsBTw50Q3qv+0TatGlDI/dlQgwBCxeztbsTHTADMfO5LnekK9T98XNdT8mcSIJ+\
+ntJ4s+KLgPnxbKVKdAEoQzLFgg6ktWnsgegzoigp+\
+JwdF2P0lgkNqTkyyJzoR2iRbMSlshbIUlCJ40bzaqIZisY43UeR1TAI7NPRJCyXN9uH4PxLOaR3Mg5\
+QvMkaubQfRFj+QQ2E4tpSbZE2LEUXxjZdXeu/\
+CX60st1pKKs83JlRxt6iPIZuxGSGklYdUlpNxLPHqc8q+aF4zxNmc6HxscquLBxtVbdmJqBe86+\
+ILhfUXXn8XbR+XHOtUs4wiMbav5Z52P2S5zrE6kcDfcCCYKbgfOnlGJ5mLNJ945bGO3mroy+\
+sdVBBk0X57Rz8ro5ujlIYR3ZmIAOA3UBsVcUgahwjIn6eu89fC51OxO/6P/Eg+\
+Xl4liut2vNYnZpzhCzaFUYoqmcwdVhK2bbWHM8fZFTJkWYc2HHz2IKFgf4po0Ab0bPF3QlPF7gGv58\
+LoFiGZr5BrDNdPHZIkDjb7t6TPCmhlCOU9jQ8mtFUAPXtkBf7F4TRMdSlUfE+\
+F3GwsRBdkP0ZWtdV0nUSqDdvt0qtm1V5AxzeLG859wNztyNWjAWVK5IOl6aBdk0Kx3zza2zqINBGKk\
+dYoe6QNrbAAeFxFRCXXWP1HiCQ4EdzrngSpTOi2WJQsENDR41jX8yMJmNldcXzLTGrPJYRwznWSeB9\
+aUKXbkox3Rc3KKFV8sGjF1p3Al/\
+Bl9mIRLMuTRrIw0UslCbh3DjgkdKZGxXznVItyWjdP5iuXuzZsz7920Ue/X4Jxoi+\
+haufEBISYqVphExwWIgGCCCB+vgd1rTAPmGjIyFRDSpCGqcBYbtlnI/\
+3VwpavBWVTg2ff2sah1s7rkLe2TMZqIxZxVoT9EOSpnKcjh3GI8QckS/\
+5HYHUiyds2qSDaEXZOdBCnuKMl5yyGRGprdadTzpThgjjvWgiiG7eee6pTgRKcsGqV8r3ubzl5O1xX\
+ROfLMPaSmLLnB6MB888rkXZnmF+5CQ52rx0+\
+W8gtC27oesASWF4vpZ0Zk8ygoV5jtxX8CNPdI9zJcsDCXvQf1GKnwSqbkq+\
+llxSJESatgxy1LECAcLrhYUIO9eulLCg7Qrv1dcG/qtvUKe39Ne+\
+kfxoFCGfpsypFRImYNwWmwID5alnYEug2swioX4CeA8noZlMCzYB68XKGbLXisczDJqGfudINuLimC\
+QR/MoQJv4s6eerfY4Kdd6nCzC/jhBLVvtr+\
+O5evRovreL2LJmVPu4xHrk0Xy1QLIgmmqd02CYPVTDucr2haxlmOJ3sdohks0srMdvsLyJqSYaBfxN\
+Ob2ktdZ0URKya9LokK2rrPtVVrm0pmVYaUAhcC2zK/hXcVCUcPFgWRzvJORwoUcKIsAvFowpMGF+\
+SByvJ9ktIxJjEUdVlXAFiOKgP6j3AOYK5B8vbg9A6eSE2nhq9dw4eWpVfEv/\
+IysRnWnXTZHDl3mZGhg7AHdsz1k5oS650AGZ0DCja3sArPFfjh2VnA/\
+5GR5tpK7lJXJ5ivq0emrtskAAPR/aAPGZG7PT3QuL5Jp+Lx+\
+7NgBjJF5Y0hoIijWs4fKq5gKbB3bFsx4vLC01WrCdpbmlZs7opFiuYuCYVDj5DQjQ6TzvmgfuDPCuv\
+KqvhQR8EvBj2N7D0sbEo+XuxLGHX3bWsajIcLPXP24F4TiGl/\
+JAAsWqXTkaiP6tubUUEaazNZi0NQVXJEffo4XA2Pn02UEc+A7jmYkazEy/\
+eiPGyUwPvntPETTUgsgO94UG0YAfpXM7YC5O5upLw8PgrkSov8bRxjygv5B3HjNmh42xUfP+\
+1WfsTMRLYNKoirTfD2O2EEazc18gs3e9sbhRpYVk2a8dQmMSP459mV/huNF1F8/\
+RTTHgswA3QjhKqQVL5NwzdA0iG1i3UeOVh8ltiPYH3p5c8sJk580eIW9vN1trazvt9Uqe/\
+flK88HpN+Pb46slkNmCU8/HBcNnysn6+XwoE1vnop5ycvHTSzMfcS4eA/vbHl8PXMKGPD+\
+TToOiL7ATvS9P5y7g53t4gpEhHaDqZ7gQYi6UzTenWOeS3fRCIjR34gvcBExjqiZ+\
+NFJLrVqr2VyuvlexuWEm9PLqlM9tteaxayxP6FSKrZZ5mqRS88NcX5g9ISey6XS8VPXe/8CbdI/\
+xp7pczXO7eOs7G82KTbPi7pPiNiknRrCprxbkGMjtCq4ldS7xnmlir3zDmq3+\
+gGpL5ZvNzbS5s13JU/1KbOfiHKhWvHK6N2fNnfBQSf7r+O5u3vQ+0eexTcMmkSwyB3LOL7t/\
+LhmAbo1gKocI87CH3YpFcrkSx+xnPjDkmMX18cPyJfemYTsCs1Xys0Q2Xo50W+\
+muXdxTi9tcWp4LuPNtyq7UbHU3SxenysYtWgivkXKmmM6vUb7o5X40QgZsudMMOZnEmBKbZF/\
+5dPRCRXHkjqZm7+CRYLrs1FCTUg8mahqXz9i4G6JNjVFj97L5f/G7/3B3d/VALn/\
+hZDupydPk2cRNj3KDwWqr3Wiu6gVsqAv1xe/+rpBp7/\
+KM1I6IWMCR8xBvrGC9m5OWBciSpxaWBqQyoYa+noF5+2+\
+mvo51QqQrHHz4bg7nSwfrDnoYFFRL0tzSrUf+pPvZzV+1vZ/\
+UvEMQPqISx7eWlw31ARFB8pTnrZq3XvN2al5rs+a1N16U8+\
+Tp6zQckaNSOZJ8lVnhcU7fDEkyg8tM8aW57nFKSnoUJDZtGYHdVjVXORENgO51Os08uZdgHosmcr11\
+gX9zjnsvv/\
+iaWLY84h0Z6EsfDgsZVuYS6XGNvI2brXZrvbm9sQ0qPObDElpzMilYJHuseHU5uowWkrQLfjyHXZzj\
+PujL3VnEGOu4VmaCfGImHFV8TVxbaabhaZmBK+\
+W5xBoL7ADXDtGcNxNcOwST22DYyPU8Mo6Ek6TpOw6YZEyCCxWasBNR0pBpDMKKp9vgxEdVJGPiw4Im\
+3xLf1SJ6BafkeslctFlFhnPMEdUTDnTFgaqxveELmjWtGMd78aUdRCRxizObKARp+\
+gZp8vjDFUkCaDNrID90llNI04PJkyF3P9KK86LRG2iucsseEsFnSXCBHc/X0miwQHyxmUiaqN+\
+iZf5IR2v47Jrsn/oR+GKQD9MmYHSaFYdMOifACWieP282iBzQ/5sNhBzJNzzBL+\
+fdCycd4kLJZ09uPfF0smy+\
+hGYyYywWxMbR18Qf8ZMBbe7SUrBkKE34uYCd59ydT6Cn07SXV5RRQzO5PIm9k8wWQRr6WCBsApiGFl\
+QykS/k7lN901Cx+YX+42KGZKurcoiSvWWolPKLGX6Q5/\
+SrOkVXieqEcdb49WTkJlS8TOBEioPS8Swz5nIOW9po0D3n7190g2uvYFV8I/+uYpp8I/\
+9yynQvoHVipq7zzLMbJNB+L6FMA1vGyEaahhmThTGTCYjn58Q97fGpz0OghOnK6YltmGj+\
+VHFuchCIYIBA5eHCZi+BHvd0V+\
+hAPqPCnPLQdU0vOOG13NQme0TIqr2H5mU9xWGcdHBV0iLo4T6lRG5SuhKoXtYTrrV25lOak7nxRhNL\
+vvQKE+DbnmQR9XkGzHFh37anX5S6yXuCugcDjNQ/\
+taf8krFErUgqqH2X1IO0cVSkEDK2SKMnfRijK5Fix+We7LlHjncXWdqYNSVcR0QiG+\
+r2CuiBhsxBj41uRros8ODLYPSydTLcMac7whVtWjSBlrSb76i5XK1zu9JRsJ+\
+3m00SU5vNF3niXW7wVnrJTDS5U34acGo6DpEqZHFw4sosqGDIvjMzkC/\
+FMZrZONy5eFk37paRoONCdjKnT3v4oIoXVavsNEoAg3Djc/\
+5DQ3gEfPrCmEVyQkrUPL9xmo0eWlyYMz3kmCE7zD+jHUY8fgcawRa4/\
+QZ929h5cXy8Ch2KentAuK65frvw8HZl6Yt/+Z8dblAI5F/8/ZKvDg8ohvwv/H7ZV2ql2djaam+\
+s73j4urbTbm1sefy9udneWt9o8fd2k960pchGe2ddnq7pitzKxmZza3udn+fjbTZam+\
+tbzU35vt7a2NzenPu6sb3dXtettKmNNWm96fTU3qbBbOhW+Ll8zUe4tokiupUWGlnXs8C/\
+LSnDw9WtUIk1eUwPm215utVs7WxSg7RKy7J5jOzIShxicy2uldDLZoXT7MFBqvbGxlzG36ujVc2r3p\
+llJNHPo9fGpdjlfM49MMjj5Z9e+YHgRmsHEGo1m/jEam0wnHaa/LkhLbXW1wA7bn29zeU388+\
+WrMlWi6twoa01ftHiQsA7Wk0utM6Y1+LPbSnEn+vc/9aOuy77OmrZT5W9q6wg2WvXHXLYafkE/\
+Dpw7i82Fxqu3dNkEZ+0aOxFMedwzuM80xWnEPBTTqoFlTv3yti8EPtIpxIq/\
+xkRMVYxizKxZvY8wLl0yZdJtekkOFOzRhYMh1UnZ/JCsfaJiTw3/\
+DBVmfa1uENDRCT4NJxlVpYJ4DoZ+VHwWxM8376XMwwwWp1oJeS4WCHpPl+\
+HEyorFiEZE4zfemFkLfDy8MM7rqxjYIPb0tLCkMX+LiPxtbHIQorTNec4/\
+7NL9xGxwJ013kf0bWPN2UeaNLe2X06br/Xv/5t6C3UHr9FoYD9/9jn+115r0h9sNS4OsHwm/\
+cl7VNAliSfIt9bWlv620/Js7ZfWpa2vv7XMt9bOzhXr2rG2t8239c0r1ZU+\
+ZJ62lY0NWzcnMU7Cl8t3EYut+\
+TkHc5GsJAjReXnlTklDjRi9fff8EzORPnYTnyIxErkWZmTPGC2kYM4oyz3m3l8t/\
+xhyVujMEEnT6Vwu8HxLeKs/u5xPXbq/at5CGOltt318u/J8IZ+6lDm5HKndBi9or2/\
+gcwPcpr22rXkVMxSWDNrCe3b0m23mYszL2k3mUITr0hq3wEwIOCXYwShQ815/kDIUHhgNtWk+\
+0WGT37Q3+ZMn0Wq7b5o8/\
+NaWM0hsLdkkgu6CuF96kNssTrV3mOXyJ2Qj6ZAhwcJci0UnhiAGucbDa6/\
+xIHhAazKxnZZnoMc7UfYUD1JrIXsLeHR+\
+ZisMMnNxqEFUuUC0aK7j2KOauYtPhbjV9CXtFo170czR6he2bnkSxpMWtlTOvaQHHmx2mig2Ss9Yod\
+CtzGWoF/1f38lpVbWdBTw8zxf/AP6drlGAEdScWxGqxz/B1vwLN8H78/\
+w1tpw9Qvii7Nk0HmZvyThVjTcHhE5uOlsuOu6dREA/8Q5VqF34TgCCMbXnXj4xG2o3/\
+c3W1vp2e7vVbDWLN3ssvixEX8WLO60dd5Lr7SxbZStXd6u/xJV8JU+Uzuq/+\
+KqYvK3zsGGu71taq3m3HkFmTG8tu4ZJe7/fGq724wLmVoT7zryLWSbt/Uo+\
+Xx9OODqTQHYi9ulQJTZ3mL77tWw5ePmYD8X/31x2r2CC/\
+6td89bYC7ZR8zZr3lbN2xaPmLEyfMJ25o/icCBWZgRTJXHonIeaU63ZI/iqEaHFJXdkBf8+\
+3nbFd0fb4Dj3qxGaKhJB+\
+T36ca46udJ07iJGyHXdzYnrhWACXWgujkBiYo5iffmesY4UttcdPw367oP2l46OKXd4k1Ts7U3agBt\
+84UYYzxYFNljjDeNPMVhozg+Cwli8X+0jJLV78/gnuaPDPmzh6byb/uV7NN8gC2OlutWer9ab/\
+uZ6vd1rb9TXNzZ79e3mYFAftrfW/Y3N9a3+elNv0zXBhXLgShk+\
+bvAKJpYjf6UcxNjdyyPwulWhl1W5U8Tc51HxnPxK9Q++3DSkubuS4lY6Cv1xb+B7F61dr48w/\
+0YYj5YuWssrk/h8qd3YaoHW0v/XN3aa6xs1xDKG6mKpWWth8xgKY+hIwWwnp+JsgO7clv0L2mYNZ/+\
+1Gu319ebOF7/\
+7N95P6cfO2tbGprevtxCfHVH5aej8YuhF7qA5Ewkfns2723hVd7hY25tO2FlDu7d0Euv3s40LuWp/\
+Lzt3vb2+1V7faRPn/IgwgH1QJL+\
+U0keS0OLxXXNjBDjzMfYBkqkT4x408mB5hMaWe4BXVafV0Zc64CY2rb6fnHQXhvbmiWmf+\
+QkpLpNjN6mGDhJEAks3ROxNZTk2iUqRlCHIrde0yyJ9UbhkcW6A2A05aOb3O5By2LndTjohjbFTE4s\
+ekIihTYVFSyFB2q95vWNv1wPuvV7UoEOCF9OcreHmjr/VWq8313rD+vrWZr/\
+e22n36q21ZnutRYrJtr/\
+hSDgvk5a0RCRzeq8yUEMvCZb8Wm9510hv8q6BPzRnfgcRLI8qjK8VVlhNguqrAgmPEFhQIGkl320x3\
+FqSaeK+33SO1h0h9L07iTlQvwt9Fxd1r71wyN9zERxMRJANXUOcgXFX2Ht0zYCsQ/ySy+\
+AmQ4JKeZfmULBPMhwWOM6p4++RVV0NbS5nVdmuN1zvN3e2N7b9pu8TDW9ubQ+\
+31dpmb32wMdwZttqttVbTMqe75m5WZCzJs38tXqxNZ7GG3epgOh7PCG1a2gtWWLRNlv+2SfYjlYQ+\
+NmjprFnxGqzgkZ/h3vQw6P3eI53LXd3c2l7bWt/cWdsWE9UYwRxTQ67nd1O5vrmGCbFiuPpdbL+\
+FIzkIle/hoKwNvESZUjyiTfDgWSJbxvQ8r4zOxSHRXax/\
+I2yFm53ERBvm42zeHMnb3uyr7Y2dumoONwl3m836znB7s97bbq4NmkN/e63VuyLJ+\
+6zi3uPJjGbChG+4lC3vVmB00ZQvmjRI61iqZ8veCn7043SpvUJfJsFKtlypZC2aGP30JeC62YARDR/\
+NRmu5krUvfdtsL1eGXJv6bOF7W77T876pV+iNXhitUtMnGx1uI9YLq7MIA8aXrf6cZ/\
+p5RupVRvrVEF+G+EbjenE9Qt+lulQTTaAFauC4qgPJV/U5nlfwAeccwAO+/txmf2Gs9HFiH+g/R/\
+UnYbZwrPPbKCcRlh8ssuds6FYRmIeBVLsOzV5YY9PW0IOsdtut1vGrfD8HiWJ525d9zVkXAzn3RYCE\
+mJd6PYj3/SDph2JLc4u0pYgv4fsecUw153nhUcmQZHnpo9qLq2bJ6aN6VjVD3bp0qBig7bqfdw3rxc\
+BPkTId/UtuIIluW7Bg24sA1T7OTc0LwbtTnoigKOSLet2OfZF5jsd+L0gnoS9+\
+PzSQWjPjQrVJzHlXwqcJoiiqndP4PMcRNu4tNBO2XsGy3hcTXP2UoPwBc4qCV7HqBNwF9nAsT0KxJj\
+FnHijc9M3JDcu2KXr+7gEHs6cxx7CnHmfsKHTcJ+\
+EIByRUwoF6Bc9JMB6rAeKfqDFDhmC35SuhSJzP86o7Ler7kK1YlUbBZII0L36PwLVbWfEuCxIsv3I9\
+rUVDZTHqj2gh38LuBiBBYvEvH55FCUTfI/\
+kfPCmw4prfKcTMmnfPLAqedXGLu9yNe1mYo5aY3l91V7veuWHPHqZvgWzufa3eeeswDlXnrU9SldQ7\
+37wrdzh3/udXZVyCNP/0D3/7j96HHFycsSVcoj+\
+Hku83CfrprmcEGrkPmgUYenH621NClNUDlUCXnBIbDsYBbmDPZnJd8yDm2B/ccH7mnZ+\
+b6w58bxTHAxMLDFgH+hQkEAAJpR7+pbfnTUS0CFGZBpOoOkcR5+GjUjKf5w0kAMKR3syZ7H+\
+vPeAkHItG6abzCaEq73syyDRL4mjEx8Pg3MZZkJUVCVMyQ53bK9lpEk9H9nb6xM8kl62PyCg7ct0Eb\
+kpEjPWThysrDY/P6Tw5nZm6PGUdgdJTGYy+/dM46CuIf5LvVAuNKMXZpnWY9K7HSUaO4qR/\
+St8mcEVKPKu+i8M75zDKlF4GOixNTfL4fye/E0ndebxUnAQkF/\
+jwmrhLQK18ePCJOfNtQeAoXQOcTguVL+eUaXH6Z5U9mrYLE1lNix42+\
+AJAIoGkj2ADiSTjJ8jl1WeckSqgN7RUPcWTxzEm3p2YLf0+\
+xVXqNAuOQWT5YISs05k2T5lDc3PzgqMVwdD6XOl0QjihaL0JWHIaHLivAMdJDEQLmBymTOXQ30hlPA\
+RO4ccXm0gJNo05QKvs64vuRzHAmzKiCfWR7UeDDJFMabaywpEbkUYLPgvUPw1w29uU3cNEcFoNOQ/\
+Ia8bHHKlRvRQleOsoTX1XDtzJyTQ7rbQbkoPb4vnDylrDZOvR7q5VMesR6kFqYL+\
+Yzif35KG1TzFS31Gc1DVTI3P/ysRk5EDL4FEQXxLFsXpIjneO694jQQB/\
+QtDGXQep7JGbHs3vuveYrpbMgSZAJ9UH2WiAnEQZ0M9vRiK4hNNcd9e3zpuzc3AbGl7BqTbnjOcmPc\
+DLNRmTiBMAdxNOCam57vWbnjux0pEL3hv2VveHB/\
+sHHRziUyFxcKIrK4I2QpnGJHQkM3qWKr46kL2wSJGA/\
+SA83qDGCuM5owH8oX5CIoaTVEHUCwtwWs0eMJnHsLLCOCyETUIgLkg8SnJhw0DbMwcsUyKWogGbcwS\
+cHA8Ekk98qwufD0kyHzsDuya0nqbQWfJDecV1yhOAuQtQc/\
+IlMFpqHc8QfddHiSNGrpoknk3vYdDj8/iYmG5ZVhWsF3G05u4zmkpqr6C1WRe0n9Y5Q6n5sq+\
+FkFd356Q5KN6RbTYTbfU9Lx07yIejNxMI3v0kmGSrJDY8Y66z71w+DzU+4/yCnAqV1nQwZQGXU7XV+\
+Eo5xIidOgYG3aw+\
+yiOUdxLnuJ8TG1rfB4wKLPvUQFD6oPKMv5KegmmExkqwJxJ7ROCiEsnU9WPxLMQi25dzhKmgPkoq2g\
+uMuH/VefzxKuc8lZtvLbrGQyLsMktC3CnzDKSPGPfUgNMesiqQW+Y1KTXJzDTNePKwQP+\
+DIU8F4ITJunAGdexHNCt81SUY4MygCcZBLwhJaKFXNrs2cYokXR37yPdoryp8FoekMlx10xlxXjJAS\
+1YJjMCRS5AbZCHLHvOJDF5w0GyFkI+\
+5QkzpGZzwMtBWJrqIewMJNpynNxg6GdBTibwl8dVCiWHg08gTc2xVETB82ZorK/\
+OcG5W4L4YvLdjKCjOSi0DmSXV08JQwWLefjGfkMiym4zSBSDGLIDGKkC6GbblQLwY1RWZwOTzg8uVI\
+oki1IKd3pc6c+rByZ8r3Q1t84PRrmV7r3JHGNzqxkiy0u6dO/WcBchzPAzz1kiA909nmmSYaP5xz/\
+jnPY/zrqZaGongcSLr/fPi8DCZkJmIzjA7R5D2UBr/\
+FGiZT2X6kJIN6kIbaN2KUklszwB0EZiwMamXf5/tCQLoE1lY2FdZEnL9/\
+xjYDcxVk5UMdlsdZ0Ieytw3ZT2TxhP+\
+x3Ic8HRqNHznCvIyfaeCheSac5FSiGoBuOv8JSAS9AwpDOhj6fcVciPQLYilQWxlEWlPOaZvrUHf2O\
+CRUyRyR0zwrN1+\
+T4UP2RMJ2feiOSKAkY4ay5J8b5rtiDZRy4tbTya5xJftDAcKByNS09AOFMzRE8HNFaKrRGOHvPNWVF\
+Roytu/Kyi5ToDoBxT0ZJxaAk5NwEkzSe1oe6AbjUeuzpzUa7aiNv8hB9NlT/\
+EdiEDfrZN5A005eg4JQpXGDb9njenA/\
+TCNtfeeaLNcz0XNlFsRXaRFaYpxNAI2Qi8BcBVuRlAlOVcsMOD7MTwPF57D7vlZe/\
+WdxQNvqlHgKi6uuNlYI5qS1IbJHT81iDHDQhX5T4ynipE/9SSHLLkthiXNHbkxyOPphpO5MRyNJ2+\
+3uWVlUnZ97rwDI+XQwwIEPoY6DGViJi+\
+ZFOE7rbFg3IyiuC40VsEBbNq4eg3XjJTZ2Y2JnfKmEpP49HaJN/t1gerdEdPf2LT9UF7dy2/\
+YRVpLjZlmIEOkgdcIGceIotS4KLWIx+\
+hsRSAPpzq65UbjONsheEgxGygFMKkmxaEAKBaCPrBBsCOIwZops8dlTGfBkxvgMhjmNeJ+\
+LMCZZ0fLNyrqjn6RKb1B6yWOznJsRLZE7vXtTOQ4cgnQM9D2/\
+3LJdM7MYfL2xpnoHRLFAtOWyMGG62klVsd4fgp3WoSEASY1LOD6raxrxXVsDhnuK8F80QjAd40RB0Q\
+DB21ZkFD+E9DXLjWfajgDKGOoBctIl1CWaTgM6J3KObRMLl+RwQRg+kALwXN8ir/\
+dQPDHq5WJDg0gtvOV7fHhhorKAdT7Nh83w8iyvzEOF7giumhBrXHr6ITIUFNOO6YfLYrcK2VTsCBCO\
+VwIa5NAnsibp/Y2sZ2J0aGkMzukV/\
+VTsGDwR1nxSBPbQRtCDH8SewIUXUKcucS1bWG5JJVJWiQTreViGrqVuZiEWKCJ7nE8SxQoapHLXwWS\
+aGbOSHyQ2362WWQS7eWcUH+S5ILIY6w9s9ftJjPxKLK7i3hI+\
+6MIZvYjn11hVTa11h9iUNekUl1uD7U6ckZzLQkelsrICJm/MIrmwV+\
+P0Tr7AfQHqNFZWdHI611IA7ZQZ4bVNE/MJfIr0uaF709qHVYOlN/\
+9luhuTRBMHDbVqxcM9Ve6UjGResj9JVo3YZNZ0lXLXpmmQ1vihi0KqSNYNV3EEDrK95Az56XEwiqO3\
+HB7jqIcFvNGZ8UiNCrh/1qN3K9e3BeEiDBi4cLcGbjAOoXgUlcVJOE0xJiPLNC43o//\
+Xr7LpfP8WrEWZmiAPtA9ri3ZLBPq+\
+HmTc5E1lNIVJAKtZhsA1NkY2pI2eUsZGMH0m9veZMYLnmiFBIetzc7Y9g8E6Z5g2G7JZDvS68QoL+\
+b9qwKj8xe/+LjWW+WFAUrMsHT12CLaxYEyfIfZrn14aipKKJLJAcnb218qKwceasY+\
+hJZmdCTwoJ2UaOJfaS0arw5IcT+uyK/nyuDWbX2RVoEZjIqEO4mGe1r0okV933+Ien0UCTylb+\
+nyBZcdwZravswFYmyE14iy1SdwWjFfkA8lmSSvEU89tBKFjep+\
+kubpBDRpevar3lXG3lckcD87sTiPc7x3sM/\
+CPzmMmRCIPie0ttcbZA1bWaEpIDasXpC7LYGBftL9aM6UhQ3oRC1hg+XEqjkoxP2mVi4P+\
+9oT4a8Wklivm1qgnl91CxtKQZU9baW3jpJhmenGRZaFjCixS6xOvQf1hyZQEl9oESJRdjPgrYNuwJV\
+hDHg5iOkqmqCn2MmpWMmh+\
+ydjsqsXjdu3OqCP3Ps0J5nmoWKPRODbH4niMnBzNeHvsxpzZFVa2rzxjnVZurTd0rr+\
+K9zzvsmqHy9Fk739evefsf372vMqxONUXn3/wolaxUYn88D3503j6VEs+\
+T59WK1Zd8N1BE52EUhakY+\
+DilJPDiJeJiBwJIK4kKBl1NNXTkpS1q62s4CwskWyTeMvBXfhsXK4px55MqtecqsM6dA76j62jeWDZ\
+CExUhxPGYVoqaeT+lYlV39lp7pJW0uSFSFvyrP1Xdcn3426znEhm2r5qHMBloywRDW3alFXt+\
+elphQBAYugzr4FP/CLBNTeLMOHhT5mAKHdUBg52R52zN+\
+wVrOHIiGlSNgcmI6Yz9ppjlYYqw5to7Pcfd1YfBtH0AgG2PK7VXhCtCk8VJY02CgtU+v1nHRYD0s+\
+kDBLh5UOLmHGJd84XK2ECBUesevqCC1mXj2gvy4mYCJI+\
+bDwFgg5LqWa1kMQhPuSGUj5MKk6lguGj3CvC8IDNcgOPkE/GgJpIH9N0yibnMVHy1JJAlLYGa/\
+Q4Tc0d8TmgG3x6L4gIDUJP4Mqm9pSlbvei1hw5DVEsBcS8ihbpw/3G+\
+FLLaXWpfUhOzF60T9qFP7PVS/iH8ZrS4C8nQg4Fav+0bUalt2J0pXquFeM971Z8dss0o737+\
+1pWEvOUDUsmSrVI2ahU7mgDk3BrTnEvoQtmX+\
+Z5Khnhy8q2Y08VDbbg63eU91SNcSytj5Ji53Id1NocVvCCX+JSFjPYmGiqTzK+\
+bIU9L4KvIZckyjZG7TASaciIQu7BJEhIgv+cPMCf5EFqZRMjEa3WUz62XBMS1ja/YG58+\
+vSpQbdI1hFmPx1HIN5z7WIqupckszbbbPguPeMNx+FVMbJCqUjPDFh45+\
+d5K7WbYa1hLLGsmsvBVJGcEPCjL9CyNkktIBlroxAKzdVyGcrscevL1roiExDGCuqqbBlLvYOPP8y1\
+c7iFubMxqKbWHlIzhYEY+vkYT5qbquQ+Qfb5ataqV1/\
+5CeepDXRAsFhCKyUbJ1CND9i6dlHByt6M4PZM5xGyRuyC76FgIWVDaAhMB63jQ/\
+iDZ8CHwSIbsnFmElsMQ5GBnFiLMULPONy8ZhIrX249peE805fjweqr14CNRMaJ3tCwgV6NYzraCaSj\
+gupCMoS6wrMlTFGC8TA07WeQuKVwtnt9u+vvy+\
+w6nLJXAINMxYOUBwtoozkAY53r1pGlRao6kE7hugndMadOoZV0Xc3CNgmVZ6KOgCnJkSeicsjT5yoh\
+Rna28S+lG7wMhTk5MVINDLVi5Q8099TCkewamZs+\
+9e1nUrIY5aXNvGrMF9lrpzdWUsF0SWtaKTmTQQqTeTeyw5Kt8zg37PZVGKbz0HFE2YHqh7657cOomB\
+UdIsCa/bweaeV48G0rWBbU7VKsp4l0sCyZWz45KYrocuNepq8uNTcEToIIVEPTr1TnyfjNlLQEuamC\
+qWvDc+TMN64x3L7dbtB/r6U48FRdJSFwzCNiTUoGnEaHkwK5BhK2NIvUCFSYw+\
+8FagMJsUPVnxHSN7zHJj8ebJ48DN4L4hgAsru2j9tuK6uussOqRiIIe1usg0nJh8QpqI2tXSsOg1gP\
+m/0KkuoAHKuDH14L/liehh+\
+eaSHRlcLsjZNHInytLBDpgXfiAjg5YSqIsyqSPYmfMTlynjndt5FuWhszCTWDyKrMVnzQt78ILolQz\
+8c3uNWnJlhpCVPH7dH0p12Djf52FVSvqo94IFe6c9SDVHU/\
+W2Lr9bKR8MyY1ipPkL82MOZVP71UWBk5osroEkElb3jdlZFHihAA7JDT/\
+Uu0vInW5duwOvuPAO3Ox4e4fmO/c4SYl7sP9w+0mJHaIFhYAoh+\
+w2TJwqD4aTSZ58WkWewd7Ouo7T5MjD6uROc7SjTfJJoTQSMbNIyzPaYdjxANvglIB6+\
+6JkUSKcC6RLIMcCfzea5br6wQ8VshUUCNAps+\
+fZFBPpci2enBc4dRN9cC9AONF5K3XvuR9dBNPldd0uH31GMpdlCKOCY7Nosxi88vbh0iCSqLYiwBxo\
+5yyn4KjoGZzRF0YyAXtyKeanu3DY2J1EXGUiqsrEY7o8H8FNaHn+\
+ZjhRGAYycQqb6yIiZvdtvPidcwMzOrp2JrUqzgVRCA0VIwC2SuGInUxAZqE4hUMBdU1qWhHJJ1I7CI\
+7G+a64uzXHsGbbxYZZHbYJD4w8zxxmlDicvkh+\
+z842mtmdtVygFQQjuNgMycCTplo9759sOHjywr6fxAM8+9fWsy/78eGXle"|>,
+ GeneratedCell->True,
+ CellAutoOverwrite->
+  True,ExpressionUUID->"0254c7d2-caac-4cd4-8693-a3259c64a26a"]
+}, Open  ]],
+
+Cell["yes - let's start with this", "ChatInput",
+ CellChangeTimes->{{3.99596323605407*^9, 3.995963249891912*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"1d526e02-dab2-46f6-9876-f584bb4124fb"],
+
+Cell[TextData[{
+ "Great \[LongDash] let\[CloseCurlyQuote]s start with a **clean WL + ",
+ StyleBox["uv", "TI"],
+ " + Python module setup** that you can expand later."
+}], "Text",ExpressionUUID->"60739a88-8490-4952-bc18-ce94da72293d"],
+
+Cell["I\[CloseCurlyQuote]d suggest this structure: ", "Text",ExpressionUUID->"cf611b87-e875-4458-a163-b90f1d1af571"],
+
+Cell[TextData[{
+ StyleBox["uv", "TI"],
+ " manages the Python environment"
+}], "Item",ExpressionUUID->"6ba8ed95-b6e0-4a82-84e6-34d9e2ac037a"],
+
+Cell["a small Python file exposes metric functions", "Item",ExpressionUUID->"23f78129-c3d1-418d-85f3-1b07c674fa3c"],
+
+Cell["WL starts a Python session and calls those functions", "Item",ExpressionUUID->"4e28a8d3-1c52-467c-9651-6e8eb9858e48"],
+
+Cell[TextData[{
+ "first version uses ",
+ StyleBox["image file paths",
+  FontWeight->Bold]
+}], "Item",ExpressionUUID->"a2736017-841f-42d9-b3fb-72ee081c9f6a"],
+
+Cell["\<\
+later we can upgrade to persistent model caching and more metrics\
+\>", "Item",ExpressionUUID->"4d07e986-95bf-4741-bf1c-f827c6511fdb"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"a5867875-c408-495b-88ae-b46bfbd39410"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "1. Create a ",
+ StyleBox["uv", "TI"],
+ " environment"
+}], "Title",ExpressionUUID->"ed30ccc9-756c-49b1-a789-355f891f76c5"],
+
+Cell["In your project directory: ", "Text",ExpressionUUID->"20c95c0a-91c5-419e-9f3c-0b21d2142a8e"],
+
+Cell["\<\
+uv venv .venv
+uv pip install torch torchvision lpips pillow\
+\>", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Shell",ExpressionUUID->"6a354b90-9306-4e12-9050-a4cd59281cc6"],
+
+Cell["You may also want: ", "Text",ExpressionUUID->"011a518b-8bb2-4649-a4eb-5187b3fe1ce6"],
+
+Cell["uv pip install numpy", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Shell",ExpressionUUID->"b4a71fb5-964b-4510-b931-52c79bd32d6d"],
+
+Cell["If you plan to add more metrics later, that\[CloseCurlyQuote]s easy.", \
+"Text",ExpressionUUID->"ec968d47-236a-44aa-8b31-34dec0b9719e"],
+
+Cell["Your Python executable will typically be: ", "Text",ExpressionUUID->"6f62a91a-14cc-478b-8b3d-dd9e0e00da1f"],
+
+Cell[TextData[{
+ "macOS/Linux: ",
+ Cell[BoxData[Cell[".venv/bin/python",
+   Background->None,ExpressionUUID->"52cf3869-a921-4848-a0c2-dcb63487c29e"]], 
+  "InlineCode",ExpressionUUID->"0d375dfa-894f-4a9f-a1e7-e55ebea56a77"]
+}], "Item",ExpressionUUID->"a92a4564-07ed-4020-b247-bcf8e4b8a8f6"],
+
+Cell[TextData[{
+ "Windows: ",
+ Cell[BoxData[Cell[".venv\\Scripts\\python.exe",
+   Background->None,ExpressionUUID->"3969fa04-1c09-472f-80de-1e55b782ce7b"]], 
+  "InlineCode",ExpressionUUID->"3d71c81d-01bb-4b57-a7eb-bc3435219912"]
+}], "Item",ExpressionUUID->"2591fb00-df66-4dfd-8151-8fc9d75d8f9a"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"65dff631-49e6-472d-83c0-914a6c34c13e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["2. Create a small Python module", "Title",ExpressionUUID->"8c41dc69-4203-4eaa-a138-abfd5884ceae"],
+
+Cell[TextData[{
+ "Make a file like ",
+ Cell[BoxData[Cell["metrics_bridge.py",
+   Background->None,ExpressionUUID->"c5c66e00-cbbf-4a80-b45c-dd58ef4de15f"]], 
+  "InlineCode",ExpressionUUID->"2497668e-ec5d-4726-9b55-ec51bd6c5d1d"],
+ " in your project. "
+}], "Text",ExpressionUUID->"90c21ea2-89ef-4b26-bb46-c805a9f0139a"],
+
+Cell["\<\
+from pathlib import Path
+
+import lpips
+import torch
+from PIL import Image
+
+
+_models = {}
+
+
+def _get_model(net=\"alex\"):
+    key = (\"lpips\", net)
+    if key not in _models:
+        _models[key] = lpips.LPIPS(net=net)
+        _models[key].eval()
+    return _models[key]
+
+
+def _load_image_tensor(path):
+    image = Image.open(path).convert(\"RGB\")
+    tensor = lpips.im2tensor(lpips.load_image(str(path)))
+    return tensor
+
+
+def lpips_distance(path1, path2, net=\"alex\"):
+    path1 = str(Path(path1))
+    path2 = str(Path(path2))
+
+    model = _get_model(net)
+    image1 = _load_image_tensor(path1)
+    image2 = _load_image_tensor(path2)
+
+    with torch.no_grad():
+        value = model.forward(image1, image2)
+
+    return float(value.item())\
+\>", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Python",ExpressionUUID->"421a0316-9d31-45b1-91a7-ca4a5f24a5d5"],
+
+Cell[CellGroupData[{
+
+Cell["Notes", "Section",ExpressionUUID->"b043f277-c3da-4733-b306-fde09af68d19"],
+
+Cell[TextData[{
+ "the module caches loaded LPIPS models in ",
+ Cell[BoxData[Cell["_models",
+   Background->None,ExpressionUUID->"c13dfc55-b78d-47f2-86e2-5ce1824b19dd"]], 
+  "InlineCode",ExpressionUUID->"be2ec9ed-e07a-45f0-85d9-0b5f07cd3b81"]
+}], "Item",ExpressionUUID->"195647b9-1d72-4249-b9da-60392c33076f"],
+
+Cell["that matters if WL keeps the Python session alive", "Item",ExpressionUUID->"be563c6f-25bf-467e-a728-b33bc437f764"],
+
+Cell["using paths keeps the interface simple", "Item",ExpressionUUID->"412ca1ed-41b8-47b4-9243-afbd840cf21b"],
+
+Cell[TextData[{
+ "You could simplify ",
+ Cell[BoxData[Cell["_load_image_tensor",
+   Background->None,ExpressionUUID->"8ee869ed-1d63-48ae-9e86-c019fb7c5ed5"]], 
+  "InlineCode",ExpressionUUID->"a649b2d5-117b-4b2e-ac73-b488c04cd095"],
+ " further, but this version stays close to the LPIPS package\
+\[CloseCurlyQuote]s expected preprocessing. "
+}], "Text",ExpressionUUID->"aeab51fc-0fc6-48f2-86ac-a4a07e6790de"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"98854dfa-369d-41fb-8a44-361225d9781d"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["3. Test it in Python first", "Title",ExpressionUUID->"69b00c22-da2c-42dc-938f-7e4a53bdff8a"],
+
+Cell["Before touching WL, confirm the environment works.", "Text",ExpressionUUID->"2d0dea8c-876a-44c5-a8f1-a1324e9b50c4"],
+
+Cell["For example: ", "Text",ExpressionUUID->"0c41a14e-2e16-4cbc-9a9e-a680ff0ed934"],
+
+Cell[".venv/bin/python", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Shell",ExpressionUUID->"0cbfc405-b9c5-4b52-af2f-e548f77dee9c"],
+
+Cell["then: ", "Text",ExpressionUUID->"3882946b-cb30-4ca8-bcf0-013213d8661c"],
+
+Cell["import metrics_bridge", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Python",ExpressionUUID->"ad771aba-296c-4212-8aa7-e89b612d2824"],
+
+Cell["If that imports cleanly, the environment is basically ready.", "Text",ExpressionUUID->"c9e3ab05-f12e-4737-9b96-3e28d2a2f0a4"],
+
+Cell["You can also test with two image files. ", "Text",ExpressionUUID->"99a69b20-d6cf-42a0-bdb3-991241773189"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"06bdd569-3876-4c25-96fd-028f1b8425ea"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["4. Connect Wolfram Language to that Python", "Title",ExpressionUUID->"99afe955-0dd1-41d0-bfc6-cd8f4cf444ba"],
+
+Cell[TextData[{
+ "The cleanest route is to start a Python external session with the exact \
+interpreter from your ",
+ StyleBox["uv", "TI"],
+ " environment."
+}], "Text",ExpressionUUID->"14a67d2c-4744-4b7e-8bb0-32a11d87e92a"],
+
+Cell[TextData[{
+ "A first diagnostic step is to inspect available Python evaluators with ",
+ ButtonBox["FindExternalEvaluators",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/FindExternalEvaluators"],
+ "."
+}], "Text",ExpressionUUID->"51d4db46-4401-4252-a347-dfbec6a5f9f9"],
+
+Cell["Then start a session using the specific executable.", "Text",ExpressionUUID->"01d41330-7761-4523-aa7e-efc8b432cdbd"],
+
+Cell[TextData[{
+ "A common pattern is to use an ",
+ ButtonBox["ExternalEvaluatorObject",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/ExternalEvaluatorObject"],
+ " or a configured Python evaluator and then call ",
+ ButtonBox["StartExternalSession",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/StartExternalSession"],
+ "."
+}], "Text",ExpressionUUID->"2027984b-62ae-4358-9f25-a0cf3f28d700"],
+
+Cell["\<\
+Because the exact registration details can vary a bit by setup, the most \
+reliable idea is: \
+\>", "Text",ExpressionUUID->"e936e562-ef8a-4d93-919d-222f594d78db"],
+
+Cell[TextData[{
+ "identify the ",
+ StyleBox["uv", "TI"],
+ " Python executable"
+}], "Item",ExpressionUUID->"4379f434-ee0b-4fb5-bfa1-7575eeca709b"],
+
+Cell["tell WL to use that executable", "Item",ExpressionUUID->"6a15494c-c520-473b-b94e-39db31c4db3e"],
+
+Cell["keep the returned session object", "Item",ExpressionUUID->"23bac79c-d253-436e-9c48-e2bb2b76940b"],
+
+Cell["load your module once", "Item",ExpressionUUID->"3fdaf83c-0b5b-4dd4-bf2f-593910543de7"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"8ee6e343-28c1-4583-afff-e75fb0105949"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["5. A practical WL wrapper", "Title",ExpressionUUID->"07d66822-05c5-48ac-8a0f-632a36bbbc2f"],
+
+Cell["\<\
+Here is a straightforward first version. You will likely only need to adapt \
+the Python path and the module directory. \
+\>", "Text",ExpressionUUID->"e33313d5-b9f8-477f-bbba-b947e61345d0"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", 
+   RowBox[{"startMetricsSession", ",", "lpipsDistance"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"startMetricsSession", "[", 
+    RowBox[{"pythonExecutable_String", ",", "moduleDirectory_String"}], "]"}],
+    ":=", "\[IndentingNewLine]", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "session", "}"}], ",", "\[IndentingNewLine]", "  ", 
+     RowBox[{
+      RowBox[{"session", "=", 
+       RowBox[{"StartExternalSession", "[", "\[IndentingNewLine]", "    ", 
+        RowBox[{"{", 
+         RowBox[{"\"\<Python\>\"", ",", 
+          RowBox[{"\"\<Evaluator\>\"", "->", "pythonExecutable"}]}], "}"}], 
+        "\[IndentingNewLine]", "    ", "]"}]}], ";", "\[IndentingNewLine]", 
+      "  ", "\[IndentingNewLine]", "  ", 
+      RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", "   ", 
+       RowBox[{"session", ",", "\[IndentingNewLine]", "   ", 
+        RowBox[{
+         RowBox[{
+         "StringTemplate", "[", "\[IndentingNewLine]", 
+          "     ", "\"\<import sys; sys.path.insert(0, r'''`dir`'''); import \
+metrics_bridge\>\"", "\[IndentingNewLine]", "     ", "]"}], "[", 
+         RowBox[{"<|", 
+          RowBox[{"\"\<dir\>\"", "->", "moduleDirectory"}], "|>"}], "]"}]}], 
+       "\[IndentingNewLine]", "   ", "]"}], ";", "\[IndentingNewLine]", "  ", 
+      "\[IndentingNewLine]", "  ", "session"}]}], "\[IndentingNewLine]", "  ",
+     "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lpipsDistance", "[", "\[IndentingNewLine]", "   ", 
+   RowBox[{
+   "session_", ",", "\[IndentingNewLine]", "   ", "image1_Image", ",", 
+    "\[IndentingNewLine]", "   ", "image2_Image", ",", "\[IndentingNewLine]", 
+    "   ", 
+    RowBox[{"net_", ":", " ", "\"\<alex\>\""}]}], "\[IndentingNewLine]", 
+   "   ", "]"}], ":=", "\[IndentingNewLine]", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"file1", ",", "file2", ",", "result"}], "}"}], ",", 
+    "\[IndentingNewLine]", "  ", 
+    RowBox[{
+     RowBox[{"file1", "=", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"CreateDirectory", "[", "]"}], ",", "\"\<image1.png\>\""}], 
+        "}"}], "]"}]}], ";", "\[IndentingNewLine]", "  ", 
+     RowBox[{"file2", "=", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"DirectoryName", "[", "file1", "]"}], 
+         ",", "\"\<image2.png\>\""}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "  ", "\[IndentingNewLine]", "  ", 
+     RowBox[{"Export", "[", 
+      RowBox[{"file1", ",", "image1"}], "]"}], ";", "\[IndentingNewLine]", 
+     "  ", 
+     RowBox[{"Export", "[", 
+      RowBox[{"file2", ",", "image2"}], "]"}], ";", "\[IndentingNewLine]", 
+     "  ", "\[IndentingNewLine]", "  ", 
+     RowBox[{"result", "=", 
+      RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", "    ", 
+       RowBox[{"session", ",", "\[IndentingNewLine]", "    ", 
+        RowBox[{"<|", "\[IndentingNewLine]", "      ", 
+         RowBox[{
+          
+          RowBox[{"\"\<Command\>\"", 
+           "->", "\"\<metrics_bridge.lpips_distance\>\""}], ",", 
+          "\[IndentingNewLine]", "      ", 
+          RowBox[{"\"\<Arguments\>\"", "->", 
+           RowBox[{"{", 
+            RowBox[{"file1", ",", "file2", ",", "net"}], "}"}]}]}], 
+         "\[IndentingNewLine]", "      ", "|>"}]}], "\[IndentingNewLine]", 
+       "    ", "]"}]}], ";", "\[IndentingNewLine]", "  ", 
+     "\[IndentingNewLine]", "  ", "result"}]}], "\[IndentingNewLine]", "  ", 
+   "]"}]}]}], "Input",ExpressionUUID->"f0de9f9b-0356-4021-ab7d-e193a86d10a5"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"f76f4f89-48f9-4165-a125-109b14ee9573"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["6. Suggested improvements to the WL wrapper", "Title",ExpressionUUID->"ad4ac67e-184e-415a-abd4-615d9fc55489"],
+
+Cell["\<\
+The first wrapper works conceptually, but I\[CloseCurlyQuote]d refine it a \
+little.\
+\>", "Text",ExpressionUUID->"5c11cfda-f7f8-4228-9739-c5a753e68f97"],
+
+Cell["For example: ", "Text",ExpressionUUID->"cd0ffc3a-10cc-42e4-8e26-971d1fcc5d4a"],
+
+Cell[TextData[{
+ "use ",
+ ButtonBox["CreateTemporary",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/CreateTemporary"],
+ " or a temp directory helper"
+}], "Item",ExpressionUUID->"4f3c7c10-b2c5-46ce-8fdc-894b680e9229"],
+
+Cell["ensure cleanup of exported files", "Item",ExpressionUUID->"62b08313-1d94-4525-a723-8a74d5593d23"],
+
+Cell["\<\
+validate image sizes if your metric assumes matching dimensions\
+\>", "Item",ExpressionUUID->"88df64f2-ccc6-486e-ae3b-b510d1b8675e"],
+
+Cell["optionally resize before export", "Item",ExpressionUUID->"2c5dd7b0-95f0-4684-85c1-0791d36a9c3d"],
+
+Cell[TextData[{
+ "wrap failures with ",
+ ButtonBox["Failure",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/Failure"]
+}], "Item",ExpressionUUID->"b22d984f-22ff-4c68-bd03-0c4c5d4c0c48"],
+
+Cell["A more careful version might look like this: ", "CodeText",ExpressionUUID->"7b7a34b1-b75c-43da-af77-7cde91d161a3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", 
+   RowBox[{"startMetricsSession", ",", "lpipsDistance"}], "]"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"startMetricsSession", "[", 
+    RowBox[{"pythonExecutable_String", ",", "moduleDirectory_String"}], "]"}],
+    ":=", "\[IndentingNewLine]", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "session", "}"}], ",", "\[IndentingNewLine]", "  ", 
+     RowBox[{
+      RowBox[{"session", "=", 
+       RowBox[{"StartExternalSession", "[", 
+        RowBox[{"{", 
+         RowBox[{"\"\<Python\>\"", ",", 
+          RowBox[{"\"\<Evaluator\>\"", "->", "pythonExecutable"}]}], "}"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", "  ", 
+      RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", "   ", 
+       RowBox[{"session", ",", "\[IndentingNewLine]", "   ", 
+        RowBox[{
+         RowBox[{
+         "StringTemplate", "[", "\[IndentingNewLine]", 
+          "     ", "\"\<import sys; sys.path.insert(0, r'''`dir`'''); import \
+metrics_bridge\>\"", "\[IndentingNewLine]", "     ", "]"}], "[", 
+         RowBox[{"<|", 
+          RowBox[{"\"\<dir\>\"", "->", "moduleDirectory"}], "|>"}], "]"}]}], 
+       "\[IndentingNewLine]", "   ", "]"}], ";", "\[IndentingNewLine]", "  ", 
+      "session"}]}], "\[IndentingNewLine]", "  ", "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lpipsDistance", "[", 
+   RowBox[{"session_", ",", "image1_Image", ",", "image2_Image", ",", 
+    RowBox[{"net_", ":", " ", "\"\<alex\>\""}]}], "]"}], ":=", 
+  "\[IndentingNewLine]", " ", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"dir", ",", "file1", ",", "file2"}], "}"}], ",", 
+    "\[IndentingNewLine]", "  ", 
+    RowBox[{
+     RowBox[{"dir", "=", 
+      RowBox[{"CreateDirectory", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     "  ", 
+     RowBox[{"file1", "=", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"dir", ",", "\"\<image1.png\>\""}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"file2", "=", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"dir", ",", "\"\<image2.png\>\""}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "  ", "\[IndentingNewLine]", "  ", 
+     RowBox[{"WithCleanup", "[", "\[IndentingNewLine]", "   ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Export", "[", 
+         RowBox[{"file1", ",", "image1"}], "]"}], ";", "\[IndentingNewLine]", 
+        "   ", 
+        RowBox[{"Export", "[", 
+         RowBox[{"file2", ",", "image2"}], "]"}], ";", "\[IndentingNewLine]", 
+        "   ", 
+        RowBox[{"ExternalEvaluate", "[", "\[IndentingNewLine]", "    ", 
+         RowBox[{"session", ",", "\[IndentingNewLine]", "    ", 
+          RowBox[{"<|", "\[IndentingNewLine]", "      ", 
+           RowBox[{
+            
+            RowBox[{"\"\<Command\>\"", 
+             "->", "\"\<metrics_bridge.lpips_distance\>\""}], ",", 
+            "\[IndentingNewLine]", "      ", 
+            RowBox[{"\"\<Arguments\>\"", "->", 
+             RowBox[{"{", 
+              RowBox[{"file1", ",", "file2", ",", "net"}], "}"}]}]}], 
+           "\[IndentingNewLine]", "      ", "|>"}]}], "\[IndentingNewLine]", 
+         "    ", "]"}]}], ",", "\[IndentingNewLine]", "   ", 
+       RowBox[{"DeleteDirectory", "[", 
+        RowBox[{"dir", ",", 
+         RowBox[{"DeleteContents", "->", "True"}]}], "]"}]}], 
+      "\[IndentingNewLine]", "   ", "]"}]}]}], "\[IndentingNewLine]", "  ", 
+   "]"}]}]}], "Input",ExpressionUUID->"62714777-4c2e-476a-b610-e220a3fb2052"],
+
+Cell["This is much closer to what I\[CloseCurlyQuote]d actually use. ", "Text",ExpressionUUID->"c7c29d40-02e1-4635-abc6-303e55ef804e"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"ae7455b0-e395-4873-a3da-a79c4c423121"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["7. Example usage in WL", "Title",ExpressionUUID->"b572c544-4ea4-4223-8d6a-7c2affd8925b"],
+
+Cell["Suppose: ", "Text",ExpressionUUID->"2148d2ef-23ba-4918-bf59-a36a84f88347"],
+
+Cell[TextData[{
+ "your project lives in ",
+ Cell[BoxData[Cell["/path/to/project",
+   Background->None,ExpressionUUID->"320a1513-ab40-4c38-88f1-dee5920e9d6d"]], 
+  "InlineCode",ExpressionUUID->"61a7c7d0-773f-4836-9038-f9281f0fce94"]
+}], "Item",ExpressionUUID->"b84bce36-3aca-4a7e-b077-a186d9513e78"],
+
+Cell[TextData[{
+ "your Python is ",
+ Cell[BoxData[Cell["/path/to/project/.venv/bin/python",
+   Background->None,ExpressionUUID->"31bff71d-1828-4b0b-94ad-63a8f8086237"]], 
+  "InlineCode",ExpressionUUID->"8f2617a6-0c3b-4440-82f6-141c9f16a05e"]
+}], "Item",ExpressionUUID->"8a7a28b5-2cdc-4582-9f06-1570edcb590b"],
+
+Cell["then: ", "CodeText",ExpressionUUID->"cf8fda33-6502-4e74-95ee-24fa28f36533"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"session", "=", 
+   RowBox[{"startMetricsSession", "[", "\[IndentingNewLine]", "   ", 
+    RowBox[{"\"\</path/to/project/.venv/bin/python\>\"", ",", 
+     "\[IndentingNewLine]", "   ", "\"\</path/to/project\>\""}], 
+    "\[IndentingNewLine]", "   ", "]"}]}], ";"}]], "Input",ExpressionUUID->\
+"7a4c1adf-2e0e-40a4-9755-b43b50812752"],
+
+Cell["Then test with example images: ", "CodeText",ExpressionUUID->"9224aa2d-e881-4de9-91b5-11886f125511"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"image1", "=", 
+   RowBox[{"Import", "[", "\"\<ExampleData/ocelot.jpg\>\"", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"image2", "=", 
+    RowBox[{"Blur", "[", 
+     RowBox[{"image1", ",", "2"}], "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"lpipsDistance", "[", 
+  RowBox[{"session", ",", "image1", ",", "image2"}], "]"}]}], "Input",Expressi\
+onUUID->"79fa1555-dfcf-4ba8-9def-9974eb0faa1b"],
+
+Cell["You should get a nonnegative real number.", "Text",ExpressionUUID->"d82b27fa-21e0-4d84-b31e-f6d1953b23a9"],
+
+Cell["You can also compare networks: ", "CodeText",ExpressionUUID->"73033df1-b620-432f-be16-9095b2892c13"],
+
+Cell[BoxData[{
+ RowBox[{"lpipsDistance", "[", 
+  RowBox[{"session", ",", "image1", ",", "image2", ",", "\"\<alex\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"lpipsDistance", "[", 
+  RowBox[{"session", ",", "image1", ",", "image2", ",", "\"\<vgg\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"lpipsDistance", "[", 
+  RowBox[{"session", ",", "image1", ",", "image2", ",", "\"\<squeeze\>\""}], 
+  "]"}]}], "Input",ExpressionUUID->"1b7e947a-cac1-44bf-8145-d1272da7f51d"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"79fe9955-957f-4c6d-a353-b1a69d9b4440"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["8. Why this is a good starting point", "Title",ExpressionUUID->"a2c4383a-c5b6-47d5-aa83-5c6359efad43"],
+
+Cell["This gives you: ", "Text",ExpressionUUID->"6f1c3136-2c0b-4b6f-b455-b6a103ff7751"],
+
+Cell[TextData[{
+ StyleBox["faithful metric implementation",
+  FontWeight->Bold],
+ " via Python"
+}], "Item",ExpressionUUID->"f8f50bb0-ea9e-4297-a7d8-4f6ecf5eb0b9"],
+
+Cell[TextData[StyleBox["simple WL API",
+ FontWeight->Bold]], "Item",ExpressionUUID->"9c676d20-178a-4608-b9ec-830459a9506e"],
+
+Cell[TextData[StyleBox["persistent Python state",
+ FontWeight->Bold]], "Item",ExpressionUUID->"a550a3aa-781a-445a-9b01-b0d4e3f6c3ee"],
+
+Cell[TextData[StyleBox["model caching",
+ FontWeight->Bold]], "Item",ExpressionUUID->"ed0ac927-7caf-4692-84da-3612c4057cc4"],
+
+Cell["easy extension to more metrics later", "Item",ExpressionUUID->"d92a0b46-5ff4-48a5-8c00-9d51f6478d5c"],
+
+Cell["You can grow this into a general bridge such as: ", "Text",ExpressionUUID->"3eb920b9-8223-4892-8dec-0d5fbfc2806f"],
+
+Cell[TextData[Cell[BoxData[Cell["lpipsDistance[path1, path2]",
+  Background->None,ExpressionUUID->
+  "ea8cb1fa-4da6-4328-b078-7c1e11af3a6e"]], \
+"InlineCode",ExpressionUUID->"01e5d452-f14b-48fc-b8e8-6237ddaff198"]], "Item",\
+ExpressionUUID->"88e8bdda-e0dc-4e08-9710-2442323a8581"],
+
+Cell[TextData[Cell[BoxData[Cell["ssimDistance[...]",
+  Background->None,ExpressionUUID->
+  "72dcb998-d9c9-44c6-affd-5a01e00d0dec"]], \
+"InlineCode",ExpressionUUID->"c24b767a-e6b2-477d-a6b3-9a26bde0a5c1"]], "Item",\
+ExpressionUUID->"cf31df70-629b-49fc-8051-8e77800e9126"],
+
+Cell[TextData[Cell[BoxData[Cell["clipSimilarity[...]",
+  Background->None,ExpressionUUID->
+  "67881cf2-b27f-4446-a293-edbe6aa0dfb5"]], \
+"InlineCode",ExpressionUUID->"db138778-c894-4cb4-88bd-93473e9f502e"]], "Item",\
+ExpressionUUID->"0146fcd9-f9e5-4362-acfe-608c0bbb4a1b"],
+
+Cell[TextData[Cell[BoxData[Cell["batchMetric[...]",
+  Background->None,ExpressionUUID->
+  "4e9a0500-1c9b-4cc0-bab0-5a74be1cb0e6"]], \
+"InlineCode",ExpressionUUID->"26086e51-36f3-48d4-a471-6d659a91735a"]], "Item",\
+ExpressionUUID->"20b940aa-2574-457f-9fc9-b5dce42c9ec3"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"512c5e65-83ac-410b-871a-ae28239f2b4d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["9. One likely issue: how WL locates Python", "Title",ExpressionUUID->"4c136df5-5aa6-41cf-9944-e1c18bb3cb51"],
+
+Cell[TextData[{
+ "If ",
+ ButtonBox["StartExternalSession",
+  BaseStyle->"Link",
+  ButtonData->"paclet:ref/StartExternalSession"],
+ " does not accept the executable the way shown above in your version/setup, \
+the fallback is to ",
+ StyleBox["register",
+  FontWeight->Bold],
+ " the evaluator first and then start by name."
+}], "Text",ExpressionUUID->"477d1732-f3b2-426d-8d60-21f7c7a0d5f8"],
+
+Cell["The docs show patterns like: ", "Text",ExpressionUUID->"6746b9b1-99b0-4ab8-a87a-8b8b67b07a68"],
+
+Cell["registering a Python evaluator with a name", "Item",ExpressionUUID->"c86e36c3-86f9-49a4-8d74-f26a16b565cd"],
+
+Cell[TextData[{
+ "starting via ",
+ Cell[BoxData[
+  RowBox[{"StartExternalSession", "[", 
+   RowBox[{"{", 
+    RowBox[{"\"\<Python\>\"", ",", 
+     RowBox[{"\"\<Name\>\"", "->", "\"\<...\>\""}]}], "}"}], "]"}]], 
+  "InlineWL", "Input",
+  ShowAutoStyles->True,
+  ShowSyntaxStyles->True,
+  LanguageCategory->"Input",
+  ShowStringCharacters->True,ExpressionUUID->
+  "25bb4227-d8b6-495a-9779-48d1bb1af272"]
+}], "Item",ExpressionUUID->"b753bcd5-e64f-489b-b39d-9dbc064113ac"],
+
+Cell["\<\
+So if direct executable specification is awkward, the robust alternative is:\
+\>", "Text",ExpressionUUID->"aeb923c8-3720-4b1a-acf6-da75c1b4a154"],
+
+Cell[TextData[{
+ "1. register the ",
+ StyleBox["uv", "TI"],
+ " Python evaluator"
+}], "Text",ExpressionUUID->"520a9bc8-6461-4539-8998-5de274dd01bc"],
+
+Cell["2. start the named session", "Text",ExpressionUUID->"8c9c568f-3d1b-46b0-8916-4fdeba609884"],
+
+Cell["3. import your module", "Text",ExpressionUUID->"08092f11-efcb-4c20-bea2-4d5a0fc0a066"],
+
+Cell["That is often the cleanest long-term setup. ", "Text",ExpressionUUID->"ac3ed772-6faa-4bd8-8bcc-35fe22de5afc"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"c8c48626-885c-4ba4-82ec-dfc84dca11f9"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["10. My next recommendation", "Title",ExpressionUUID->"7999f55a-32d9-4ebf-bbf3-115048d47d82"],
+
+Cell["\<\
+The very next thing I\[CloseCurlyQuote]d do is make this a bit more polished: \
+\>", "Text",ExpressionUUID->"802dfb59-d76b-4e1e-8630-5d717fdf6e76"],
+
+Cell[CellGroupData[{
+
+Cell["Python side", "Section",ExpressionUUID->"ad01aabd-6418-4301-b17c-5150a8c0b81b"],
+
+Cell["Add: ", "Text",ExpressionUUID->"d21d1ebc-7992-4c4f-aa2b-ae465747def8"],
+
+Cell["a health check function", "Item",ExpressionUUID->"3e2f280e-3693-447c-926d-6544a4c63368"],
+
+Cell["optional device selection", "Item",ExpressionUUID->"80085232-062d-429c-872a-b09c8a43c7ee"],
+
+Cell["maybe a function listing available metrics", "Item",ExpressionUUID->"28f85020-5749-4ef4-9cae-c362ef7874ee"],
+
+Cell["Example: ", "Text",ExpressionUUID->"e1a76a64-b5e1-4cf2-93c9-44d940b1dec5"],
+
+Cell["\<\
+def ping():
+    return \"ok\"
+
+def available_metrics():
+    return [\"lpips\"]\
+\>", "ExternalLanguage",
+ CellEvaluationLanguage->
+  "Python",ExpressionUUID->"7655fe5f-002f-4335-822a-434f3e4c3ddd"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["WL side", "Section",ExpressionUUID->"db09a1a5-ea48-46ab-a23d-3a89b50cc895"],
+
+Cell["Add: ", "Text",ExpressionUUID->"a7b583b7-e52d-4db5-92c5-690f6c089016"],
+
+Cell[TextData[Cell[BoxData[Cell["metricsPing[session]",
+  Background->None,ExpressionUUID->
+  "83708e10-c63b-4ce4-aa07-fcf26f8eb8bf"]], \
+"InlineCode",ExpressionUUID->"85a56958-8543-4db9-a4e5-6b61b556cbfd"]], "Item",\
+ExpressionUUID->"38eb071c-f0b7-44b0-a83f-ccf3f057e132"],
+
+Cell["better error handling", "Item",ExpressionUUID->"cfadeabf-16c0-4561-955f-98e2caf212d8"],
+
+Cell["a single session initializer", "Item",ExpressionUUID->"f01c36f5-759d-4359-aed2-c5c92f2aacca"],
+
+Cell[BoxData[
+ TagBox[GridBox[{
+    {
+     TemplateBox[{0},
+      "Spacer1"]},
+    {
+     TemplateBox[{0},
+      "Spacer1"]}
+   },
+   AutoDelete->False,
+   FrameStyle->Directive[
+     LightDarkSwitched[
+      GrayLevel[0.8], 
+      GrayLevel[0.4867756]], 
+     AbsoluteThickness[1]],
+   GridBoxDividers->{
+    "Columns" -> {False, {True}, False}, "Rows" -> {False, {True}, False}},
+   GridBoxItemSize->{"Columns" -> {{Fit}}, "Rows" -> {{Automatic}}}],
+  "Grid"]], "Text", "MarkdownDelimiter",
+ ShowStringCharacters->False,
+ Background->None,ExpressionUUID->"30521288-2b7d-4bd0-9e08-488b6d855911"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["11. Suggested next iteration", "Title",ExpressionUUID->"c1aa93a7-9dff-4c23-abfc-bdae5eb5a394"],
+
+Cell["I can now write you a more complete pair of files:", "Text",ExpressionUUID->"c87db7be-47bc-4bfe-8d82-5fd9dcfd68db"],
+
+Cell[TextData[{
+ "1. a ",
+ StyleBox["production-ish",
+  FontWeight->Bold],
+ " ",
+ Cell[BoxData[Cell["metrics_bridge.py",
+   Background->None,ExpressionUUID->"217f10e1-2b00-47f9-894e-231a02ebba5e"]], 
+  "InlineCode",ExpressionUUID->"f9d6e3d2-7e4f-481e-b833-da8b7fb102db"],
+ "2. a ",
+ StyleBox["WL package-style wrapper",
+  FontWeight->Bold],
+ " with: "
+}], "Text",ExpressionUUID->"f413d03a-67fa-46a0-9dcc-14c41adde3bb"],
+
+Cell["session start", "Subitem",ExpressionUUID->"090793a1-e5a6-49b7-b279-8131b555bd7e"],
+
+Cell["ping", "Subitem",ExpressionUUID->"82aca4ca-3a48-4fa0-9310-7f18e93d1517"],
+
+Cell["LPIPS call", "Subitem",ExpressionUUID->"2dd5f6a8-d20d-48b1-b66f-b8830a6346c2"],
+
+Cell["cleanup", "Subitem",ExpressionUUID->"3f00e912-6478-4d7e-bfa1-4401129d4ab2"],
+
+Cell["error handling", "Subitem",ExpressionUUID->"2aac156c-a058-42d5-b739-48cfd1d900ed"],
+
+Cell["If you want, I can draft those next as copy-pasteable code.", "Text",ExpressionUUID->"a3c3050d-90ea-48db-8180-596ae6ac4077"]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{12, Automatic}, {-18, Automatic}},
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4640c832-9731-4e9a-9f24-15a8859172ff"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 152, 3, 29, "Input",ExpressionUUID->"feb885f2-bc38-4107-84e2-c4275c110672"],
+Cell[CellGroupData[{
+Cell[731, 27, 461, 9, 74, "ChatInput",ExpressionUUID->"2710ee49-2511-489f-b9c9-1c80ccc7fa28"],
+Cell[1195, 38, 43427, 1038, 3253, "ChatOutput",ExpressionUUID->"278406af-0046-4eb0-8401-31069d171d9d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44659, 1081, 466, 9, 74, "ChatInput",ExpressionUUID->"ed80aa19-0070-4649-91a2-2056b2f0def5"],
+Cell[45128, 1092, 61058, 1333, 4456, "ChatOutput",ExpressionUUID->"0254c7d2-caac-4cd4-8693-a3259c64a26a"]
+}, Open  ]],
+Cell[106201, 2428, 191, 2, 52, "ChatInput",ExpressionUUID->"1d526e02-dab2-46f6-9876-f584bb4124fb"],
+Cell[106395, 2432, 232, 4, 36, "Text",ExpressionUUID->"60739a88-8490-4952-bc18-ce94da72293d"],
+Cell[106630, 2438, 116, 0, 36, "Text",ExpressionUUID->"cf611b87-e875-4458-a163-b90f1d1af571"],
+Cell[106749, 2440, 140, 3, 33, "Item",ExpressionUUID->"6ba8ed95-b6e0-4a82-84e6-34d9e2ac037a"],
+Cell[106892, 2445, 115, 0, 33, "Item",ExpressionUUID->"23f78129-c3d1-418d-85f3-1b07c674fa3c"],
+Cell[107010, 2447, 123, 0, 33, "Item",ExpressionUUID->"4e28a8d3-1c52-467c-9651-6e8eb9858e48"],
+Cell[107136, 2449, 156, 4, 33, "Item",ExpressionUUID->"a2736017-841f-42d9-b3fb-72ee081c9f6a"],
+Cell[107295, 2455, 144, 2, 33, "Item",ExpressionUUID->"4d07e986-95bf-4741-bf1c-f827c6511fdb"],
+Cell[107442, 2459, 596, 20, 49, "Text",ExpressionUUID->"a5867875-c408-495b-88ae-b46bfbd39410"],
+Cell[CellGroupData[{
+Cell[108063, 2483, 139, 4, 104, "Title",ExpressionUUID->"ed30ccc9-756c-49b1-a789-355f891f76c5"],
+Cell[108205, 2489, 98, 0, 36, "Text",ExpressionUUID->"20c95c0a-91c5-419e-9f3c-0b21d2142a8e"],
+Cell[108306, 2491, 187, 5, 83, "ExternalLanguage",ExpressionUUID->"6a354b90-9306-4e12-9050-a4cd59281cc6"],
+Cell[108496, 2498, 90, 0, 36, "Text",ExpressionUUID->"011a518b-8bb2-4649-a4eb-5187b3fe1ce6"],
+Cell[108589, 2500, 140, 2, 67, "ExternalLanguage",ExpressionUUID->"b4a71fb5-964b-4510-b931-52c79bd32d6d"],
+Cell[108732, 2504, 141, 1, 36, "Text",ExpressionUUID->"ec968d47-236a-44aa-8b31-34dec0b9719e"],
+Cell[108876, 2507, 113, 0, 36, "Text",ExpressionUUID->"6f62a91a-14cc-478b-8b3d-dd9e0e00da1f"],
+Cell[108992, 2509, 289, 5, 33, "Item",ExpressionUUID->"a92a4564-07ed-4020-b247-bcf8e4b8a8f6"],
+Cell[109284, 2516, 295, 5, 33, "Item",ExpressionUUID->"2591fb00-df66-4dfd-8151-8fc9d75d8f9a"],
+Cell[109582, 2523, 596, 20, 49, "Text",ExpressionUUID->"65dff631-49e6-472d-83c0-914a6c34c13e"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[110215, 2548, 103, 0, 104, "Title",ExpressionUUID->"8c41dc69-4203-4eaa-a138-abfd5884ceae"],
+Cell[110321, 2550, 317, 6, 36, "Text",ExpressionUUID->"90c21ea2-89ef-4b26-bb46-c805a9f0139a"],
+Cell[110641, 2558, 873, 39, 630, "ExternalLanguage",ExpressionUUID->"421a0316-9d31-45b1-91a7-ca4a5f24a5d5"],
+Cell[CellGroupData[{
+Cell[111539, 2601, 79, 0, 70, "Section",ExpressionUUID->"b043f277-c3da-4733-b306-fde09af68d19"],
+Cell[111621, 2603, 308, 5, 33, "Item",ExpressionUUID->"195647b9-1d72-4249-b9da-60392c33076f"],
+Cell[111932, 2610, 120, 0, 33, "Item",ExpressionUUID->"be563c6f-25bf-467e-a728-b33bc437f764"],
+Cell[112055, 2612, 109, 0, 33, "Item",ExpressionUUID->"412ca1ed-41b8-47b4-9243-afbd840cf21b"],
+Cell[112167, 2614, 407, 7, 60, "Text",ExpressionUUID->"aeab51fc-0fc6-48f2-86ac-a4a07e6790de"],
+Cell[112577, 2623, 596, 20, 49, "Text",ExpressionUUID->"98854dfa-369d-41fb-8a44-361225d9781d"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[113222, 2649, 98, 0, 104, "Title",ExpressionUUID->"69b00c22-da2c-42dc-938f-7e4a53bdff8a"],
+Cell[113323, 2651, 121, 0, 36, "Text",ExpressionUUID->"2d0dea8c-876a-44c5-a8f1-a1324e9b50c4"],
+Cell[113447, 2653, 84, 0, 36, "Text",ExpressionUUID->"0c41a14e-2e16-4cbc-9a9e-a680ff0ed934"],
+Cell[113534, 2655, 136, 2, 67, "ExternalLanguage",ExpressionUUID->"0cbfc405-b9c5-4b52-af2f-e548f77dee9c"],
+Cell[113673, 2659, 77, 0, 36, "Text",ExpressionUUID->"3882946b-cb30-4ca8-bcf0-013213d8661c"],
+Cell[113753, 2661, 142, 2, 67, "ExternalLanguage",ExpressionUUID->"ad771aba-296c-4212-8aa7-e89b612d2824"],
+Cell[113898, 2665, 131, 0, 36, "Text",ExpressionUUID->"c9e3ab05-f12e-4737-9b96-3e28d2a2f0a4"],
+Cell[114032, 2667, 111, 0, 36, "Text",ExpressionUUID->"99a69b20-d6cf-42a0-bdb3-991241773189"],
+Cell[114146, 2669, 596, 20, 49, "Text",ExpressionUUID->"06bdd569-3876-4c25-96fd-028f1b8425ea"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[114779, 2694, 114, 0, 172, "Title",ExpressionUUID->"99afe955-0dd1-41d0-bfc6-cd8f4cf444ba"],
+Cell[114896, 2696, 223, 5, 36, "Text",ExpressionUUID->"14a67d2c-4744-4b7e-8bb0-32a11d87e92a"],
+Cell[115122, 2703, 273, 6, 36, "Text",ExpressionUUID->"51d4db46-4401-4252-a347-dfbec6a5f9f9"],
+Cell[115398, 2711, 122, 0, 36, "Text",ExpressionUUID->"01d41330-7761-4523-aa7e-efc8b432cdbd"],
+Cell[115523, 2713, 393, 10, 60, "Text",ExpressionUUID->"2027984b-62ae-4358-9f25-a0cf3f28d700"],
+Cell[115919, 2725, 172, 3, 36, "Text",ExpressionUUID->"e936e562-ef8a-4d93-919d-222f594d78db"],
+Cell[116094, 2730, 145, 4, 33, "Item",ExpressionUUID->"4379f434-ee0b-4fb5-bfa1-7575eeca709b"],
+Cell[116242, 2736, 101, 0, 33, "Item",ExpressionUUID->"6a15494c-c520-473b-b94e-39db31c4db3e"],
+Cell[116346, 2738, 103, 0, 33, "Item",ExpressionUUID->"23bac79c-d253-436e-9c48-e2bb2b76940b"],
+Cell[116452, 2740, 92, 0, 33, "Item",ExpressionUUID->"3fdaf83c-0b5b-4dd4-bf2f-593910543de7"],
+Cell[116547, 2742, 596, 20, 49, "Text",ExpressionUUID->"8ee6e343-28c1-4583-afff-e75fb0105949"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[117180, 2767, 97, 0, 104, "Title",ExpressionUUID->"07d66822-05c5-48ac-8a0f-632a36bbbc2f"],
+Cell[117280, 2769, 199, 3, 60, "Text",ExpressionUUID->"e33313d5-b9f8-477f-bbba-b947e61345d0"],
+Cell[117482, 2774, 3684, 81, 846, "Input",ExpressionUUID->"f0de9f9b-0356-4021-ab7d-e193a86d10a5"],
+Cell[121169, 2857, 596, 20, 49, "Text",ExpressionUUID->"f76f4f89-48f9-4165-a125-109b14ee9573"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[121802, 2882, 115, 0, 172, "Title",ExpressionUUID->"ad4ac67e-184e-415a-abd4-615d9fc55489"],
+Cell[121920, 2884, 163, 3, 36, "Text",ExpressionUUID->"5c11cfda-f7f8-4228-9739-c5a753e68f97"],
+Cell[122086, 2889, 84, 0, 36, "Text",ExpressionUUID->"cd0ffc3a-10cc-42e4-8e26-971d1fcc5d4a"],
+Cell[122173, 2891, 218, 6, 33, "Item",ExpressionUUID->"4f3c7c10-b2c5-46ce-8fdc-894b680e9229"],
+Cell[122394, 2899, 103, 0, 33, "Item",ExpressionUUID->"62b08313-1d94-4525-a723-8a74d5593d23"],
+Cell[122500, 2901, 142, 2, 33, "Item",ExpressionUUID->"88df64f2-ccc6-486e-ae3b-b510d1b8675e"],
+Cell[122645, 2905, 102, 0, 33, "Item",ExpressionUUID->"2c5dd7b0-95f0-4684-85c1-0791d36a9c3d"],
+Cell[122750, 2907, 185, 5, 33, "Item",ExpressionUUID->"b22d984f-22ff-4c68-bd03-0c4c5d4c0c48"],
+Cell[122938, 2914, 120, 0, 39, "CodeText",ExpressionUUID->"7b7a34b1-b75c-43da-af77-7cde91d161a3"],
+Cell[123061, 2916, 3612, 82, 682, "Input",ExpressionUUID->"62714777-4c2e-476a-b610-e220a3fb2052"],
+Cell[126676, 3000, 134, 0, 36, "Text",ExpressionUUID->"c7c29d40-02e1-4635-abc6-303e55ef804e"],
+Cell[126813, 3002, 596, 20, 49, "Text",ExpressionUUID->"ae7455b0-e395-4873-a3da-a79c4c423121"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[127446, 3027, 94, 0, 104, "Title",ExpressionUUID->"b572c544-4ea4-4223-8d6a-7c2affd8925b"],
+Cell[127543, 3029, 80, 0, 36, "Text",ExpressionUUID->"2148d2ef-23ba-4918-bf59-a36a84f88347"],
+Cell[127626, 3031, 298, 5, 33, "Item",ExpressionUUID->"b84bce36-3aca-4a7e-b077-a186d9513e78"],
+Cell[127927, 3038, 308, 5, 33, "Item",ExpressionUUID->"8a7a28b5-2cdc-4582-9f06-1570edcb590b"],
+Cell[128238, 3045, 81, 0, 39, "CodeText",ExpressionUUID->"cf8fda33-6502-4e74-95ee-24fa28f36533"],
+Cell[128322, 3047, 366, 7, 90, "Input",ExpressionUUID->"7a4c1adf-2e0e-40a4-9755-b43b50812752"],
+Cell[128691, 3056, 106, 0, 39, "CodeText",ExpressionUUID->"9224aa2d-e881-4de9-91b5-11886f125511"],
+Cell[128800, 3058, 484, 11, 90, "Input",ExpressionUUID->"79fa1555-dfcf-4ba8-9def-9974eb0faa1b"],
+Cell[129287, 3071, 112, 0, 36, "Text",ExpressionUUID->"d82b27fa-21e0-4d84-b31e-f6d1953b23a9"],
+Cell[129402, 3073, 106, 0, 39, "CodeText",ExpressionUUID->"73033df1-b620-432f-be16-9095b2892c13"],
+Cell[129511, 3075, 478, 9, 70, "Input",ExpressionUUID->"1b7e947a-cac1-44bf-8145-d1272da7f51d"],
+Cell[129992, 3086, 596, 20, 49, "Text",ExpressionUUID->"79fe9955-957f-4c6d-a353-b1a69d9b4440"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[130625, 3111, 108, 0, 104, "Title",ExpressionUUID->"a2c4383a-c5b6-47d5-aa83-5c6359efad43"],
+Cell[130736, 3113, 87, 0, 36, "Text",ExpressionUUID->"6f1c3136-2c0b-4b6f-b455-b6a103ff7751"],
+Cell[130826, 3115, 162, 4, 33, "Item",ExpressionUUID->"f8f50bb0-ea9e-4297-a7d8-4f6ecf5eb0b9"],
+Cell[130991, 3121, 123, 1, 33, "Item",ExpressionUUID->"9c676d20-178a-4608-b9ec-830459a9506e"],
+Cell[131117, 3124, 133, 1, 33, "Item",ExpressionUUID->"a550a3aa-781a-445a-9b01-b0d4e3f6c3ee"],
+Cell[131253, 3127, 123, 1, 33, "Item",ExpressionUUID->"ed0ac927-7caf-4692-84da-3612c4057cc4"],
+Cell[131379, 3130, 107, 0, 33, "Item",ExpressionUUID->"d92a0b46-5ff4-48a5-8c00-9d51f6478d5c"],
+Cell[131489, 3132, 120, 0, 36, "Text",ExpressionUUID->"3eb920b9-8223-4892-8dec-0d5fbfc2806f"],
+Cell[131612, 3134, 280, 4, 30, "Item",ExpressionUUID->"88e8bdda-e0dc-4e08-9710-2442323a8581"],
+Cell[131895, 3140, 270, 4, 30, "Item",ExpressionUUID->"cf31df70-629b-49fc-8051-8e77800e9126"],
+Cell[132168, 3146, 272, 4, 30, "Item",ExpressionUUID->"0146fcd9-f9e5-4362-acfe-608c0bbb4a1b"],
+Cell[132443, 3152, 269, 4, 30, "Item",ExpressionUUID->"20b940aa-2574-457f-9fc9-b5dce42c9ec3"],
+Cell[132715, 3158, 596, 20, 49, "Text",ExpressionUUID->"512c5e65-83ac-410b-871a-ae28239f2b4d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[133348, 3183, 114, 0, 172, "Title",ExpressionUUID->"4c136df5-5aa6-41cf-9944-e1c18bb3cb51"],
+Cell[133465, 3185, 388, 10, 60, "Text",ExpressionUUID->"477d1732-f3b2-426d-8d60-21f7c7a0d5f8"],
+Cell[133856, 3197, 100, 0, 36, "Text",ExpressionUUID->"6746b9b1-99b0-4ab8-a87a-8b8b67b07a68"],
+Cell[133959, 3199, 113, 0, 33, "Item",ExpressionUUID->"c86e36c3-86f9-49a4-8d74-f26a16b565cd"],
+Cell[134075, 3201, 468, 13, 33, "Item",ExpressionUUID->"b753bcd5-e64f-489b-b39d-9dbc064113ac"],
+Cell[134546, 3216, 155, 2, 36, "Text",ExpressionUUID->"aeb923c8-3720-4b1a-acf6-da75c1b4a154"],
+Cell[134704, 3220, 147, 4, 36, "Text",ExpressionUUID->"520a9bc8-6461-4539-8998-5de274dd01bc"],
+Cell[134854, 3226, 97, 0, 36, "Text",ExpressionUUID->"8c9c568f-3d1b-46b0-8916-4fdeba609884"],
+Cell[134954, 3228, 92, 0, 36, "Text",ExpressionUUID->"08092f11-efcb-4c20-bea2-4d5a0fc0a066"],
+Cell[135049, 3230, 115, 0, 36, "Text",ExpressionUUID->"ac3ed772-6faa-4bd8-8bcc-35fe22de5afc"],
+Cell[135167, 3232, 596, 20, 49, "Text",ExpressionUUID->"c8c48626-885c-4ba4-82ec-dfc84dca11f9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[135800, 3257, 98, 0, 104, "Title",ExpressionUUID->"7999f55a-32d9-4ebf-bbf3-115048d47d82"],
+Cell[135901, 3259, 157, 2, 36, "Text",ExpressionUUID->"802dfb59-d76b-4e1e-8630-5d717fdf6e76"],
+Cell[CellGroupData[{
+Cell[136083, 3265, 85, 0, 70, "Section",ExpressionUUID->"ad01aabd-6418-4301-b17c-5150a8c0b81b"],
+Cell[136171, 3267, 76, 0, 36, "Text",ExpressionUUID->"d21d1ebc-7992-4c4f-aa2b-ae465747def8"],
+Cell[136250, 3269, 94, 0, 33, "Item",ExpressionUUID->"3e2f280e-3693-447c-926d-6544a4c63368"],
+Cell[136347, 3271, 96, 0, 33, "Item",ExpressionUUID->"80085232-062d-429c-872a-b09c8a43c7ee"],
+Cell[136446, 3273, 113, 0, 33, "Item",ExpressionUUID->"28f85020-5749-4ef4-9cae-c362ef7874ee"],
+Cell[136562, 3275, 80, 0, 36, "Text",ExpressionUUID->"e1a76a64-b5e1-4cf2-93c9-44d940b1dec5"],
+Cell[136645, 3277, 207, 8, 131, "ExternalLanguage",ExpressionUUID->"7655fe5f-002f-4335-822a-434f3e4c3ddd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[136889, 3290, 81, 0, 70, "Section",ExpressionUUID->"db09a1a5-ea48-46ab-a23d-3a89b50cc895"],
+Cell[136973, 3292, 76, 0, 36, "Text",ExpressionUUID->"a7b583b7-e52d-4db5-92c5-690f6c089016"],
+Cell[137052, 3294, 273, 4, 30, "Item",ExpressionUUID->"38eb071c-f0b7-44b0-a83f-ccf3f057e132"],
+Cell[137328, 3300, 92, 0, 33, "Item",ExpressionUUID->"cfadeabf-16c0-4561-955f-98e2caf212d8"],
+Cell[137423, 3302, 99, 0, 33, "Item",ExpressionUUID->"f01c36f5-759d-4359-aed2-c5c92f2aacca"],
+Cell[137525, 3304, 596, 20, 49, "Text",ExpressionUUID->"30521288-2b7d-4bd0-9e08-488b6d855911"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[138170, 3330, 100, 0, 104, "Title",ExpressionUUID->"c1aa93a7-9dff-4c23-abfc-bdae5eb5a394"],
+Cell[138273, 3332, 121, 0, 36, "Text",ExpressionUUID->"c87db7be-47bc-4bfe-8d82-5fd9dcfd68db"],
+Cell[138397, 3334, 418, 12, 36, "Text",ExpressionUUID->"f413d03a-67fa-46a0-9dcc-14c41adde3bb"],
+Cell[138818, 3348, 87, 0, 27, "Subitem",ExpressionUUID->"090793a1-e5a6-49b7-b279-8131b555bd7e"],
+Cell[138908, 3350, 78, 0, 27, "Subitem",ExpressionUUID->"82aca4ca-3a48-4fa0-9310-7f18e93d1517"],
+Cell[138989, 3352, 84, 0, 27, "Subitem",ExpressionUUID->"2dd5f6a8-d20d-48b1-b66f-b8830a6346c2"],
+Cell[139076, 3354, 81, 0, 27, "Subitem",ExpressionUUID->"3f00e912-6478-4d7e-bfa1-4401129d4ab2"],
+Cell[139160, 3356, 88, 0, 27, "Subitem",ExpressionUUID->"2aac156c-a058-42d5-b739-48cfd1d900ed"],
+Cell[139251, 3358, 130, 0, 36, "Text",ExpressionUUID->"a3c3050d-90ea-48db-8180-596ae6ac4077"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
