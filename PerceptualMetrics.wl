@@ -180,8 +180,8 @@ PerceptualDistanceArray[session_, arr1_, arr2_, opts: OptionsPattern[]] := Modul
             ToString[OptionValue["ColorSpace"]]
         }
     |>];
-    If[TrueQ[OptionValue["Spatial"]] && ArrayQ[rawRes],
-        Image[rawRes, "Real"],
+    If[TrueQ[OptionValue["Spatial"]] && (ArrayQ[rawRes] || NumericArrayQ[rawRes]),
+        Image[rawRes],
         rawRes
     ]
 ];
@@ -210,7 +210,7 @@ PerceptualSpatialMap[session_, image1_Image, image2_Image, opts: OptionsPattern[
             |>]
         ]
     ];
-    If[ArrayQ[rawMap], Image[rawMap, "Real"], rawMap]
+    If[ArrayQ[rawMap] || NumericArrayQ[rawMap], Image[rawMap], rawMap]
 ];
 
 lpipsSpatialMap[session_, image1_Image, image2_Image, opts: OptionsPattern[]] := 
