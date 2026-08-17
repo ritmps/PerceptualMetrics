@@ -1,0 +1,129 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5135,        120]
+NotebookOptionsPosition[      3595,         95]
+NotebookOutlinePosition[      3979,        110]
+CellTagsIndexPosition[      3936,        107]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["PerceptualMetrics", "GuideTitle",ExpressionUUID->"b0757df0-59db-4d73-bc18-bb2928fffe8f"],
+
+Cell["\<\
+Perceptual similarity metrics (LPIPS, DSSIM, L2, PSNR) powered by PyTorch and \
+PerceptualSimilarity.\
+\>", "GuideAbstract",ExpressionUUID->"34edbb61-3237-473c-a129-fca00a7bcddb"],
+
+Cell["Distance Metrics & Spatial Maps", "GuideFunctionsSubsection",ExpressionUUID->"1fc532d6-fa1f-43da-ba84-5efa65a94eef"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "PerceptualDistance"], "InlineFormula",ExpressionUUID->
+  "d25d63c0-7d87-4e54-87fe-93b445763058"],
+ " \[AHat]\.80\.94 compute learned perceptual or structural distance between \
+two images, batches, or arrays"
+}], "GuideText",ExpressionUUID->"015be66d-d66b-40fc-a799-61220686f131"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "PerceptualSpatialMap"], "InlineFormula",ExpressionUUID->
+  "5ebbf4cb-7fd4-40c6-bd64-6f2e86f01c9b"],
+ " \[AHat]\.80\.94 generate a 2D per-pixel spatial perceptual distance map \
+Image"
+}], "GuideText",ExpressionUUID->"2d123985-07b8-4ba0-ab18-c3ef719dade7"],
+
+Cell["Diagnostics & Hardware Verification", "GuideFunctionsSubsection",ExpressionUUID->"bffce568-f64f-4492-aba5-4cfb48fb464e"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "PerceptualDoctor"], "InlineFormula",ExpressionUUID->
+  "e56fd61e-54c6-4b15-81bb-8a54da873177"],
+ " \[AHat]\.80\.94 run diagnostic health checks on Python, PyTorch, and \
+CUDA/MPS device availability"
+}], "GuideText",ExpressionUUID->"3be91cd8-c44f-4ed0-a258-35eabc742ddd"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "PerceptualInfo"], "InlineFormula",ExpressionUUID->
+  "958cd0ad-9d1e-4736-82d5-ce1e7aa29b6a"],
+ " \[AHat]\.80\.94 retrieve PyTorch session metadata, device info, and \
+supported models/color spaces"
+}], "GuideText",ExpressionUUID->"c5901b2c-4557-455c-9f74-9777f783ef07"],
+
+Cell["Session Management & Configuration", "GuideFunctionsSubsection",ExpressionUUID->"ce75d062-06f3-4c2e-98d3-752cf8d512b9"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "StartPerceptualSession"], "InlineFormula",ExpressionUUID->
+  "70534254-a809-43a0-967f-dcaae7543b87"],
+ " \[AHat]\.80\.94 start an explicit Python external session with lpips_bridge"
+}], "GuideText",ExpressionUUID->"6aebb390-e11c-4f3b-bc65-69584c9ffa7e"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "StopPerceptualSession"], "InlineFormula",ExpressionUUID->
+  "abc43cab-b2a8-40e1-afa4-efee26e15c13"],
+ " \[AHat]\.80\.94 terminate the default or specified Python external \
+session"
+}], "GuideText",ExpressionUUID->"f27c83b5-56c3-455d-bfa2-39ac2895a65e"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "$PerceptualMetricsPython"], "InlineFormula",ExpressionUUID->
+  "2b056fb2-6b89-4b3b-9268-c41e435551fc"],
+ " \[AHat]\.80\.94 override the path to the Python executable"
+}], "GuideText",ExpressionUUID->"7e303b96-9d3f-4376-8e45-53252affa1eb"],
+
+Cell[TextData[{
+ Cell[BoxData[
+ "$DefaultPerceptualSession"], "InlineFormula",ExpressionUUID->
+  "4fc24f7e-67ea-421a-96a9-b44dac3949fe"],
+ " \[AHat]\.80\.94 global variable holding the active automatic background \
+session"
+}], "GuideText",ExpressionUUID->"bba27bf6-9481-463e-84c1-0bd84b81f5a5"]
+},
+FrontEndVersion->"15.0 for Mac OS X ARM (64-bit) (July 2, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Reference.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"35c6deb4-c085-4aaf-a187-96dd15870f94"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 94, 0, 70, "GuideTitle",ExpressionUUID->"b0757df0-59db-4d73-bc18-bb2928fffe8f"],
+Cell[651, 22, 189, 3, 70, "GuideAbstract",ExpressionUUID->"34edbb61-3237-473c-a129-fca00a7bcddb"],
+Cell[843, 27, 122, 0, 70, "GuideFunctionsSubsection",ExpressionUUID->"1fc532d6-fa1f-43da-ba84-5efa65a94eef"],
+Cell[968, 29, 313, 6, 70, "GuideText",ExpressionUUID->"015be66d-d66b-40fc-a799-61220686f131"],
+Cell[1284, 37, 288, 6, 70, "GuideText",ExpressionUUID->"2d123985-07b8-4ba0-ab18-c3ef719dade7"],
+Cell[1575, 45, 126, 0, 70, "GuideFunctionsSubsection",ExpressionUUID->"bffce568-f64f-4492-aba5-4cfb48fb464e"],
+Cell[1704, 47, 304, 6, 70, "GuideText",ExpressionUUID->"3be91cd8-c44f-4ed0-a258-35eabc742ddd"],
+Cell[2011, 55, 302, 6, 70, "GuideText",ExpressionUUID->"c5901b2c-4557-455c-9f74-9777f783ef07"],
+Cell[2316, 63, 125, 0, 70, "GuideFunctionsSubsection",ExpressionUUID->"ce75d062-06f3-4c2e-98d3-752cf8d512b9"],
+Cell[2444, 65, 286, 5, 70, "GuideText",ExpressionUUID->"6aebb390-e11c-4f3b-bc65-69584c9ffa7e"],
+Cell[2733, 72, 286, 6, 70, "GuideText",ExpressionUUID->"f27c83b5-56c3-455d-bfa2-39ac2895a65e"],
+Cell[3022, 80, 271, 5, 70, "GuideText",ExpressionUUID->"7e303b96-9d3f-4376-8e45-53252affa1eb"],
+Cell[3296, 87, 295, 6, 70, "GuideText",ExpressionUUID->"bba27bf6-9481-463e-84c1-0bd84b81f5a5"]
+}
+]
+*)
+
+(* End of internal cache information *)

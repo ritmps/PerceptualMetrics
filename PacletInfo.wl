@@ -14,6 +14,12 @@ PacletObject[
         }
       },
       {
+        "Documentation",
+        "Language" -> "English",
+        "Root" -> "Documentation",
+        "MainPage" -> "Guides/PerceptualMetrics"
+      },
+      {
         "Asset",
         "Root" -> ".",
         "Assets" -> {

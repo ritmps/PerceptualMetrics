@@ -30,6 +30,13 @@ Do[
   {f, filesToCopy}
 ];
 
+(* Copy Documentation directory *)
+docSrc = FileNameJoin[{dir, "Documentation"}];
+docDst = FileNameJoin[{buildDir, "Documentation"}];
+If[DirectoryQ[docSrc],
+  CopyDirectory[docSrc, docDst];
+];
+
 (* Copy PerceptualSimilarity submodule excluding git metadata and cache *)
 simSrc = FileNameJoin[{dir, "PerceptualSimilarity"}];
 simDst = FileNameJoin[{buildDir, "PerceptualSimilarity"}];
